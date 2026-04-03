@@ -4,8 +4,9 @@ export const TILE_SIZE = 16
 export const TILE_SCALE = 2
 
 export const HUMAN = {
-  width: 32,
-  height: 64,
+  // Hitbox / on-screen target size (texture is scaled to fit)
+  width: 48,
+  height: 72,
   speed: 200,
   accel: 1200,
   decel: 1500,
@@ -18,9 +19,8 @@ export const HUMAN = {
 }
 
 export const CAT = {
-  // Readable graybox: still shorter than human, not a 24×16 sliver on 32px tiles
-  width: 40,
-  height: 28,
+  width: 52,
+  height: 36,
   speed: 320,
   accel: 1800,
   decel: 1000,

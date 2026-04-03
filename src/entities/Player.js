@@ -20,12 +20,13 @@ export class Player {
     this.sprite = scene.physics.add.sprite(x, y, key)
     this.sprite.setDepth(10)
     this.sprite.setCollideWorldBounds(true)
+    this.sprite.setFlipX(false)
 
     this.coyoteMs = 0
     this.jumpBufferMs = 0
     this.lastTransformAt = -Infinity
 
-    this.applyFormPhysics()
+    this.applyFormPhysics({ anchorFeet: false })
   }
 
   getBody() {
@@ -36,17 +37,47 @@ export class Player {
     return this.sprite.getBounds()
   }
 
-  applyFormPhysics() {
+  _facingLeft() {
+    return this.sprite.scaleX < 0
+  }
+
+  _applyScaleForForm(facingLeft) {
     const cfg = this.isHuman ? HUMAN : CAT
     const body = this.sprite.body
-    const tex = this.isHuman ? 'player_human' : 'player_cat'
-
-    this.sprite.setTexture(tex)
-    this.sprite.setDisplaySize(cfg.width, cfg.height)
+    const fw = Math.max(1, this.sprite.frame.width)
+    const fh = Math.max(1, this.sprite.frame.height)
+    const sx = cfg.width / fw
+    const sy = cfg.height / fh
+    this.sprite.setScale(facingLeft ? -sx : sx, sy)
     body.setSize(cfg.width, cfg.height)
     body.setOffset(0, 0)
     if (body.refreshBody) body.refreshBody()
     body.setMaxVelocity(500, cfg.maxFallSpeed)
+    body.updateFromGameObject?.()
+  }
+
+  /**
+   * @param {{ anchorFeet?: boolean }} opts
+   */
+  applyFormPhysics(opts = {}) {
+    const anchorFeet = opts.anchorFeet === true
+    const body = this.sprite.body
+    const tex = this.isHuman ? 'player_human' : 'player_cat'
+    const facingLeft = this._facingLeft()
+
+    let bottomBefore = null
+    if (anchorFeet) {
+      bottomBefore = this.sprite.getBounds().bottom
+    }
+
+    this.sprite.setTexture(tex)
+    this._applyScaleForForm(facingLeft)
+
+    if (anchorFeet && bottomBefore != null) {
+      const bottomAfter = this.sprite.getBounds().bottom
+      this.sprite.y += bottomBefore - bottomAfter
+      body.updateFromGameObject?.()
+    }
   }
 
   transform() {
@@ -54,7 +85,7 @@ export class Player {
     if (now - this.lastTransformAt < TRANSFORM_COOLDOWN) return
     this.lastTransformAt = now
     this.isHuman = !this.isHuman
-    this.applyFormPhysics()
+    this.applyFormPhysics({ anchorFeet: true })
   }
 
   /**
@@ -85,8 +116,10 @@ export class Player {
 
     if (this.input.transformPressed) this.transform()
 
-    if (body.velocity.x < -12) this.sprite.setFlipX(true)
-    else if (body.velocity.x > 12) this.sprite.setFlipX(false)
+    const wantLeft = body.velocity.x < -12 ? true : body.velocity.x > 12 ? false : this._facingLeft()
+    if (wantLeft !== this._facingLeft()) {
+      this._applyScaleForForm(wantLeft)
+    }
   }
 
   destroy() {
