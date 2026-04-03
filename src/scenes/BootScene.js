@@ -1,8 +1,10 @@
 import { replaceTextureWithChroma } from '../utils/chromaTexture.js'
 import { cropTextureToKey } from '../utils/spriteCrop.js'
 
-/** Tight vertical-ish crop from 1376×768-style wide renders (character near center). */
+/** 1376×768 wide renders: human sits in a narrow mid-right strip; cat spans most of the width. */
 const CROP_PLAYER = { x: 0.34, y: 0.06, w: 0.32, h: 0.88 }
+/** Cat silhouette uses ~x 0.15–0.97 in source; do not reuse CROP_PLAYER or the head is cropped off. */
+const CROP_CAT = { x: 0.10, y: 0.17, w: 0.88, h: 0.80 }
 const CROP_GUARD = { x: 0.28, y: 0.06, w: 0.38, h: 0.88 }
 
 export class BootScene extends Phaser.Scene {
@@ -27,7 +29,7 @@ export class BootScene extends Phaser.Scene {
     replaceTextureWithChroma(this, '_raw_guard', '_ch_guard', 255, 0, 255, 45)
 
     cropTextureToKey(this, '_ch_human', 'player_human', CROP_PLAYER)
-    cropTextureToKey(this, '_ch_cat', 'player_cat', CROP_PLAYER)
+    cropTextureToKey(this, '_ch_cat', 'player_cat', CROP_CAT)
     cropTextureToKey(this, '_ch_guard', 'guard_pmc', CROP_GUARD)
 
     ;['_raw_human', '_raw_cat', '_raw_guard', '_ch_human', '_ch_cat', '_ch_guard'].forEach((k) => {
