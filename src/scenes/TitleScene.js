@@ -7,17 +7,21 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 60, 'CATSPY', {
-      fontSize: '64px',
-      fontFamily: 'monospace',
-      color: '#e0e0e0',
-    }).setOrigin(0.5)
+    const bg = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'title_screen')
+    const sx = GAME_WIDTH / bg.width
+    const sy = GAME_HEIGHT / bg.height
+    bg.setScale(Math.max(sx, sy))
+    bg.setDepth(-10)
 
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30, 'Press any key to start', {
-      fontSize: '18px',
+    const hint = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'ENTER / SPACE / click — Start   ·   O — Options', {
+      fontSize: '12px',
       fontFamily: 'monospace',
-      color: '#888',
-    }).setOrigin(0.5)
+      color: '#c4dcc4',
+      align: 'center',
+    }).setOrigin(0.5).setDepth(10)
+    hint.setShadow(0, 1, '#000000', 6, true, true)
+
+    let optionsLine = null
 
     const startGame = async () => {
       let roomId = 'room_cell_01'
@@ -30,8 +34,41 @@ export class TitleScene extends Phaser.Scene {
       this.scene.start('Room', { roomId })
     }
 
-    this.input.keyboard.once('keydown', startGame)
+    const showOptionsStub = () => {
+      if (optionsLine) return
+      optionsLine = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 44, 'Options — coming soon', {
+        fontSize: '13px',
+        fontFamily: 'monospace',
+        color: '#e0c8a0',
+      }).setOrigin(0.5).setDepth(11)
+      optionsLine.setShadow(0, 1, '#000000', 4, true, true)
+      this.time.delayedCall(2200, () => {
+        optionsLine?.destroy()
+        optionsLine = null
+      })
+    }
 
-    this.input.gamepad?.once('down', startGame)
+    const cleanupAndStart = () => {
+      this.input.keyboard.off('keydown', onKey)
+      this.input.off('pointerdown', onPointer)
+      startGame()
+    }
+
+    const onKey = (ev) => {
+      if (ev.key === 'o' || ev.key === 'O') {
+        showOptionsStub()
+        return
+      }
+      cleanupAndStart()
+    }
+
+    const onPointer = () => {
+      cleanupAndStart()
+    }
+
+    this.input.keyboard.on('keydown', onKey)
+    this.input.once('pointerdown', onPointer)
+
+    this.input.gamepad?.once('down', cleanupAndStart)
   }
 }
