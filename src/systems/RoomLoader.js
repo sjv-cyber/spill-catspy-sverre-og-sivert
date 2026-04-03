@@ -41,8 +41,9 @@ export function buildRoom(scene, roomData) {
       if (walls[row][col] !== 1) continue
       const cx = col * tileWorldSize + tileWorldSize / 2
       const cy = row * tileWorldSize + tileWorldSize / 2
-      const rect = scene.add.rectangle(cx, cy, tileWorldSize, tileWorldSize, 0x3d4454)
-      rect.setStrokeStyle(1, 0x2a2f3a)
+      const rect = scene.add.rectangle(cx, cy, tileWorldSize, tileWorldSize, 0x080a10)
+      rect.setAlpha(0.62)
+      rect.setStrokeStyle(1, 0x3a4a62)
       scene.physics.add.existing(rect, true)
       staticGroup.add(rect)
     }

@@ -1,6 +1,7 @@
 {
   "id": "room_tutorial",
   "name": "Tutorial - Movement & Transformation",
+  "background": "bg_cell",
   "width": 30,
   "height": 17,
   "tileSize": 16,

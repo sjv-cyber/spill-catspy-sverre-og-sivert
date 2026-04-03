@@ -20,20 +20,22 @@ export class SecurityCamera {
     this.y = spec.y * tileWorldSize + tileWorldSize / 2
     this.facingAngle = this.baseAngle
 
-    this.glow = scene.add.circle(this.x, this.y, 5, 0xff1a3a, 0.9)
-    this.glow.setStrokeStyle(1, 0xff88aa)
-    this.glow.setDepth(4)
-
-    this.arm = scene.add.rectangle(this.x + 8, this.y + 4, 20, 6, 0x4a3a40, 0.85)
-    this.arm.setStrokeStyle(1, 0x2a2028)
-    this.arm.setDepth(3)
+    if (scene.textures.exists('prop_camera')) {
+      this.gfx = scene.add.sprite(this.x, this.y, 'prop_camera')
+      this.gfx.setDisplaySize(44, 44)
+      this.gfx.setDepth(4)
+    } else {
+      this.gfx = scene.add.circle(this.x, this.y, 8, 0xff1a3a, 0.9)
+      this.gfx.setDepth(4)
+    }
   }
 
   update(time) {
     this.facingAngle = this.baseAngle + Math.sin((time + this.phase) * 0.001 * this.sweepSpeed) * this.sweep
-    this.glow.setPosition(this.x, this.y)
-    this.arm.setPosition(this.x + Math.cos(this.facingAngle) * 10, this.y + Math.sin(this.facingAngle) * 8)
-    this.arm.setRotation(this.facingAngle)
+    this.gfx.setPosition(this.x, this.y)
+    if (typeof this.gfx.setRotation === 'function') {
+      this.gfx.setRotation(this.facingAngle + Math.PI / 2)
+    }
   }
 
   getWatcherState() {
@@ -47,9 +49,7 @@ export class SecurityCamera {
   }
 
   destroy() {
-    this.glow?.destroy()
-    this.arm?.destroy()
-    this.glow = null
-    this.arm = null
+    this.gfx?.destroy()
+    this.gfx = null
   }
 }

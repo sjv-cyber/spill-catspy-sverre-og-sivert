@@ -12,18 +12,20 @@ export class Player {
     this.isHuman = true
     this.input = new InputManager(scene)
 
-    this.sprite = scene.add.rectangle(x, y, HUMAN.width, HUMAN.height, 0x6b8cae)
-    this.sprite.setStrokeStyle(2, 0x4a6a8a)
+    const key = scene.textures.exists('player_human') ? 'player_human' : null
+    if (!key) {
+      throw new Error('Missing texture player_human — BootScene must run first')
+    }
+
+    this.sprite = scene.physics.add.sprite(x, y, key)
     this.sprite.setDepth(10)
-    scene.physics.add.existing(this.sprite)
-    /** @type {Phaser.Physics.Arcade.Sprite} */
-    const body = this.sprite.body
-    body.setCollideWorldBounds(true)
-    body.setMaxVelocity(500, HUMAN.maxFallSpeed)
+    this.sprite.setCollideWorldBounds(true)
 
     this.coyoteMs = 0
     this.jumpBufferMs = 0
     this.lastTransformAt = -Infinity
+
+    this.applyFormPhysics()
   }
 
   getBody() {
@@ -37,17 +39,14 @@ export class Player {
   applyFormPhysics() {
     const cfg = this.isHuman ? HUMAN : CAT
     const body = this.sprite.body
+    const tex = this.isHuman ? 'player_human' : 'player_cat'
+
+    this.sprite.setTexture(tex)
     this.sprite.setDisplaySize(cfg.width, cfg.height)
     body.setSize(cfg.width, cfg.height)
+    body.setOffset(0, 0)
     if (body.refreshBody) body.refreshBody()
     body.setMaxVelocity(500, cfg.maxFallSpeed)
-    if (this.isHuman) {
-      this.sprite.setFillStyle(0x6b8cae)
-      this.sprite.setStrokeStyle(2, 0x4a6a8a)
-    } else {
-      this.sprite.setFillStyle(0x12141c)
-      this.sprite.setStrokeStyle(3, 0x44ffaa)
-    }
   }
 
   transform() {
@@ -85,6 +84,9 @@ export class Player {
     if (body.velocity.y > cfg.maxFallSpeed) body.velocity.y = cfg.maxFallSpeed
 
     if (this.input.transformPressed) this.transform()
+
+    if (body.velocity.x < -12) this.sprite.setFlipX(true)
+    else if (body.velocity.x > 12) this.sprite.setFlipX(false)
   }
 
   destroy() {

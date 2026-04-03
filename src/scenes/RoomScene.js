@@ -1,4 +1,4 @@
-import { GAME_WIDTH, GAME_HEIGHT } from '../config.js'
+import { GAME_WIDTH, GAME_HEIGHT, TILE_SCALE } from '../config.js'
 import { loadManifest, resolveRoomPath, loadRoomData, buildRoom } from '../systems/RoomLoader.js'
 import { Player } from '../entities/Player.js'
 import { Guard } from '../entities/Guard.js'
@@ -47,6 +47,17 @@ export class RoomScene extends Phaser.Scene {
 
   buildGameplay(roomData) {
     this.roomData = roomData
+
+    const tileWorldSize = (roomData.tileSize ?? 16) * TILE_SCALE
+    const worldW = roomData.width * tileWorldSize
+    const worldH = roomData.height * tileWorldSize
+    const bgKey = roomData.background || 'bg_cell'
+    if (this.textures.exists(bgKey)) {
+      const bg = this.add.image(0, 0, bgKey).setOrigin(0, 0).setDepth(-100)
+      bg.setDisplaySize(worldW, worldH)
+      bg.setTint(0xaaaab8)
+    }
+
     const built = buildRoom(this, roomData)
     this._built = built
 
@@ -76,7 +87,6 @@ export class RoomScene extends Phaser.Scene {
     }).setOrigin(0.5, 1).setDepth(2)
 
     this.player = new Player(this, built.playerSpawnPixels.x, built.playerSpawnPixels.y)
-    this.player.applyFormPhysics()
     this.physics.add.collider(this.player.sprite, built.staticGroup)
 
     const gSpecs = roomData.entities?.guards ?? []
@@ -119,7 +129,7 @@ export class RoomScene extends Phaser.Scene {
       color: '#666',
     }).setScrollFactor(0).setDepth(50)
 
-    this.add.text(12, GAME_HEIGHT - 18, 'Prototype: no sprite art yet — blocks = player, amber = exit door', {
+    this.add.text(12, GAME_HEIGHT - 18, 'Pixel placeholders + reference backgrounds (see assets/)', {
       fontSize: '10px',
       fontFamily: 'monospace',
       color: '#555',

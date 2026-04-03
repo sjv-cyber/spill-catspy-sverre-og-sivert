@@ -17,9 +17,14 @@ export class Guard {
     this.waypoints = waypoints
     this.wpIndex = 1
     const start = waypoints[0]
-    this.sprite = scene.add.rectangle(start.x, start.y, 32, 48, 0x5c5c6e)
-    this.sprite.setStrokeStyle(2, 0x2e2e3a)
+
+    const tex = scene.textures.exists('guard_pmc') ? 'guard_pmc' : null
+    if (!tex) throw new Error('Missing guard_pmc texture')
+
+    this.sprite = scene.add.sprite(start.x, start.y, tex)
+    this.sprite.setDisplaySize(36, 52)
     this.sprite.setDepth(5)
+    this.sprite.setFlipX(false)
 
     this.coneRange = spec.coneRange ?? GUARD.detectionRange
     this.coneAngle = spec.coneAngle ?? GUARD.coneAngle
@@ -55,12 +60,14 @@ export class Guard {
     const ny = (dy / dist) * step
     this.sprite.x += nx
     this.sprite.y += ny
+
+    this.sprite.setFlipX(dx > 0)
   }
 
   getWatcherState() {
     return {
       visionX: this.sprite.x,
-      visionY: this.sprite.y - 16,
+      visionY: this.sprite.y - 18,
       facingAngle: this.facingAngle,
       coneRange: this.coneRange,
       coneAngle: this.coneAngle,

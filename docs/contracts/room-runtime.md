@@ -23,6 +23,7 @@ Single source of truth for parallel work on **room JSON**, **RoomLoader**, and *
 | `exit` | object | At minimum `{ x, y, type }`. Optional `w`, `h` (tiles, default `1` × `2`) for trigger AABB. |
 | `layers.walls` | number[][] | Height × width. |
 | `entry_text` | string | One line, max ~15 words; shown once when the room starts. |
+| `background` | string | Optional texture key preloaded in `BootScene` (e.g. `bg_cell`, `bg_corridor`). Stretched to full room; walls draw semi-transparent on top. |
 
 ## Optional fields (CATSPY_ROOM_FLOW_SPEC §14)
 

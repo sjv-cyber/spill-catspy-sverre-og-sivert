@@ -4,6 +4,7 @@
   "name": "Holding Corridor East",
   "room_name": "Holding Corridor East",
   "room_type": "normal",
+  "background": "bg_corridor",
   "zone": "cell_block",
   "width": 40,
   "height": 12,
