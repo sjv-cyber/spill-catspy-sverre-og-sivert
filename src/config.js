@@ -4,9 +4,9 @@ export const TILE_SIZE = 16
 export const TILE_SCALE = 2
 
 export const HUMAN = {
-  // Hitbox / on-screen target size (texture is scaled to fit)
-  width: 48,
-  height: 72,
+  // Target on-screen size (texture scaled uniformly to fit inside this box)
+  width: 64,
+  height: 96,
   speed: 200,
   accel: 1200,
   decel: 1500,
@@ -19,8 +19,8 @@ export const HUMAN = {
 }
 
 export const CAT = {
-  width: 52,
-  height: 36,
+  width: 72,
+  height: 48,
   speed: 320,
   accel: 1800,
   decel: 1000,

@@ -46,9 +46,8 @@ export class Player {
     const body = this.sprite.body
     const fw = Math.max(1, this.sprite.frame.width)
     const fh = Math.max(1, this.sprite.frame.height)
-    const sx = cfg.width / fw
-    const sy = cfg.height / fh
-    this.sprite.setScale(facingLeft ? -sx : sx, sy)
+    const s = Math.min(cfg.width / fw, cfg.height / fh)
+    this.sprite.setScale(facingLeft ? -s : s, s)
     body.setSize(cfg.width, cfg.height)
     body.setOffset(0, 0)
     if (body.refreshBody) body.refreshBody()

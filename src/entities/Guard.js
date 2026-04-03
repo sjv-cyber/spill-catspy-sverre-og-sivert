@@ -1,5 +1,8 @@
 import { GUARD } from '../config.js'
 
+const GUARD_DRAW_W = 52
+const GUARD_DRAW_H = 78
+
 export class Guard {
   /**
    * @param {Phaser.Scene} scene
@@ -22,7 +25,10 @@ export class Guard {
     if (!tex) throw new Error('Missing guard_pmc texture')
 
     this.sprite = scene.add.sprite(start.x, start.y, tex)
-    this.sprite.setDisplaySize(36, 52)
+    const fw = Math.max(1, this.sprite.frame.width)
+    const fh = Math.max(1, this.sprite.frame.height)
+    const s = Math.min(GUARD_DRAW_W / fw, GUARD_DRAW_H / fh)
+    this.sprite.setScale(s, s)
     this.sprite.setDepth(5)
     this.sprite.setFlipX(false)
 
