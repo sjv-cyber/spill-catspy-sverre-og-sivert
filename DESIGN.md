@@ -281,13 +281,25 @@ Units: pixels/second (speed/accel), pixels/second² (gravity). Negative Y = up.
 
 ---
 
-## 10. Art Direction — Doom-Style Sprites
+## 10. Art Direction — Pixel Sprites & Visual References
 
-Inspired by the original Doom (1993): characters are **2D pixel-art sprites** with a chunky, pre-rendered aesthetic. The game itself remains 2D side-scrolling — the Doom influence is purely visual, not structural.
+**In-game characters** stay **2D side-scrolling pixel sprites**: readable at low resolution, frame-based animation, Doom-inspired chunkiness where it helps clarity. **Mood, materials, lighting, and environments** follow the **reference images** in `docs/` (detailed dithered pixel art, dark industrial station, neon green/cyan/magenta accents on muted metal).
+
+Canonical files (do not rename without updating this table):
+
+| File | What it anchors |
+|------|-----------------|
+| `docs/visual-ref-spy-tactical-crouch.png` | Armed human spy: tactical suit, crouch pose, **green glowing "cat eyes"** on collar, nearby terminal, heavy dithering, grey-on-grey metal. |
+| `docs/visual-ref-hybrid-human-on-feline.png` | CHIMERA body-horror tone: massive dark feline form with **human head** on the back, purple fur highlights, cyan rim light, grated floor. |
+| `docs/visual-ref-lab-vats-rust-breach.png` | Genetics lab: specimen tubes, **toxic green / purple** glow, **broken central tank**, rust and grime, CRTs and cables — "used future" bio lab. |
+| `docs/visual-ref-hexapod-maintenance-robot.png` | **Hackable lab robot** direction: six-legged maintenance unit, bronze legs, **green sensor eye**, brushes/claws; isometric-style detail (adapt to side view in-game). |
+| `docs/visual-ref-terminal-classified-crt.png` | **Interactable terminals**: bulky workstation, **red CRT** glow, blocky "CLASSIFIED" typography, olive drab casing, LED indicators. |
+| `docs/visual-ref-mutant-cyber-feline.png` | **Unstable mutant / horror cat-form**: muscular hybrid, tan/olive fur, **neon green cyber eye**, scars and implants, aggressive stance. |
+| `docs/visual-ref-lab-stasis-cyan-hud.png` | Alternate lab keyframe: **cyan stasis fluid**, shattered tube, CRT greens; includes **chunky pixel HUD** cues (bars, glyphs) — optional inspiration for UI accents and glitch overlays. |
 
 ### 10.1 Sprite Style
 
-- **Look & feel:** Low-res, high-contrast pixel art. Bold outlines, limited palette, slight "3D-rendered then downsampled" feel like Doom's monsters.
+- **Look & feel:** Low-res, high-contrast pixel art for *playable* sprites. Bold silhouettes, limited palette per character, slight pre-rendered / downsampled readability (Doom-like). For **backgrounds and props**, match the references: rich dithering, weathered metal, and strong contrast from a few neon light sources.
 - **Sprite size:** Characters rendered at native low resolution (e.g., 32×64 for human, 24×16 for cat) and displayed at 2x scale. Pixels must be visible and crisp — no anti-aliasing or smoothing.
 - **Animation:** Frame-by-frame sprite sheet animation (not skeletal). 3–6 frames per action. Snappy, not fluid — match Doom's choppy-but-readable animation cadence.
 - **Facing directions:** Minimum 2 directions (left/right, mirror-flip for opposite). Optionally add front-facing idle for guards at waypoint pauses.
@@ -332,12 +344,12 @@ Both phases share animations: idle (2 frames), run (4 frames), jump (1 up, 1 fal
 - Genetics lab: specimen tubes with dark silhouettes inside, flickering fluorescent lighting.
 - Lasers: bright red beam lines with a pulsing glow — labeled "ARGUS SECURITY GRID" on nearby wall panels.
 - Pits/shaft drops: open maintenance shafts leading to the void of space. Stars visible below.
-- Terminals: CRT-style monitors with green text, CHIMERA logo on boot screen, "E" prompt floats above.
+- Terminals: CRT-style monitors — **green** for general logs; **red** or high-alert readouts for classified / locked content (see `visual-ref-terminal-classified-crt.png`). CHIMERA logo on boot screen where appropriate; "E" prompt floats above.
 
 ### 10.4 Sprite Production Pipeline
 
 For prototype, sprites can be:
-1. **AI-generated pixel art** (e.g., prompted with "Doom 1993 sprite style, side view, 32x64, dark spy character") then cleaned up.
+1. **AI-generated pixel art** prompted to match `docs/visual-ref-*.png` (palette, lighting, dithering) and scaled to side-view sprite dimensions (e.g. 32×64 human), then cleaned up.
 2. **Hand-drawn in Aseprite/Piskel** following the style guide.
 3. **Placeholder colored rectangles** with 1-2px detail (eyes, belt line) as minimum viable stand-in — but upgrade to proper sprites before playtesting.
 

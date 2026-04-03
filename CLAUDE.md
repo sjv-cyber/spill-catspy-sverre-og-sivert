@@ -87,7 +87,7 @@ Build a 2D stealth/platformer web game set in 2070 where the Cold War never ende
 
 8. **GUARD TAKEDOWN IS A ONE-TIME SCRIPTED EVENT.** In the Isolated Corridor room, the player ambushes one guard from cat form. This is a scripted story beat — NOT a repeatable combat mechanic. After acquiring gear, the game remains pure stealth with instant-fail detection. Never implement general combat, attack buttons, or the ability to take down guards in other rooms.
 
-9. **DOOM-STYLE SPRITE ART.** All characters (player, guards) must use 2D pixel-art sprites inspired by Doom (1993) — chunky, low-res, pre-rendered look with frame-by-frame animation. No vector graphics, no skeletal animation, no smooth interpolation. Sprites are loaded from PNG spritesheets in `assets/sprites/`. Environment tiles follow the same pixel-art aesthetic. See DESIGN.md Section 9 for full style guide.
+9. **DOOM-STYLE SPRITE ART.** All characters (player, guards) must use 2D pixel-art sprites inspired by Doom (1993) — chunky, low-res, pre-rendered look with frame-by-frame animation. No vector graphics, no skeletal animation, no smooth interpolation. Sprites are loaded from PNG spritesheets in `assets/sprites/`. Environment tiles follow the same pixel-art aesthetic. See DESIGN.md Section 10 and `docs/visual-ref-*.png` for the full style guide and reference art.
 
 ## AI Session Instructions
 
