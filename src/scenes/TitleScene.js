@@ -1,4 +1,5 @@
 import { GAME_WIDTH, GAME_HEIGHT } from '../config.js'
+import { loadManifest } from '../systems/RoomLoader.js'
 
 export class TitleScene extends Phaser.Scene {
   constructor() {
@@ -18,12 +19,19 @@ export class TitleScene extends Phaser.Scene {
       color: '#888',
     }).setOrigin(0.5)
 
-    this.input.keyboard.once('keydown', () => {
-      this.scene.start('Room', { roomId: 'room_tutorial' })
-    })
+    const startGame = async () => {
+      let roomId = 'room_cell_01'
+      try {
+        const manifest = await loadManifest()
+        if (manifest?.default_room_id) roomId = manifest.default_room_id
+      } catch (_) {
+        /* manifest optional */
+      }
+      this.scene.start('Room', { roomId })
+    }
 
-    this.input.gamepad?.once('down', () => {
-      this.scene.start('Room', { roomId: 'room_tutorial' })
-    })
+    this.input.keyboard.once('keydown', startGame)
+
+    this.input.gamepad?.once('down', startGame)
   }
 }

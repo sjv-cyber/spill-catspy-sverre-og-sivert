@@ -4,6 +4,7 @@ import { TitleScene } from './scenes/TitleScene.js'
 import { RoomScene } from './scenes/RoomScene.js'
 import { GameOverScene } from './scenes/GameOverScene.js'
 import { PauseScene } from './scenes/PauseScene.js'
+import { BetaCompleteScene } from './scenes/BetaCompleteScene.js'
 
 const config = {
   type: Phaser.AUTO,
@@ -21,7 +22,7 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, TitleScene, RoomScene, GameOverScene, PauseScene],
+  scene: [BootScene, TitleScene, RoomScene, GameOverScene, PauseScene, BetaCompleteScene],
   pixelArt: true,
 }
 
