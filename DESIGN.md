@@ -296,6 +296,9 @@ Canonical files (do not rename without updating this table):
 | `docs/visual-ref-terminal-classified-crt.png` | **Interactable terminals**: bulky workstation, **red CRT** glow, blocky "CLASSIFIED" typography, olive drab casing, LED indicators. |
 | `docs/visual-ref-mutant-cyber-feline.png` | **Unstable mutant / horror cat-form**: muscular hybrid, tan/olive fur, **neon green cyber eye**, scars and implants, aggressive stance. |
 | `docs/visual-ref-lab-stasis-cyan-hud.png` | Alternate lab keyframe: **cyan stasis fluid**, shattered tube, CRT greens; includes **chunky pixel HUD** cues (bars, glyphs) — optional inspiration for UI accents and glitch overlays. |
+| `docs/visual-ref-security-camera-red.png` | **ARGUS / surveillance**: wall-mounted camera on articulated arm, **rusted metal**, glowing **red lens**, magenta edge highlights — alarm-zone readability; lens can shift hue by state later. |
+| `docs/visual-ref-corridor-guard-sensor.png` | **Cell corridor**: grated floor, rust streaks, heavy doors with **yellow-black** locks, PMC guard + rifle **red accents**, **central red “eye”** sensor on far wall — security wing mood. |
+| `docs/visual-ref-scientist-urgent.png` | **Researcher NPC**: older woman, lab coat, grime/rust on panels, urgent **pointing** pose — scripted “look / run” beats without dialogue trees. |
 
 ### 10.1 Sprite Style
 

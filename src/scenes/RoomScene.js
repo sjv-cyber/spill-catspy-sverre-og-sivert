@@ -1,6 +1,9 @@
 import { GAME_WIDTH, GAME_HEIGHT } from '../config.js'
 import { loadManifest, resolveRoomPath, loadRoomData, buildRoom } from '../systems/RoomLoader.js'
 import { Player } from '../entities/Player.js'
+import { Guard } from '../entities/Guard.js'
+import { SecurityCamera } from '../entities/SecurityCamera.js'
+import { checkDetection } from '../systems/DetectionSystem.js'
 
 export class RoomScene extends Phaser.Scene {
   constructor() {
@@ -10,10 +13,14 @@ export class RoomScene extends Phaser.Scene {
   init(data) {
     this.roomId = data?.roomId ?? 'room_cell_01'
     this._built = null
+    this.roomData = null
     this.player = null
     this.exitRect = null
     this.entryTextObj = null
     this.errorText = null
+    this.guards = []
+    this.camerasArgus = []
+    this._exitConsumed = false
   }
 
   create() {
@@ -39,6 +46,7 @@ export class RoomScene extends Phaser.Scene {
   }
 
   buildGameplay(roomData) {
+    this.roomData = roomData
     const built = buildRoom(this, roomData)
     this._built = built
 
@@ -51,19 +59,28 @@ export class RoomScene extends Phaser.Scene {
     const ez = built.exitZone
     this.exitRect = new Phaser.Geom.Rectangle(ez.x, ez.y, ez.width, ez.height)
 
-    const doorVis = this.add.rectangle(
+    this.add.rectangle(
       ez.x + ez.width / 2,
       ez.y + ez.height / 2,
       ez.width,
       ez.height,
       0x44aa66,
       0.25
-    )
-    doorVis.setStrokeStyle(2, 0x66cc88)
+    ).setStrokeStyle(2, 0x66cc88)
 
     this.player = new Player(this, built.playerSpawnPixels.x, built.playerSpawnPixels.y)
     this.player.applyFormPhysics()
     this.physics.add.collider(this.player.sprite, built.staticGroup)
+
+    const gSpecs = roomData.entities?.guards ?? []
+    for (const spec of gSpecs) {
+      this.guards.push(new Guard(this, spec, built.tileWorldSize))
+    }
+
+    const cSpecs = roomData.entities?.cameras ?? []
+    for (const spec of cSpecs) {
+      this.camerasArgus.push(new SecurityCamera(this, spec, built.tileWorldSize))
+    }
 
     this.cameras.main.startFollow(this.player.sprite, true, 0.12, 0.12)
     this.cameras.main.setDeadzone(80, 60)
@@ -89,7 +106,7 @@ export class RoomScene extends Phaser.Scene {
       })
     }
 
-    this.add.text(12, GAME_HEIGHT - 22, 'Move A/D · Jump SPACE · Transform T · ESC pause', {
+    this.add.text(12, GAME_HEIGHT - 22, 'Move A/D · Jump SPACE · Transform T · ESC pause · Spotted = game over', {
       fontSize: '11px',
       fontFamily: 'monospace',
       color: '#666',
@@ -99,6 +116,11 @@ export class RoomScene extends Phaser.Scene {
   }
 
   cleanupRoom() {
+    for (const g of this.guards) g.destroy()
+    this.guards = []
+    for (const c of this.camerasArgus) c.destroy()
+    this.camerasArgus = []
+
     if (this._built?.staticGroup) {
       this._built.staticGroup.clear(true, true)
     }
@@ -109,10 +131,14 @@ export class RoomScene extends Phaser.Scene {
     this._built = null
     this.exitRect = null
     this.entryTextObj = null
+    this.roomData = null
   }
 
   update(time, delta) {
-    if (!this.player || !this.exitRect) return
+    if (!this.player || !this.exitRect || !this._built?.wallGrid) return
+
+    for (const c of this.camerasArgus) c.update(time)
+    for (const g of this.guards) g.update(time, delta)
 
     this.player.update(delta)
 
@@ -121,10 +147,32 @@ export class RoomScene extends Phaser.Scene {
       this.scene.launch('Pause')
     }
 
+    if (
+      checkDetection(
+        this.guards,
+        this.camerasArgus,
+        this.player,
+        this._built.wallGrid,
+        this._built.tileWorldSize
+      )
+    ) {
+      this.scene.start('GameOver', { roomId: this.roomId })
+      return
+    }
+
     const b = this.player.getBounds()
     const pb = new Phaser.Geom.Rectangle(b.x, b.y, b.width, b.height)
-    if (Phaser.Geom.Rectangle.Overlaps(pb, this.exitRect)) {
-      this.scene.start('BetaComplete', { roomId: this.roomId })
+    if (
+      !this._exitConsumed
+      && Phaser.Geom.Rectangle.Overlaps(pb, this.exitRect)
+    ) {
+      this._exitConsumed = true
+      const next = this.roomData?.next_room_id
+      if (next) {
+        this.scene.start('Room', { roomId: next })
+      } else {
+        this.scene.start('BetaComplete', { roomId: this.roomId })
+      }
     }
   }
 }

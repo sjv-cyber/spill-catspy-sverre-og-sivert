@@ -69,6 +69,7 @@ export function buildRoom(scene, roomData) {
     worldWidth: w * tileWorldSize,
     worldHeight: h * tileWorldSize,
     tileWorldSize,
+    wallGrid: walls,
     playerSpawnPixels,
     exitZone,
     roomData,

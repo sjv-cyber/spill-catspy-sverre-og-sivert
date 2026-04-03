@@ -39,6 +39,11 @@ Include when present; runtime **must not** require them for v1 beta.
 - `layout_tags`: string[]
 - `entities` | `interactables` | `hazards`: objects/arrays (structure TBD)
 
+## Progression (slice)
+
+- Optional top-level **`next_room_id`**: string room id. When the player hits the **exit** zone and this field is set, start `Room` with that id instead of the beta-complete scene.
+- If **`next_room_id`** is omitted or `null`, exit triggers the slice-complete / win flow.
+
 ## Manifest: `assets/rooms/manifest.json`
 
 ```json

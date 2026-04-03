@@ -4,6 +4,7 @@
   "name": "Holding Cell 7B",
   "room_name": "Holding Cell 7B",
   "room_type": "normal",
+  "next_room_id": "room_corridor_01",
   "zone": "cell_block",
   "width": 22,
   "height": 12,

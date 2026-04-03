@@ -18,7 +18,7 @@ export class BetaCompleteScene extends Phaser.Scene {
       color: '#7fdc9a',
     }).setOrigin(0.5)
 
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 10, 'You reached the exit. Beta room flow OK.', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 10, 'Cell → corridor → exit. Two-room slice OK.', {
       fontSize: '16px',
       fontFamily: 'monospace',
       color: '#9a9',
@@ -26,7 +26,7 @@ export class BetaCompleteScene extends Phaser.Scene {
       wordWrap: { width: GAME_WIDTH - 80 },
     }).setOrigin(0.5)
 
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 70, 'ENTER — title   R — replay room', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 70, 'ENTER — title   R — replay from cell', {
       fontSize: '14px',
       fontFamily: 'monospace',
       color: '#6a8a6a',
@@ -37,7 +37,7 @@ export class BetaCompleteScene extends Phaser.Scene {
     })
 
     this.input.keyboard.once('keydown-R', () => {
-      this.scene.start('Room', { roomId: this.roomId })
+      this.scene.start('Room', { roomId: 'room_cell_01' })
     })
   }
 }

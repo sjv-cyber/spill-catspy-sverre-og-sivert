@@ -79,6 +79,7 @@ Nyttig for rask sparring uten full workspace; for kodeendringer foretrekk worksp
 | B | [prompt-track-B-loader-scene.md](prompt-track-B-loader-scene.md) | `src/systems/RoomLoader.js`, `src/scenes/RoomScene.js` |
 | C | [prompt-track-C-player.md](prompt-track-C-player.md) | `src/entities/Player.js`, `src/systems/InputManager.js`, `src/config.js` |
 | D | [prompt-track-D-flow-ui.md](prompt-track-D-flow-ui.md) | `src/main.js`, `src/scenes/TitleScene.js`, `src/scenes/BootScene.js`, `src/scenes/BetaCompleteScene.js` |
+| E | [prompt-track-E-guards-cameras.md](prompt-track-E-guards-cameras.md) | `src/entities/Guard.js`, `src/entities/SecurityCamera.js`, `src/systems/DetectionSystem.js`, `RoomScene` (spawn/update), `assets/rooms/*` (`entities.guards`, `entities.cameras`) |
 
 ## Integrator-sjekkliste (etter merge)
 

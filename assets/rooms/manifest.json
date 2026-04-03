@@ -2,6 +2,7 @@
   "default_room_id": "room_cell_01",
   "rooms": {
     "room_cell_01": { "path": "assets/rooms/room_cell_01.json" },
+    "room_corridor_01": { "path": "assets/rooms/room_corridor_01.json" },
     "room_tutorial": { "path": "assets/rooms/room_tutorial.json" }
   }
 }
