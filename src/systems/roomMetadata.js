@@ -47,6 +47,8 @@ export function normalizeRoomData(raw) {
       typeof d.background_trim_bottom_ratio === 'number'
         ? Math.min(0.95, Math.max(0, d.background_trim_bottom_ratio))
         : 0,
+    /** Tile AABBs for pulsing alarm props (security mood). */
+    alarm_lights: Array.isArray(d.alarm_lights) ? d.alarm_lights : [],
   }
 }
 

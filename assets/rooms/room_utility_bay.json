@@ -649,8 +649,13 @@
     "mutants": [],
     "robots": [
       {
+        "id": "utility_closet_bot",
         "x": 12,
-        "y": 6
+        "y": 6,
+        "patrol": [
+          { "x": 11, "y": 6 },
+          { "x": 14, "y": 6 }
+        ]
       }
     ],
     "hideZones": [],
@@ -666,7 +671,19 @@
       "w": 3,
       "h": 3,
       "requires_human": true,
-      "action": "open_gate"
+      "action": "hack_robot",
+      "robot_id": "utility_closet_bot",
+      "open_gate": true
+    },
+    {
+      "id": "wall_shell",
+      "x": 18,
+      "y": 8,
+      "w": 2,
+      "h": 2,
+      "requires_human": true,
+      "action": "terminal_log",
+      "log_id": "utility_bot_01"
     }
   ],
   "hazards": [],

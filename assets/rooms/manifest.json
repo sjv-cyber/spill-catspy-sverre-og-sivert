@@ -8,6 +8,7 @@
     "room_utility_bay": { "path": "assets/rooms/room_utility_bay.json" },
     "room_specimen_containment": { "path": "assets/rooms/room_specimen_containment.json" },
     "room_mini_boss_arena": { "path": "assets/rooms/room_mini_boss_arena.json" },
+    "room_janus_closet": { "path": "assets/rooms/room_janus_closet.json" },
     "room_corridor_01": { "path": "assets/rooms/room_corridor_01.json" },
     "room_tutorial": { "path": "assets/rooms/room_tutorial.json" }
   }

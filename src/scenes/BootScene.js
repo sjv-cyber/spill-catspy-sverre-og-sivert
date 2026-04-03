@@ -1,5 +1,6 @@
 import { replaceTextureWithChroma } from '../utils/chromaTexture.js'
 import { cropTextureToKey } from '../utils/spriteCrop.js'
+import { registerCatSfx } from '../systems/CatSfx.js'
 
 /** 1376×768 wide renders: human sits in a narrow mid-right strip; cat spans most of the width. */
 const CROP_PLAYER = { x: 0.34, y: 0.06, w: 0.32, h: 0.88 }
@@ -14,6 +15,7 @@ export class BootScene extends Phaser.Scene {
 
   preload() {
     this.load.image('title_screen', 'assets/ui/title_screen.png')
+    this.load.image('eagles_nest_map', 'assets/ui/eagles_nest_map.png')
     this.load.image('bg_cell', 'assets/backgrounds/bg_cell.png')
     this.load.image('bg_corridor', 'assets/backgrounds/bg_corridor.png')
 
@@ -21,6 +23,8 @@ export class BootScene extends Phaser.Scene {
     this.load.image('_raw_cat', 'assets/sprites/player_cat.png')
     this.load.image('_raw_guard', 'assets/sprites/guard_pmc.png')
     this.load.image('prop_camera', 'assets/sprites/prop_camera.png')
+
+    this.load.json('terminal_logs', 'assets/story/terminal_logs.json')
   }
 
   create() {
@@ -35,6 +39,8 @@ export class BootScene extends Phaser.Scene {
     ;['_raw_human', '_raw_cat', '_raw_guard', '_ch_human', '_ch_cat', '_ch_guard'].forEach((k) => {
       if (this.textures.exists(k)) this.textures.remove(k)
     })
+
+    registerCatSfx(this)
 
     this.scene.start('Title')
   }

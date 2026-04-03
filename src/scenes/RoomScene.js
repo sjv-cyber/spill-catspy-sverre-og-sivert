@@ -5,7 +5,18 @@ import { Player } from '../entities/Player.js'
 import { Guard } from '../entities/Guard.js'
 import { SecurityCamera } from '../entities/SecurityCamera.js'
 import { Scientist } from '../entities/Scientist.js'
-import { checkDetection } from '../systems/DetectionSystem.js'
+import { MaintenanceRobot } from '../entities/MaintenanceRobot.js'
+import { AlarmLight } from '../entities/AlarmLight.js'
+import { checkDetection, playerInHideZone, argusCameraSeesPlayer } from '../systems/DetectionSystem.js'
+import { playCatSfx, playUiSfx } from '../systems/CatSfx.js'
+import { LaserHazard } from '../entities/LaserHazard.js'
+import { TerminalOverlay } from '../ui/TerminalOverlay.js'
+import { markRoomVisited, setProgressFlag } from '../systems/ProgressStore.js'
+import {
+  playTransformFlash,
+  playTerminalPulse,
+  playGateUnlock,
+} from '../systems/CatSpyVfx.js'
 
 export class RoomScene extends Phaser.Scene {
   constructor() {
@@ -25,6 +36,9 @@ export class RoomScene extends Phaser.Scene {
     this.guards = []
     this.camerasArgus = []
     this.scientists = []
+    this.maintenanceRobots = []
+    this.alarmLights = []
+    this._onTransformFx = null
     this._exitConsumed = false
     this._returnConsumed = false
     this.roomState = 'idle'
@@ -37,6 +51,10 @@ export class RoomScene extends Phaser.Scene {
     this._mapOpen = false
     this._mapDim = null
     this._mapImg = null
+    this._prevCatInHide = false
+    this.lasers = []
+    this._terminal = null
+    this._terminalOpen = false
   }
 
   create() {
@@ -212,11 +230,22 @@ export class RoomScene extends Phaser.Scene {
 
     const robots = roomData.entities?.robots ?? []
     for (const r of robots) {
-      const cx = r.x * tileWorldSize + tileWorldSize / 2
-      const cy = r.y * tileWorldSize + tileWorldSize / 2
-      const box = this.add.rectangle(cx, cy, 40, 30, 0x8899aa, 0.5)
-      box.setStrokeStyle(2, 0x556070)
-      box.setDepth(2)
+      this.maintenanceRobots.push(new MaintenanceRobot(this, r, tileWorldSize))
+    }
+
+    for (const L of roomData.alarm_lights ?? []) {
+      const r = tileRectToWorld(
+        { x: L.x, y: L.y, w: L.w ?? 1, h: L.h ?? 1 },
+        tileWorldSize
+      )
+      const cx = r.x + r.width / 2
+      const cy = r.y + r.height / 2
+      this.alarmLights.push(new AlarmLight(this, cx, cy, Math.max(12, r.width * 0.8)))
+    }
+
+    const lSpecs = roomData.entities?.lasers ?? []
+    for (const spec of lSpecs) {
+      this.lasers.push(new LaserHazard(this, spec, built.tileWorldSize))
     }
 
     this.cameras.main.startFollow(this.player.sprite, true, 0.12, 0.12, 0, -32)
@@ -282,7 +311,38 @@ export class RoomScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(50)
 
+    this._onTransformFx = (ev) => {
+      playTransformFlash(this, ev.x, ev.y)
+    }
+    this.events.on('catspy-player-transform', this._onTransformFx)
+
+    markRoomVisited(roomData.room_id)
+
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.cleanupRoom())
+  }
+
+  _gateTilesWorldCenter(tileWorldSize) {
+    const tiles = this.roomData?.extra_solid_tiles ?? []
+    if (!tiles.length) return null
+    let sx = 0
+    let sy = 0
+    for (const t of tiles) {
+      sx += t.x
+      sy += t.y
+    }
+    const n = tiles.length
+    return {
+      x: (sx / n) * tileWorldSize + tileWorldSize / 2,
+      y: (sy / n) * tileWorldSize + tileWorldSize / 2,
+    }
+  }
+
+  _removeGateSolids() {
+    const solids = this._built?.gateSolids ?? []
+    for (const rect of solids) {
+      this._built.staticGroup.remove(rect, true, true)
+    }
+    solids.length = 0
   }
 
   _setupMapOverlay() {
@@ -319,12 +379,27 @@ export class RoomScene extends Phaser.Scene {
   }
 
   cleanupRoom() {
+    this._terminal?.close()
+    this._terminal = null
+    this._terminalOpen = false
+
+    for (const L of this.lasers) L.destroy()
+    this.lasers = []
+
+    if (this._onTransformFx) {
+      this.events.off('catspy-player-transform', this._onTransformFx)
+      this._onTransformFx = null
+    }
     for (const g of this.guards) g.destroy()
     this.guards = []
     for (const c of this.camerasArgus) c.destroy()
     this.camerasArgus = []
     for (const s of this.scientists) s.destroy()
     this.scientists = []
+    for (const b of this.maintenanceRobots) b.destroy()
+    this.maintenanceRobots = []
+    for (const a of this.alarmLights) a.destroy()
+    this.alarmLights = []
 
     if (this._built?.staticGroup) {
       this._built.staticGroup.clear(true, true)
@@ -345,6 +420,7 @@ export class RoomScene extends Phaser.Scene {
     this._mapDim = null
     this._mapImg = null
     this._mapOpen = false
+    this._prevCatInHide = false
   }
 
   _playerPixelCenter() {
@@ -383,14 +459,29 @@ export class RoomScene extends Phaser.Scene {
       if (action === 'suppress_cameras') {
         const ms = it.duration_ms ?? 5500
         for (const c of this.camerasArgus) c.suppressFor(ms)
+        const cx = r.x + r.width / 2
+        const cy = r.y + r.height / 2
+        playTerminalPulse(this, cx, cy)
         return
       }
       if (action === 'open_gate') {
-        const solids = this._built?.gateSolids ?? []
-        for (const rect of solids) {
-          this._built.staticGroup.remove(rect, true, true)
+        this._removeGateSolids()
+        const gc = this._gateTilesWorldCenter(tileWorldSize)
+        if (gc) playGateUnlock(this, gc.x, gc.y)
+        return
+      }
+      if (action === 'hack_robot') {
+        const rid = it.robot_id
+        if (rid) {
+          for (const bot of this.maintenanceRobots) {
+            if (bot.id === rid) bot.hack()
+          }
         }
-        solids.length = 0
+        if (it.open_gate === true) {
+          this._removeGateSolids()
+          const gc = this._gateTilesWorldCenter(tileWorldSize)
+          if (gc) playGateUnlock(this, gc.x, gc.y)
+        }
         return
       }
       if (action === 'clear_boss') {
@@ -400,6 +491,40 @@ export class RoomScene extends Phaser.Scene {
           this.bossClearInteractUsed = true
         }
         return
+      }
+      if (action === 'terminal_log') {
+        const logId = it.log_id
+        const pack = this.cache.json.get('terminal_logs')
+        const entry = pack?.logs?.[logId]
+        if (!entry) return
+        playUiSfx(this, 'terminal')
+        this._terminalOpen = true
+        if (this.player?.sprite?.body) this.player.sprite.body.setVelocity(0, 0)
+        this._terminal = new TerminalOverlay(this, {
+          title: entry.title,
+          lines: entry.lines,
+          onClose: () => {
+            this._terminal = null
+            this._terminalOpen = false
+            if (logId === 'obs_lab_01') setProgressFlag('janus_hint', true)
+          },
+        })
+        return
+      }
+    }
+
+    if (!this.player.isHuman) {
+      for (const it of list) {
+        if (!it.requires_human) continue
+        const r = tileRectToWorld(
+          { x: it.x, y: it.y, w: it.w ?? 2, h: it.h ?? 2 },
+          tileWorldSize
+        )
+        const zone = new Phaser.Geom.Rectangle(r.x, r.y, r.width, r.height)
+        if (Phaser.Geom.Rectangle.Overlaps(pb, zone)) {
+          playCatSfx(this, 'hiss')
+          return
+        }
       }
     }
   }
@@ -420,15 +545,44 @@ export class RoomScene extends Phaser.Scene {
       return
     }
 
+    if (this._terminalOpen) {
+      if (this.player.input.pausePressed) {
+        this._terminal?.close()
+        this.scene.pause()
+        this.scene.launch('Pause')
+      }
+      return
+    }
+
     const tileWorldSize = this._built.tileWorldSize
     const now = this.time.now
     const { px, py } = this._playerPixelCenter()
 
     for (const c of this.camerasArgus) c.update(time)
+    for (const c of this.camerasArgus) {
+      if (
+        argusCameraSeesPlayer(c, this.player, this._built.wallGrid, tileWorldSize, {
+          hideZones: this.roomData.entities?.hideZones,
+          now,
+        })
+      ) {
+        c.pulseLensIfHot(now)
+      }
+    }
     for (const g of this.guards) g.update(time, delta)
     for (const s of this.scientists) s.update(time, delta, px, py)
+    for (const b of this.maintenanceRobots) b.update(time, delta)
+
+    for (const L of this.lasers) L.update(time)
 
     this.player.update(delta)
+
+    const hideZones = this.roomData.entities?.hideZones
+    const catInHide = playerInHideZone(this.player, hideZones, tileWorldSize)
+    if (catInHide && !this._prevCatInHide) {
+      playCatSfx(this, 'hide')
+    }
+    this._prevCatInHide = catInHide
 
     if (this.bossTriggerRect && this.roomData.lock_behavior === 'boss' && !this.bossEngaged) {
       const pb = new Phaser.Geom.Rectangle(
@@ -441,10 +595,21 @@ export class RoomScene extends Phaser.Scene {
         this.bossEngaged = true
         this.exitLocked = true
         this.roomState = 'locked'
+        playUiSfx(this, 'alarm', { volume: 0.34 })
+        this.cameras.main.shake(420, 0.011)
       }
     }
 
     this._tryInteractables(tileWorldSize)
+
+    const lb = this.player.getBounds()
+    const laserRect = new Phaser.Geom.Rectangle(lb.x, lb.y, lb.width, lb.height)
+    for (const L of this.lasers) {
+      if (L.hits(laserRect)) {
+        this.scene.start('GameOver', { roomId: this.roomId, cause: 'laser' })
+        return
+      }
+    }
 
     if (this.player.input.pausePressed) {
       this.scene.pause()

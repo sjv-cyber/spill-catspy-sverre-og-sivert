@@ -60,6 +60,7 @@ Normalized at runtime by [`src/systems/roomMetadata.js`](../../src/systems/roomM
 | `boss_trigger` | `{ x, y, w?, h? }` | With `lock_behavior: "boss"`, overlap sets **`exitLocked`**, `roomState` **`locked`**, `bossEngaged`. |
 | `entity_summary` | string[] | Optional explicit list for tooling; else derived from `entities` / `interactables`. |
 | `states` | string[] | Declared vocabulary for design tools (runtime uses `roomState` on the scene). |
+| `alarm_lights` | `{ x, y, w?, h? }[]` | Optional tile AABBs; runtime spawns pulsing red **AlarmLight** props (security mood). Normalized default: `[]`. |
 
 ### Boss room flow (`lock_behavior: "boss"`)
 
@@ -70,17 +71,19 @@ Normalized at runtime by [`src/systems/roomMetadata.js`](../../src/systems/roomM
 
 ### Interactables (minimal)
 
-Array of `{ id?, x, y, w?, h?, requires_human?, action, duration_ms? }`:
+Array of `{ id?, x, y, w?, h?, requires_human?, action, duration_ms?, robot_id?, open_gate? }`:
 
-- `suppress_cameras` — `duration_ms` (default 5500): ARGUS cones ignored for that window.
-- `open_gate` — removes **`extra_solid_tiles`** bodies from the static group.
+- `suppress_cameras` — `duration_ms` (default 5500): ARGUS cones ignored for that window; plays a small terminal pulse VFX at the interactable center.
+- `open_gate` — removes **`extra_solid_tiles`** bodies from the static group; plays gate-unlock VFX at gate tile centroid when possible.
+- `hack_robot` — `robot_id` must match `entities.robots[].id`; calls **`MaintenanceRobot.hack()`**. If `open_gate: true`, also removes gate solids (same as `open_gate`).
 - `clear_boss` — see boss flow above.
 
 ### `entities` extensions
 
-- `scientists[]` — tile `{ x, y, flee_x?, flee_y?, triggerRadius?, speed? }`; graybox flee behavior.
-- `mutants[]` — same shape as **`guards[]`** (patrol guards with tuned speed/cone).
-- `robots[]` — tile `{ x, y }` for graybox closet bot prop.
+- `scientists[]` — tile `{ x, y, flee_x?, flee_y?, triggerRadius?, speed? }`; graybox flee behavior (lab-coat silhouette).
+- `guards[]` / `mutants[]` — patrol guards; optional `variant`: `"elite"` (cooler tint, longer cone) or `"mutant"` (greenish tint, wider cone, larger scale). Omitted = standard PMC read.
+- `mutants[]` — same fields as **`guards[]`** (including `variant`).
+- `robots[]` — tile `{ id?, x, y, patrol?: {x,y}[] }`. **`MaintenanceRobot`**: optional 2+ waypoint micro-patrol; stable **`id`** required when using `hack_robot`.
 - `hideZones[]` — tile AABB; **cat form** inside breaks line-of-sight checks for that frame.
 
 ## Progression (slice)

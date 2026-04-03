@@ -1,5 +1,6 @@
 import { HUMAN, CAT, TRANSFORM_COOLDOWN } from '../config.js'
 import { InputManager } from '../systems/InputManager.js'
+import { playCatSfx } from '../systems/CatSfx.js'
 
 export class Player {
   /**
@@ -26,6 +27,7 @@ export class Player {
     this.coyoteMs = 0
     this.jumpBufferMs = 0
     this.lastTransformAt = -Infinity
+    this._wasOnGround = true
 
     this.applyFormPhysics({ anchorFeet: false })
   }
@@ -89,6 +91,13 @@ export class Player {
     this.lastTransformAt = now
     this.isHuman = !this.isHuman
     this.applyFormPhysics({ anchorFeet: true })
+    if (!this.isHuman) playCatSfx(this.scene, 'mrrp')
+    const b = this.sprite.getBounds()
+    this.scene.events.emit('catspy-player-transform', {
+      x: b.x + b.width / 2,
+      y: b.y + b.height / 2,
+      isHuman: this.isHuman,
+    })
   }
 
   /**
@@ -98,6 +107,7 @@ export class Player {
     const cfg = this.isHuman ? HUMAN : CAT
     const body = this.sprite.body
     const onGround = body.blocked.down || body.touching.down
+    const wasOnGround = this._wasOnGround
 
     if (onGround) this.coyoteMs = cfg.coyoteTime
     else this.coyoteMs = Math.max(0, this.coyoteMs - dt)
@@ -113,11 +123,17 @@ export class Player {
       body.velocity.y = cfg.jumpVelocity
       this.jumpBufferMs = 0
       this.coyoteMs = 0
+      if (!this.isHuman) playCatSfx(this.scene, 'chirp')
     }
 
     if (body.velocity.y > cfg.maxFallSpeed) body.velocity.y = cfg.maxFallSpeed
 
     if (this.input.transformPressed) this.transform()
+
+    if (onGround && !wasOnGround && !this.isHuman) {
+      playCatSfx(this.scene, 'purr')
+    }
+    this._wasOnGround = onGround
 
     const wantLeft = body.velocity.x < -12 ? true : body.velocity.x > 12 ? false : this._facingLeft()
     if (wantLeft !== this._facingLeft()) {

@@ -68,6 +68,11 @@
     "h": 2
   },
   "entry_text": "ARGUS sweep. The console might buy you seconds.",
+  "alarm_lights": [
+    { "x": 27, "y": 2, "w": 1, "h": 1 },
+    { "x": 35, "y": 3, "w": 1, "h": 1 },
+    { "x": 18, "y": 2, "w": 1, "h": 1 }
+  ],
   "layers": {
     "walls": [
       [
@@ -789,7 +794,18 @@
         "h": 2
       }
     ],
-    "lasers": [],
+    "lasers": [
+      {
+        "x1": 22,
+        "y1": 7,
+        "x2": 32,
+        "y2": 7,
+        "on_ms": 1700,
+        "off_ms": 1300,
+        "phase_ms": 500,
+        "thickness_px": 12
+      }
+    ],
     "vents": [],
     "terminals": []
   },

@@ -11,6 +11,7 @@ export class Guard {
    */
   constructor(scene, spec, tileWorldSize) {
     this.scene = scene
+    this.variant = spec.variant === 'mutant' || spec.variant === 'elite' ? spec.variant : 'standard'
     const waypoints = (spec.patrol || []).map((t) => ({
       x: t.x * tileWorldSize + tileWorldSize / 2,
       y: t.y * tileWorldSize + tileWorldSize / 2,
@@ -27,13 +28,30 @@ export class Guard {
     this.sprite = scene.add.sprite(start.x, start.y, tex)
     const fw = Math.max(1, this.sprite.frame.width)
     const fh = Math.max(1, this.sprite.frame.height)
-    const s = Math.min(GUARD_DRAW_W / fw, GUARD_DRAW_H / fh)
+    let s = Math.min(GUARD_DRAW_W / fw, GUARD_DRAW_H / fh)
+    if (this.variant === 'mutant') s *= 1.08
+    if (this.variant === 'elite') s *= 1.04
     this.sprite.setScale(s, s)
     this.sprite.setDepth(5)
     this.sprite.setFlipX(false)
 
-    this.coneRange = spec.coneRange ?? GUARD.detectionRange
-    this.coneAngle = spec.coneAngle ?? GUARD.coneAngle
+    if (this.variant === 'mutant') {
+      this.sprite.setTint(0xc5dcc0)
+    } else if (this.variant === 'elite') {
+      this.sprite.setTint(0xb8c0d0)
+    }
+
+    let coneRange = spec.coneRange ?? GUARD.detectionRange
+    let coneAngle = spec.coneAngle ?? GUARD.coneAngle
+    if (this.variant === 'elite') {
+      coneRange *= 1.12
+      coneAngle *= 0.95
+    }
+    if (this.variant === 'mutant') {
+      coneAngle *= 1.08
+    }
+    this.coneRange = coneRange
+    this.coneAngle = coneAngle
     this.speed = spec.speed ?? GUARD.speed
     this.waitUntil = 0
     this.facingAngle = 0

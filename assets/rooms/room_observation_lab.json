@@ -734,7 +734,18 @@
     "vents": [],
     "terminals": []
   },
-  "interactables": [],
+  "interactables": [
+    {
+      "id": "obs_terminal",
+      "x": 20,
+      "y": 10,
+      "w": 2,
+      "h": 2,
+      "requires_human": true,
+      "action": "terminal_log",
+      "log_id": "obs_lab_01"
+    }
+  ],
   "hazards": [],
   "world_labels": [
     {

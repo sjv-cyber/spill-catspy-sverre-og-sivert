@@ -1,0 +1,43 @@
+{
+  "logs": {
+    "obs_lab_01": {
+      "title": "CHIMERA / OBS — session log",
+      "lines": [
+        "Dr. Cross — private scratch buffer",
+        "",
+        "The glass was never rated for stress at this psi.",
+        "Subject keeps mapping the seam with its shoulder.",
+        "If anyone reads this: the mute alarm is lying.",
+        "",
+        "> route janus_closet / AUTH: DENIED",
+        "> route janus_closet / OVERRIDE: coffee_stain_7",
+        "",
+        "They renamed the wing again. I am tired."
+      ]
+    },
+    "utility_bot_01": {
+      "title": "Maint-bot 4 — shell",
+      "lines": [
+        "$ hijack — transient uplink",
+        "open secondary gate … ok",
+        "note: operator heartbeat not found",
+        "",
+        "If you are not maintenance, please put me back.",
+        "I was only trying to buff the floor."
+      ]
+    },
+    "janus_closet_01": {
+      "title": "Mug.log — corrupted",
+      "lines": [
+        "Property of: [REDACTED]",
+        "",
+        "The two-faced door only opens if you stop pretending",
+        "you are the protagonist.",
+        "",
+        "— J.",
+        "",
+        "(You were never supposed to compile this.)"
+      ]
+    }
+  }
+}

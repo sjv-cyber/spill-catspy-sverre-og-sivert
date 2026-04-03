@@ -17,6 +17,8 @@ export class SecurityCamera {
     this.phase = spec.phaseOffset ?? 0
     /** @type {number} */
     this.suppressUntilMs = 0
+    /** Throttle lens flash VFX (ms). */
+    this._pulseLockUntil = 0
 
     this.x = spec.x * tileWorldSize + tileWorldSize / 2
     this.y = spec.y * tileWorldSize + tileWorldSize / 2
@@ -63,6 +65,21 @@ export class SecurityCamera {
    */
   isSuppressed(now) {
     return now < this.suppressUntilMs
+  }
+
+  /**
+   * Red tint pulse when the player is inside this camera's cone (readable warning).
+   * @param {number} now
+   */
+  pulseLensIfHot(now) {
+    if (now < this._pulseLockUntil) return
+    this._pulseLockUntil = now + 140
+    if (typeof this.gfx.setTint === 'function') {
+      this.gfx.setTint(0xff3333)
+      this.scene.time.delayedCall(70, () => {
+        if (this.gfx?.active) this.gfx.clearTint()
+      })
+    }
   }
 
   destroy() {

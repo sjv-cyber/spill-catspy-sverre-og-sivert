@@ -1,0 +1,66 @@
+{
+  "id": "room_janus_closet",
+  "room_id": "room_janus_closet",
+  "name": "Janus Closet",
+  "room_type": "story",
+  "dominant_interaction": "lore_gag",
+  "background": "bg_cell",
+  "background_tint": 5260328,
+  "next_room_id": null,
+  "zone": "liminal",
+  "width": 18,
+  "height": 11,
+  "tileSize": 16,
+  "playerSpawn": { "x": 3, "y": 7 },
+  "exit": { "x": 14, "y": 7, "type": "door", "w": 2, "h": 2 },
+  "exits": ["nowhere_east"],
+  "lock_state": "unlocked",
+  "default_state": "idle",
+  "supports_retreat": false,
+  "lock_behavior": "none",
+  "layout_tags": ["secret", "easter_egg", "coffee"],
+  "entry_text": "The sign lied. This is not a closet. It is an attitude.",
+  "layers": {
+    "walls": [
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,1],
+      [1,0,0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,1],
+      [1,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ]
+  },
+  "entities": {
+    "guards": [],
+    "cameras": [],
+    "scientists": [],
+    "mutants": [],
+    "robots": [],
+    "hideZones": [],
+    "lasers": [],
+    "vents": [],
+    "terminals": []
+  },
+  "interactables": [
+    {
+      "id": "janus_mug",
+      "x": 8,
+      "y": 6,
+      "w": 2,
+      "h": 2,
+      "requires_human": true,
+      "action": "terminal_log",
+      "log_id": "janus_closet_01"
+    }
+  ],
+  "hazards": [],
+  "world_labels": [
+    { "x": 9, "y": 3, "text": "JANUS (unauthorized)", "size": 10, "color": "#c8a0d8" },
+    { "x": 5, "y": 8, "text": "World's Best ███████", "size": 9, "color": "#888888" }
+  ]
+}

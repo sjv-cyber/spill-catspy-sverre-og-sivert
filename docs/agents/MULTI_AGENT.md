@@ -91,3 +91,4 @@ Nyttig for rask sparring uten full workspace; for kodeendringer foretrekk worksp
 
 - Romflyt og tilstander: [docs/CATSPY_ROOM_FLOW_SPEC.md](../CATSPY_ROOM_FLOW_SPEC.md)
 - Implementasjonsprioriteringer: [docs/CURSOR_GAME_DEV_BRIEF.md](../CURSOR_GAME_DEV_BRIEF.md)
+- Siste integrasjonshandoff (robots / VFX / alarm lights): [AGENT_HANDOFF_AUTONOMOUS.md](AGENT_HANDOFF_AUTONOMOUS.md)

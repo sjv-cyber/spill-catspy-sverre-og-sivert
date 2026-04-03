@@ -12,6 +12,7 @@ export class InputManager {
       transform: 'T',
       interact: 'E',
       pause: 'ESC',
+      map: 'M',
     })
   }
 
@@ -43,5 +44,9 @@ export class InputManager {
 
   get pausePressed() {
     return Phaser.Input.Keyboard.JustDown(this.keys.pause)
+  }
+
+  get mapPressed() {
+    return Phaser.Input.Keyboard.JustDown(this.keys.map)
   }
 }

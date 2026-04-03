@@ -34,7 +34,7 @@ export function watcherSeesPlayer(watcher, playerCenterX, playerCenterY, wallGri
   return raycast(gx, gy, playerCenterX, playerCenterY, isBlocked)
 }
 
-function playerInHideZone(px, py, hideZones, tileWorldSize, isCat) {
+export function playerInHideZonePx(px, py, hideZones, tileWorldSize, isCat) {
   if (!isCat || !hideZones?.length) return false
   for (const z of hideZones) {
     const zx = z.x * tileWorldSize
@@ -44,6 +44,35 @@ function playerInHideZone(px, py, hideZones, tileWorldSize, isCat) {
     if (px >= zx && px <= zx + zw && py >= zy && py <= zy + zh) return true
   }
   return false
+}
+
+/**
+ * @param {{ getBounds: () => Phaser.Geom.Rectangle, isHuman: boolean }} player
+ */
+export function playerInHideZone(player, hideZones, tileWorldSize) {
+  if (player.isHuman || !hideZones?.length) return false
+  const b = player.getBounds()
+  const px = b.x + b.width / 2
+  const py = b.y + b.height / 2
+  return playerInHideZonePx(px, py, hideZones, tileWorldSize, true)
+}
+
+/**
+ * Single ARGUS camera, same rules as `checkDetection` (hide cat zones, suppression, range mul).
+ * @param {{ getWatcherState: () => object, isSuppressed?: (t:number)=>boolean }} camera
+ * @param {{ getBounds: () => Phaser.Geom.Rectangle, isHuman: boolean }} player
+ */
+export function argusCameraSeesPlayer(camera, player, wallGrid, tileWorldSize, options = {}) {
+  const now = options.now ?? 0
+  if (camera.isSuppressed?.(now)) return false
+  const b = player.getBounds()
+  const px = b.x + b.width / 2
+  const py = b.y + b.height / 2
+  const hideZones = options.hideZones
+  if (playerInHideZonePx(px, py, hideZones, tileWorldSize, !player.isHuman)) return false
+  const mul = player.isHuman ? HUMAN.detectionRangeMultiplier : CAT.detectionRangeMultiplier
+  const st = camera.getWatcherState()
+  return watcherSeesPlayer(st, px, py, wallGrid, tileWorldSize, mul)
 }
 
 /**
@@ -59,7 +88,7 @@ export function checkDetection(guards, cameras, player, wallGrid, tileWorldSize,
   const now = options.now ?? 0
   const hideZones = options.hideZones
 
-  if (playerInHideZone(px, py, hideZones, tileWorldSize, !player.isHuman)) {
+  if (playerInHideZonePx(px, py, hideZones, tileWorldSize, !player.isHuman)) {
     return false
   }
 

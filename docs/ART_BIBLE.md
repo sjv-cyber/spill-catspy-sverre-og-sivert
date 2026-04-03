@@ -512,3 +512,15 @@ Negative: cute, chibi, glossy sci-fi, neon cyberpunk city, holographic UI, smoot
 ---
 
 *Document generated for CatSpy production. Update as assets land in `assets/sprites/` and `assets/backgrounds/`.*
+
+## Appendix — runtime graybox ↔ art targets
+
+Until final sprites exist, the game uses **CatSpy-tuned grayboxes** that follow the art bible palette:
+
+| Stand-in | Implementation | When art lands |
+|----------|----------------|----------------|
+| Maintenance robot | `MaintenanceRobot.js` — olive body, **toxic green** sensor, bolt-read silhouette | Replace container with spritesheet; keep `id` / `hack()` / patrol API |
+| Alarm strobes | `AlarmLight.js` — hard red pulse | Swap rectangle for dome sprite + same tween |
+| Scientist | `Scientist.js` — coat / clipboard container | Swap for `scientist` texture; keep flee tile logic |
+| Mutant / elite | `Guard.js` + `variant` on `guard_pmc` | Unique sprites per variant; keep patrol + cone fields |
+| Transform / hack / gate / console | `CatSpyVfx.js` | Optional filmstrip overlays; keep one-shot duration ~same for game feel |

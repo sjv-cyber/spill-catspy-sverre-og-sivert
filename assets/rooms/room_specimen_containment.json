@@ -609,6 +609,7 @@
     "scientists": [],
     "mutants": [
       {
+        "variant": "mutant",
         "patrol": [
           {
             "x": 25,
