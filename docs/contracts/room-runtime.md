@@ -56,6 +56,7 @@ Normalized at runtime by [`src/systems/roomMetadata.js`](../../src/systems/roomM
 | `cat_route_hint` | `{ x, y, w?, h? }` | Graybox overlay for cat-favoured lane. |
 | `world_labels` | `{ x, y, text, size?, color?, alpha? }[]` | Screen-space story / CHIMERA labels in world coords (tile-based x,y). |
 | `background_tint` | number | Multiply tint for background image (e.g. `0x706878`). |
+| `background_trim_bottom_ratio` | number | `0`–`0.95`: fraction of the **source** background image height cropped from the **bottom** before the texture is stretched to the room. Use when the PNG has empty letterboxing below the painted floor so the art floor lines up with collision tiles. |
 | `boss_trigger` | `{ x, y, w?, h? }` | With `lock_behavior: "boss"`, overlap sets **`exitLocked`**, `roomState` **`locked`**, `bossEngaged`. |
 | `entity_summary` | string[] | Optional explicit list for tooling; else derived from `entities` / `interactables`. |
 | `states` | string[] | Declared vocabulary for design tools (runtime uses `roomState` on the scene). |

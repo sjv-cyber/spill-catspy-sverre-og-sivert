@@ -42,6 +42,11 @@ export function normalizeRoomData(raw) {
     cat_route_hint: d.cat_route_hint && typeof d.cat_route_hint === 'object' ? d.cat_route_hint : null,
     boss_trigger: d.boss_trigger && typeof d.boss_trigger === 'object' ? d.boss_trigger : null,
     entity_summary: Array.isArray(d.entity_summary) ? d.entity_summary : entitySummary,
+    /** 0–0.95: crop this fraction off the bottom of the background source before stretching to the room. */
+    background_trim_bottom_ratio:
+      typeof d.background_trim_bottom_ratio === 'number'
+        ? Math.min(0.95, Math.max(0, d.background_trim_bottom_ratio))
+        : 0,
   }
 }
 

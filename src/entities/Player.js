@@ -18,6 +18,7 @@ export class Player {
     }
 
     this.sprite = scene.physics.add.sprite(x, y, key)
+    this.sprite.setOrigin(0.5, 1)
     this.sprite.setDepth(10)
     this.sprite.setCollideWorldBounds(true)
     this.sprite.setFlipX(false)
@@ -48,8 +49,11 @@ export class Player {
     const fh = Math.max(1, this.sprite.frame.height)
     const s = Math.min(cfg.width / fw, cfg.height / fh)
     this.sprite.setScale(facingLeft ? -s : s, s)
-    body.setSize(cfg.width, cfg.height)
-    body.setOffset(0, 0)
+    const fr = this.sprite.frame
+    const fww = fr.cutWidth || fr.width
+    const fhh = fr.cutHeight || fr.height
+    body.setSize(cfg.width, cfg.height, false)
+    body.setOffset((fww - cfg.width) / 2, fhh - cfg.height)
     if (body.refreshBody) body.refreshBody()
     body.setMaxVelocity(500, cfg.maxFallSpeed)
     body.updateFromGameObject?.()

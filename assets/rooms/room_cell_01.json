@@ -5,6 +5,7 @@
   "room_name": "Holding Cell 7B",
   "room_type": "normal",
   "background": "bg_cell",
+  "background_trim_bottom_ratio": 0.14,
   "next_room_id": "room_holding_corridor",
   "zone": "cell_block",
   "width": 22,

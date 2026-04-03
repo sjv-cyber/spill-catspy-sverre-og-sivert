@@ -34,6 +34,9 @@ export class RoomScene extends Phaser.Scene {
     this.bossClearInteractUsed = false
     this.stateHud = null
     this.bossTriggerRect = null
+    this._mapOpen = false
+    this._mapDim = null
+    this._mapImg = null
   }
 
   create() {
@@ -109,6 +112,16 @@ export class RoomScene extends Phaser.Scene {
     const bgKey = roomData.background || 'bg_cell'
     if (this.textures.exists(bgKey)) {
       const bg = this.add.image(0, 0, bgKey).setOrigin(0, 0).setDepth(-100)
+      const trimRatio = roomData.background_trim_bottom_ratio ?? 0
+      if (trimRatio > 0 && trimRatio < 0.95) {
+        const src = bg.texture.getSourceImage()
+        const tw = src.naturalWidth || src.width
+        const th = src.naturalHeight || src.height
+        const trimPx = Math.floor(th * trimRatio)
+        if (trimPx > 0 && trimPx < th) {
+          bg.setCrop(0, 0, tw, th - trimPx)
+        }
+      }
       bg.setDisplaySize(worldW, worldH)
       bg.setTint(roomData.background_tint ?? 0xaaaab8)
     }
@@ -206,7 +219,7 @@ export class RoomScene extends Phaser.Scene {
       box.setDepth(2)
     }
 
-    this.cameras.main.startFollow(this.player.sprite, true, 0.12, 0.12)
+    this.cameras.main.startFollow(this.player.sprite, true, 0.12, 0.12, 0, -32)
     this.cameras.main.setDeadzone(80, 60)
 
     const ds = roomData.default_state ?? 'idle'
@@ -249,8 +262,10 @@ export class RoomScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(50)
 
+    this._setupMapOverlay()
+
     this.add
-      .text(12, GAME_HEIGHT - 36, 'Move A/D · Jump SPACE · Transform T · Interact E · ESC pause', {
+      .text(12, GAME_HEIGHT - 36, 'Move A/D · Jump SPACE · Transform T · Interact E · Map M · ESC pause', {
         fontSize: '11px',
         fontFamily: 'monospace',
         color: '#666',
@@ -268,6 +283,39 @@ export class RoomScene extends Phaser.Scene {
       .setDepth(50)
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.cleanupRoom())
+  }
+
+  _setupMapOverlay() {
+    if (!this.textures.exists('eagles_nest_map')) return
+
+    this._mapDim = this.add
+      .rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT, 0x0a1210, 0.82)
+      .setScrollFactor(0)
+      .setDepth(180)
+      .setVisible(false)
+
+    this._mapImg = this.add
+      .image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'eagles_nest_map')
+      .setScrollFactor(0)
+      .setDepth(181)
+      .setVisible(false)
+
+    const padX = 40
+    const padY = 48
+    const maxW = GAME_WIDTH - padX * 2
+    const maxH = GAME_HEIGHT - padY * 2
+    const sx = maxW / this._mapImg.width
+    const sy = maxH / this._mapImg.height
+    this._mapImg.setScale(Math.min(sx, sy))
+  }
+
+  _setMapOpen(open) {
+    this._mapOpen = open
+    if (this._mapDim) this._mapDim.setVisible(open)
+    if (this._mapImg) this._mapImg.setVisible(open)
+    if (open && this.player?.sprite?.body) {
+      this.player.sprite.body.setVelocity(0, 0)
+    }
   }
 
   cleanupRoom() {
@@ -292,6 +340,11 @@ export class RoomScene extends Phaser.Scene {
     this.roomData = null
     this.stateHud = null
     this.bossTriggerRect = null
+    this._mapDim?.destroy()
+    this._mapImg?.destroy()
+    this._mapDim = null
+    this._mapImg = null
+    this._mapOpen = false
   }
 
   _playerPixelCenter() {
@@ -353,6 +406,19 @@ export class RoomScene extends Phaser.Scene {
 
   update(time, delta) {
     if (!this.player || !this.exitRect || !this._built?.wallGrid) return
+
+    if (this.player.input.mapPressed) {
+      this._setMapOpen(!this._mapOpen)
+    }
+
+    if (this._mapOpen) {
+      if (this.player.input.pausePressed) {
+        this._setMapOpen(false)
+        this.scene.pause()
+        this.scene.launch('Pause')
+      }
+      return
+    }
 
     const tileWorldSize = this._built.tileWorldSize
     const now = this.time.now
