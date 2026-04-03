@@ -14,6 +14,7 @@ export class Player {
 
     this.sprite = scene.add.rectangle(x, y, HUMAN.width, HUMAN.height, 0x6b8cae)
     this.sprite.setStrokeStyle(2, 0x4a6a8a)
+    this.sprite.setDepth(10)
     scene.physics.add.existing(this.sprite)
     /** @type {Phaser.Physics.Arcade.Sprite} */
     const body = this.sprite.body
@@ -40,8 +41,13 @@ export class Player {
     body.setSize(cfg.width, cfg.height)
     if (body.refreshBody) body.refreshBody()
     body.setMaxVelocity(500, cfg.maxFallSpeed)
-    this.sprite.setFillStyle(this.isHuman ? 0x6b8cae : 0x1a1a22)
-    this.sprite.setStrokeStyle(2, this.isHuman ? 0x4a6a8a : 0x33ff88)
+    if (this.isHuman) {
+      this.sprite.setFillStyle(0x6b8cae)
+      this.sprite.setStrokeStyle(2, 0x4a6a8a)
+    } else {
+      this.sprite.setFillStyle(0x12141c)
+      this.sprite.setStrokeStyle(3, 0x44ffaa)
+    }
   }
 
   transform() {

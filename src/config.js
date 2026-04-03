@@ -18,8 +18,9 @@ export const HUMAN = {
 }
 
 export const CAT = {
-  width: 24,
-  height: 16,
+  // Readable graybox: still shorter than human, not a 24×16 sliver on 32px tiles
+  width: 40,
+  height: 28,
   speed: 320,
   accel: 1800,
   decel: 1000,

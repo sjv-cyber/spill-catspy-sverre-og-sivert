@@ -59,14 +59,21 @@ export class RoomScene extends Phaser.Scene {
     const ez = built.exitZone
     this.exitRect = new Phaser.Geom.Rectangle(ez.x, ez.y, ez.width, ez.height)
 
-    this.add.rectangle(
+    const door = this.add.rectangle(
       ez.x + ez.width / 2,
       ez.y + ez.height / 2,
       ez.width,
       ez.height,
-      0x44aa66,
-      0.25
-    ).setStrokeStyle(2, 0x66cc88)
+      0xff8844,
+      0.18
+    )
+    door.setStrokeStyle(2, 0xffcc66)
+    door.setDepth(1)
+    this.add.text(ez.x + ez.width / 2, ez.y - 6, 'EXIT', {
+      fontSize: '11px',
+      fontFamily: 'monospace',
+      color: '#ffcc88',
+    }).setOrigin(0.5, 1).setDepth(2)
 
     this.player = new Player(this, built.playerSpawnPixels.x, built.playerSpawnPixels.y)
     this.player.applyFormPhysics()
@@ -106,10 +113,16 @@ export class RoomScene extends Phaser.Scene {
       })
     }
 
-    this.add.text(12, GAME_HEIGHT - 22, 'Move A/D · Jump SPACE · Transform T · ESC pause · Spotted = game over', {
+    this.add.text(12, GAME_HEIGHT - 36, 'Move A/D · Jump SPACE · Transform T · ESC pause · Spotted = game over', {
       fontSize: '11px',
       fontFamily: 'monospace',
       color: '#666',
+    }).setScrollFactor(0).setDepth(50)
+
+    this.add.text(12, GAME_HEIGHT - 18, 'Prototype: no sprite art yet — blocks = player, amber = exit door', {
+      fontSize: '10px',
+      fontFamily: 'monospace',
+      color: '#555',
     }).setScrollFactor(0).setDepth(50)
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.cleanupRoom())
