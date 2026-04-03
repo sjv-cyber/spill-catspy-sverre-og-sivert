@@ -9,6 +9,7 @@
 3. **[docs/JOURNAL.md](JOURNAL.md)** — read **newest entries first** before parallel or overlapping work.
 4. **[CLAUDE.md](../CLAUDE.md)** — design constraints, architecture, directory map.
 5. **[docs/contracts/room-runtime.md](contracts/room-runtime.md)** — room JSON contract (design reference until Godot port).
+6. **[docs/plans/DEVELOPMENT_PHASES.md](plans/DEVELOPMENT_PHASES.md)** — phased plan (OpenSpec + Godot bootstrap + parity + Railway + web).
 
 ## Shared state (AGENTS.md)
 

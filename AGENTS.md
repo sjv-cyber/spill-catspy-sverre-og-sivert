@@ -36,6 +36,16 @@
 
 All architectural decisions are recorded in [docs/adr/](docs/adr/).
 
+## OpenSpec (spec-driven changes)
+
+The repo uses **[OpenSpec](https://github.com/Fission-AI/OpenSpec)** (`openspec` CLI) so **story-sized wishes** become **proposal → design → tasks** under `openspec/changes/<name>/`, then implementation (`/opsx:apply` in Cursor or manual task execution).
+
+- **Roadmap:** [docs/plans/DEVELOPMENT_PHASES.md](docs/plans/DEVELOPMENT_PHASES.md) — phases aligned with **ADR 002** (Godot desktop-first).
+- **Typical flow:** `openspec new change "feature-name"` → fill artifacts (see `openspec status --change … --json`) → implement → `openspec validate` → archive when merged to main specs.
+- **Cursor:** commands **`/opsx:propose`**, **`/opsx:apply`**, **`/opsx:archive`**, **`/opsx:explore`** (see `.cursor/commands/`).
+
+Use **one change per major feature** (e.g. Godot bootstrap, Railway API) so autonomous agents do not stomp shared files.
+
 ## Shared State
 
 | File | Purpose | Write pattern |

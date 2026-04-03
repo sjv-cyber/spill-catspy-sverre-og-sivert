@@ -1,0 +1,16 @@
+---
+description: CatSpy agent onboarding — AGENTS.md, shared docs, constraints
+alwaysApply: true
+---
+
+# CatSpy — agent context
+
+Before editing `src/` or `assets/`:
+
+- Read repo root **AGENTS.md** (stack, coordination, engineering patterns, **OpenSpec**).
+- Skim newest entries in **docs/JOURNAL.md** (prepend-only log).
+- For roadmap and phase gates: **docs/plans/DEVELOPMENT_PHASES.md** (Godot target per ADR 002).
+- Follow **CLAUDE.md** for the nine design constraints and architecture.
+- Room JSON changes: **docs/contracts/room-runtime.md** + **assets/rooms/manifest.json**; multi-agent tracks: **docs/agents/MULTI_AGENT.md**.
+
+Shared state: overwrite **docs/STATUS.md** when refreshing project truth; **prepend** journal entries; **append** **docs/BACKLOG.md**. New ADRs: next number in **docs/adr/**.

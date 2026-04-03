@@ -2,6 +2,8 @@
 
 Append new items at the bottom. Mark completed items with `[x]`.
 
+**Phasing:** see [plans/DEVELOPMENT_PHASES.md](plans/DEVELOPMENT_PHASES.md) — use **OpenSpec** (`openspec new change …` or `/opsx:propose`) for multi-step features (Godot bootstrap, mechanics, Railway).
+
 ---
 
 ## Story & Narrative

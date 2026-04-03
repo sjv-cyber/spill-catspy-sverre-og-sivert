@@ -86,6 +86,7 @@ docs/
 
 ## Project Coordination
 
+- **Phased roadmap (Godot + OpenSpec):** [docs/plans/DEVELOPMENT_PHASES.md](docs/plans/DEVELOPMENT_PHASES.md)
 - **Agent guidelines (start here for AI coding)**: [AGENTS.md](AGENTS.md)
 - **Design document**: [DESIGN.md](DESIGN.md)
 - **AI project memory / constraints**: [CLAUDE.md](CLAUDE.md)
