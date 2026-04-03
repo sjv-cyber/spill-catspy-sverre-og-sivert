@@ -27,7 +27,7 @@ export class TerminalOverlay {
       .setScrollFactor(0)
       .setDepth(d + 1)
 
-    const sep = '═'.repeat(22)
+    const sep = '='.repeat(26)
     const body = [opts.title || 'LOG', sep, '', ...(opts.lines || [])].join('\n')
     this.text = scene.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 8, body, {

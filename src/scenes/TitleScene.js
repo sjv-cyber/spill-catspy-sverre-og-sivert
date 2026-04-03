@@ -1,5 +1,6 @@
 import { GAME_WIDTH, GAME_HEIGHT } from '../config.js'
 import { loadManifest } from '../systems/RoomLoader.js'
+import { hasProgressFlag } from '../systems/ProgressStore.js'
 
 export class TitleScene extends Phaser.Scene {
   constructor() {
@@ -13,12 +14,24 @@ export class TitleScene extends Phaser.Scene {
     bg.setScale(Math.max(sx, sy))
     bg.setDepth(-10)
 
-    const hint = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'ENTER / SPACE / click — Start   ·   O — Options', {
-      fontSize: '12px',
-      fontFamily: 'monospace',
-      color: '#c4dcc4',
-      align: 'center',
-    }).setOrigin(0.5).setDepth(10)
+    const janusLine = hasProgressFlag('janus_hint')
+      ? '\nJ — Janus closet (you read the hint)'
+      : '\nJ — secret route (no spoilers)'
+
+    const hint = this.add
+      .text(
+        GAME_WIDTH / 2,
+        GAME_HEIGHT - 28,
+        `ENTER / SPACE / click — Start   ·   O — Options${janusLine}`,
+        {
+          fontSize: '11px',
+          fontFamily: 'monospace',
+          color: '#c4dcc4',
+          align: 'center',
+        }
+      )
+      .setOrigin(0.5)
+      .setDepth(10)
     hint.setShadow(0, 1, '#000000', 6, true, true)
 
     let optionsLine = null
@@ -55,6 +68,12 @@ export class TitleScene extends Phaser.Scene {
     }
 
     const onKey = (ev) => {
+      if (ev.key === 'j' || ev.key === 'J') {
+        this.input.keyboard.off('keydown', onKey)
+        this.input.off('pointerdown', onPointer)
+        this.scene.start('Room', { roomId: 'room_janus_closet' })
+        return
+      }
       if (ev.key === 'o' || ev.key === 'O') {
         showOptionsStub()
         return

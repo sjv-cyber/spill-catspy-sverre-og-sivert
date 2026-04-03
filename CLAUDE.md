@@ -49,7 +49,7 @@ Build a 2D stealth/platformer web game set in 2070 where the Cold War never ende
 │   ├── entities/
 │   │   ├── Player.js       # Player class (both forms, transformation logic)
 │   │   ├── Guard.js        # Guard patrol + vision cone detection
-│   │   └── Laser.js        # Laser hazard (timed toggle, sweep)
+│   │   └── LaserHazard.js  # ARGUS-style beam (timed on/off, tile endpoints)
 │   ├── systems/
 │   │   ├── InputManager.js # Keyboard + gamepad abstraction
 │   │   ├── DetectionSystem.js # Guard LOS raycasting, detection check

@@ -77,6 +77,7 @@ Array of `{ id?, x, y, w?, h?, requires_human?, action, duration_ms?, robot_id?,
 - `open_gate` — removes **`extra_solid_tiles`** bodies from the static group; plays gate-unlock VFX at gate tile centroid when possible.
 - `hack_robot` — `robot_id` must match `entities.robots[].id`; calls **`MaintenanceRobot.hack()`**. If `open_gate: true`, also removes gate solids (same as `open_gate`).
 - `clear_boss` — see boss flow above.
+- `terminal_log` — **`log_id`** keys into `assets/story/terminal_logs.json` (preloaded in **Boot** as `terminal_logs`). Human + **E** opens a CRT overlay; **E** / **Esc** / click dimmer closes. Reading **`obs_lab_01`** sets progress flag **`janus_hint`** (title screen copy); **`janus_closet_01`** sets **`janus_mug`**.
 
 ### `entities` extensions
 
@@ -85,6 +86,7 @@ Array of `{ id?, x, y, w?, h?, requires_human?, action, duration_ms?, robot_id?,
 - `mutants[]` — same fields as **`guards[]`** (including `variant`).
 - `robots[]` — tile `{ id?, x, y, patrol?: {x,y}[] }`. **`MaintenanceRobot`**: optional 2+ waypoint micro-patrol; stable **`id`** required when using `hack_robot`.
 - `hideZones[]` — tile AABB; **cat form** inside breaks line-of-sight checks for that frame.
+- `lasers[]` — ARGUS beam segments between tile endpoints **`x1,y1`** and **`x2,y2`** (same row or same column). Fields: **`on_ms`**, **`off_ms`**, **`phase_ms`**, **`thickness_px`**. While **on**, overlap with the player → **GameOver** (`cause: 'laser'`).
 
 ## Progression (slice)
 

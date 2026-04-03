@@ -507,6 +507,7 @@ export class RoomScene extends Phaser.Scene {
             this._terminal = null
             this._terminalOpen = false
             if (logId === 'obs_lab_01') setProgressFlag('janus_hint', true)
+            if (logId === 'janus_closet_01') setProgressFlag('janus_mug', true)
           },
         })
         return
@@ -695,7 +696,8 @@ export class RoomScene extends Phaser.Scene {
       if (next) {
         this.scene.start('Room', { roomId: next, fromRoomId: this.roomData.room_id })
       } else {
-        this.scene.start('BetaComplete', { roomId: this.roomId })
+        const variant = this.roomData.room_id === 'room_janus_closet' ? 'janus' : 'slice'
+        this.scene.start('BetaComplete', { roomId: this.roomId, variant })
       }
     }
   }

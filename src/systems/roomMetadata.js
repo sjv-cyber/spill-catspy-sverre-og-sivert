@@ -13,6 +13,7 @@ export function normalizeRoomData(raw) {
   if (Array.isArray(entities.scientists) && entities.scientists.length) entitySummary.push('scientists')
   if (Array.isArray(entities.mutants) && entities.mutants.length) entitySummary.push('mutants')
   if (Array.isArray(entities.robots) && entities.robots.length) entitySummary.push('robots')
+  if (Array.isArray(entities.lasers) && entities.lasers.length) entitySummary.push('lasers')
   if (Array.isArray(entities.hideZones) && entities.hideZones.length) entitySummary.push('hide_zones')
   if (Array.isArray(d.interactables) && d.interactables.length) entitySummary.push('interactables')
 
