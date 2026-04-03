@@ -2,6 +2,8 @@
 
 Dette dokumentet støtter **flere parallelle agent-økter** (f.eks. én Cursor-vindu eller én terminal-agent per spor) uten at alle skriver i samme filer.
 
+**Før du starter:** les [AGENTS.md](../../AGENTS.md) (stack, mønstre, delt state). Sjekk **siste oppføringer** i [docs/JOURNAL.md](../JOURNAL.md) for hva andre nettopp gjorde.
+
 ## Grunnregler
 
 1. **Kontrakt først** — les og følg [docs/contracts/room-runtime.md](../contracts/room-runtime.md). Endringer der koordineres eksplisitt før merge.
@@ -78,7 +80,7 @@ Nyttig for rask sparring uten full workspace; for kodeendringer foretrekk worksp
 | A | [prompt-track-A-data.md](prompt-track-A-data.md) | `assets/rooms/*.json` |
 | B | [prompt-track-B-loader-scene.md](prompt-track-B-loader-scene.md) | `src/systems/RoomLoader.js`, `src/scenes/RoomScene.js` |
 | C | [prompt-track-C-player.md](prompt-track-C-player.md) | `src/entities/Player.js`, `src/systems/InputManager.js`, `src/config.js` |
-| D | [prompt-track-D-flow-ui.md](prompt-track-D-flow-ui.md) | `src/main.js`, `src/scenes/TitleScene.js`, `src/scenes/BootScene.js`, `src/scenes/BetaCompleteScene.js` |
+| D | [prompt-track-D-flow-ui.md](prompt-track-D-flow-ui.md) | `src/main.js`, `src/scenes/BootScene.js`, `src/scenes/TitleScene.js`, `src/scenes/GameOverScene.js`, `src/scenes/PauseScene.js`, `src/scenes/BetaCompleteScene.js` |
 | E | [prompt-track-E-guards-cameras.md](prompt-track-E-guards-cameras.md) | `src/entities/Guard.js`, `src/entities/SecurityCamera.js`, `src/systems/DetectionSystem.js`, `RoomScene` (spawn/update), `assets/rooms/*` (`entities.guards`, `entities.cameras`) |
 
 ## Integrator-sjekkliste (etter merge)

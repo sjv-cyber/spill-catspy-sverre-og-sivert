@@ -31,29 +31,36 @@ Open `http://localhost:8080` (or whatever port) in a modern browser. That's it.
 - Rooms are defined as JSON tilemaps in `assets/rooms/`.
 - Sprites are Doom-style pixel art PNGs with chroma-key removal at load time.
 - All game logic is vanilla JavaScript ES modules — no build step, no TypeScript, no bundler.
-- Detection is instant-fail: if a guard or ARGUS camera sees you, it's game over.
+- **Detection:** default is instant-fail when spotted; some rooms use **`supports_retreat`** (room-local pressure, break line-of-sight to reset). See [`docs/contracts/room-runtime.md`](docs/contracts/room-runtime.md) and root [`AGENTS.md`](AGENTS.md).
 
 ## Project Structure
 
+See [AGENTS.md](AGENTS.md) for the authoritative tech stack. Layout in brief:
+
 ```
-index.html              Entry point
+index.html              Entry point (Phaser 3.87 from CDN, ES modules)
+AGENTS.md               AI agent guidelines + coordination rules
+CLAUDE.md               Design constraints + architecture notes
 src/
   main.js               Phaser config, scene registration
   config.js             All game constants
-  scenes/               Phaser scenes (Boot, Title, Room, GameOver, Pause)
-  entities/             Player, Guard, SecurityCamera, LaserHazard, etc.
-  systems/              InputManager, DetectionSystem, RoomLoader, VFX, SFX
+  scenes/               Boot, Title, Room, GameOver, Pause, BetaComplete
+  entities/             Player, Guard, SecurityCamera, Scientist, lasers, robots, …
+  systems/              Input, detection, RoomLoader, roomMetadata, CatSfx, CatSpyVfx, ProgressStore, …
   ui/                   TerminalOverlay
-  utils/                StateMachine, math helpers, texture utilities
+  utils/                StateMachine, math, chromaTexture, spriteCrop, …
 assets/
-  sprites/              Character PNGs (player_human, player_cat, guard_pmc)
-  rooms/                Room JSON tilemaps + manifest.json
-  backgrounds/          Room background images
-  story/                Terminal logs, narrative text (JSON)
-  ui/                   Title screen, map image
+  sprites/              PNG sprites (magenta chroma-key at boot)
+  rooms/                Room JSON + manifest.json
+  backgrounds/          Room backdrops
+  story/                Narrative JSON (e.g. terminal logs)
+  ui/                   Title, map, HUD art
 docs/
-  agents/               Multi-agent coordination prompts
-  contracts/            Runtime contracts (room JSON schema)
+  STATUS.md             Current project state (agents overwrite)
+  JOURNAL.md            Dev log (prepend only)
+  BACKLOG.md            Tasks (append only)
+  agents/               Multi-agent prompts + MULTI_AGENT.md
+  contracts/            Room runtime contract (room-runtime.md)
   adr/                  Architecture Decision Records
 ```
 
@@ -72,12 +79,12 @@ This is a fully client-side game with **no external services**. All `fetch()` ca
 
 ## Project Coordination
 
+- **Agent guidelines (start here for AI coding)**: [AGENTS.md](AGENTS.md)
 - **Design document**: [DESIGN.md](DESIGN.md)
-- **AI project memory**: [CLAUDE.md](CLAUDE.md)
-- **Agent guidelines**: [AGENTS.md](AGENTS.md)
+- **AI project memory / constraints**: [CLAUDE.md](CLAUDE.md)
 - **Multi-agent prompts**: [docs/agents/](docs/agents/)
 - **Runtime contract**: [docs/contracts/room-runtime.md](docs/contracts/room-runtime.md)
 - **Status**: [docs/STATUS.md](docs/STATUS.md)
 - **Journal**: [docs/JOURNAL.md](docs/JOURNAL.md)
 - **Backlog**: [docs/BACKLOG.md](docs/BACKLOG.md)
-- **Decisions**: [docs/adr/](docs/adr/)
+- **Decisions (ADRs)**: [docs/adr/](docs/adr/)

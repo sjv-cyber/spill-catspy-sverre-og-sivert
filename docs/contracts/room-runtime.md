@@ -165,4 +165,5 @@ For exit at tile `(ex, ey)` with width `ew`, height `eh` tiles:
 
 ## Parallel agents
 
-For **flere Cursor-økter / worktrees** og spor A–D, se [docs/agents/MULTI_AGENT.md](../agents/MULTI_AGENT.md).
+- **Agent guidelines and shared state** (STATUS / JOURNAL / BACKLOG / ADR rules): [AGENTS.md](../../AGENTS.md)
+- **Flere Cursor-økter / worktrees** og spor A–E: [docs/agents/MULTI_AGENT.md](../agents/MULTI_AGENT.md)

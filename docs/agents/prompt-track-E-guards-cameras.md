@@ -2,12 +2,13 @@
 
 ## Din rolle
 
-Rom-basert **stealth**: vakt-patrulje, sveipende kamera, **synkegel + LOS** mot spiller → `GameOver` (jf. [CLAUDE.md](../../CLAUDE.md) instant fail).
+Rom-basert **stealth**: vakt-patrulje, sveipende kamera, **synkegel + LOS** mot spiller → `GameOver` som standard (jf. [AGENTS.md](../../AGENTS.md) / [CLAUDE.md](../../CLAUDE.md); unntak `supports_retreat` i [room-runtime.md](../contracts/room-runtime.md)).
 
 ## Før du koder
 
-1. [docs/contracts/room-runtime.md](../contracts/room-runtime.md) — `wallGrid`, `tileWorldSize`, rom-JSON `entities.guards` / `entities.cameras`.
-2. [docs/CATSPY_ROOM_FLOW_SPEC.md](../CATSPY_ROOM_FLOW_SPEC.md) §4–§6, §13 (rom-lokal logikk).
+1. Les [AGENTS.md](../../AGENTS.md) og nyeste oppføringer i [docs/JOURNAL.md](../JOURNAL.md).
+2. [docs/contracts/room-runtime.md](../contracts/room-runtime.md) — `wallGrid`, `tileWorldSize`, rom-JSON `entities.guards` / `entities.cameras`, `supports_retreat`.
+3. [docs/CATSPY_ROOM_FLOW_SPEC.md](../CATSPY_ROOM_FLOW_SPEC.md) §4–§6, §13 (rom-lokal logikk).
 
 ## Filer du eier
 

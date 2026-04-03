@@ -6,8 +6,9 @@ Du implementerer **lasting og oppbygging** av rom i Phaser, pluss **RoomScene**-
 
 ## Før du koder
 
-1. Les [docs/contracts/room-runtime.md](../contracts/room-runtime.md) — API for `loadManifest`, `resolveRoomPath`, `loadRoomData`, `buildRoom`.
-2. Les [docs/CATSPY_ROOM_FLOW_SPEC.md](../CATSPY_ROOM_FLOW_SPEC.md) §13, §17 (rom som container, prioritert rekkefølge).
+1. Les [AGENTS.md](../../AGENTS.md) og sjekk [docs/JOURNAL.md](../JOURNAL.md).
+2. Les [docs/contracts/room-runtime.md](../contracts/room-runtime.md) — API for `loadManifest`, `resolveRoomPath`, `loadRoomData`, `buildRoom`.
+3. Les [docs/CATSPY_ROOM_FLOW_SPEC.md](../CATSPY_ROOM_FLOW_SPEC.md) §13, §17 (rom som container, prioritert rekkefølge).
 
 ## Filer du eier
 

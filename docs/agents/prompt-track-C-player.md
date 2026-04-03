@@ -6,8 +6,8 @@ Du implementerer **spillerkontroll** (Arcade-fysikk), **input**, og **formbytte*
 
 ## Før du koder
 
-1. Les [docs/contracts/room-runtime.md](../contracts/room-runtime.md) (spawn er world-pixel senter fra loader).
-2. Les [CLAUDE.md](../../CLAUDE.md) for tone og eventuelle gameplay-grenser som fortsatt gjelder.
+1. Les [AGENTS.md](../../AGENTS.md), sjekk [docs/JOURNAL.md](../JOURNAL.md), og [CLAUDE.md](../../CLAUDE.md) for stack, koordinering og gameplay-grenser.
+2. Les [docs/contracts/room-runtime.md](../contracts/room-runtime.md) (spawn er world-pixel senter fra loader).
 
 ## Filer du eier
 
@@ -17,7 +17,7 @@ Du implementerer **spillerkontroll** (Arcade-fysikk), **input**, og **formbytte*
 
 ## Oppgaver (eksempler)
 
-- Tastatur: A/D, piltaster, SPACE/W/↑ hopp, T transform, E interact (stub OK).
+- Tastatur: A/D, piltaster, SPACE/W/↑ hopp, T transform, E interact, M kart (ofte håndtert i `RoomScene` via `InputManager`), ESC pause (scene).
 - Menneske/katt: forskjellig størrelse på kropp, `refreshBody` etter resize.
 - Coyote tid / jump buffer (enkel versjon).
 - Ingen direkte `fetch` av romdata i `Player` — scene håndterer kollider.

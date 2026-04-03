@@ -1,6 +1,6 @@
 # Handoff — autonomous art/gameplay pass (integrator / next agent)
 
-This note is for **parallel Cursor sessions** following [MULTI_AGENT.md](MULTI_AGENT.md). It summarizes a self-contained integration batch so other tracks can avoid conflicting assumptions.
+This note is for **parallel Cursor sessions** following [AGENTS.md](../../AGENTS.md) and [MULTI_AGENT.md](MULTI_AGENT.md). It summarizes a self-contained integration batch so other tracks can avoid conflicting assumptions.
 
 ## What landed (code)
 

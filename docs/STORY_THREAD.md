@@ -6,9 +6,10 @@ This file is the entry point for a dedicated Cursor thread focused on **narrativ
 
 ## Before You Start
 
-1. Read `CLAUDE.md` for project constraints and goals.
-2. Read `DESIGN.md` Section 2 ("Story & Setting") for the established lore.
-3. Read `DESIGN.md` Section 6.3 ("Room Types") for the room-by-room story beat map.
+1. Read `AGENTS.md` for coordination rules (prepend `docs/JOURNAL.md` when you ship narrative chunks; append `docs/BACKLOG.md` for new tasks).
+2. Read `CLAUDE.md` for project constraints and goals.
+3. Read `DESIGN.md` Section 2 ("Story & Setting") for the established lore.
+4. Read `DESIGN.md` Section 6.3 ("Room Types") for the room-by-room story beat map.
 
 ## What Has Been Established
 

@@ -1,5 +1,7 @@
 # AGENTS.md — CatSpy AI Agent Guidelines
 
+**Start here** for any coding agent session (before editing `src/` or `assets/`). Then read `CLAUDE.md` for full design constraints and `DESIGN.md` for mechanics depth.
+
 ## Tech Stack
 
 | Layer | Choice | Version / Source |
@@ -10,7 +12,8 @@
 | Build | None | Static file serving, no bundler |
 | Sprites | PNG + chroma-key | Magenta (#FF00FF) removed at boot |
 | Audio | Web Audio API | Procedural synthesis (`CatSfx.js`) |
-| Room data | JSON tilemaps | `assets/rooms/*.json` |
+| Room data | JSON tilemaps | `assets/rooms/*.json` + `manifest.json` |
+| Story / logs | JSON | `assets/story/*.json` |
 | Tilemap editor | Tiled (optional) | Export to JSON |
 
 **No external services.** No database, no API keys, no backend, no npm dependencies.
@@ -41,12 +44,14 @@ The project supports parallel agent work via track-based ownership (see `docs/ag
 
 ### Critical Design Constraints
 
-These are inviolable. See CLAUDE.md for the full list. Summary:
+See **CLAUDE.md** for the numbered list and narrative rationale. This block is the agent checklist; **room JSON** may opt into behaviors documented in **`docs/contracts/room-runtime.md`** (retreat, boss lock, lasers).
 
-1. One-hit detection = instant fail (no health, no chase)
+Summary:
+
+1. **Detection:** Instant fail by default (no health, no global alert). **Exception:** `supports_retreat: true` → room-local combat / LOS calmdown per [room-runtime.md](docs/contracts/room-runtime.md). Boss and strict rooms stay hard-fail unless data says otherwise.
 2. Two-form system is binary (human or cat, no hybrids)
 3. Transformation cannot be weaponized
-4. Guards do not chase
+4. **Guards:** No hunt or multi-room pursuit. Patrol + cone only; retreat rooms may apply a short **speed pressure** cue — not chase AI.
 5. Rooms are deterministic (no randomization)
 6. No procedural generation
 7. Cat form cannot interact with objectives

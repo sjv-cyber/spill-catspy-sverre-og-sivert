@@ -6,8 +6,9 @@ Du jobber **kun** med datafiler for rom. Ikke endre `src/` i dette sporet med mi
 
 ## Før du koder
 
-1. Les [docs/contracts/room-runtime.md](../contracts/room-runtime.md) fullstendig.
-2. Les [docs/CATSPY_ROOM_FLOW_SPEC.md](../CATSPY_ROOM_FLOW_SPEC.md) §14–§16 for semantikk (romtyper, tags).
+1. Les [AGENTS.md](../../AGENTS.md) og sjekk [docs/JOURNAL.md](../JOURNAL.md) for nylig arbeid.
+2. Les [docs/contracts/room-runtime.md](../contracts/room-runtime.md) fullstendig.
+3. Les [docs/CATSPY_ROOM_FLOW_SPEC.md](../CATSPY_ROOM_FLOW_SPEC.md) §14–§16 for semantikk (romtyper, tags).
 
 ## Filer du eier
 
