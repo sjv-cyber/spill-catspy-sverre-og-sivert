@@ -4,6 +4,20 @@
 
 ## Tech Stack
 
+**Canonical direction:** [ADR 002 — Godot 4 (2D), desktop first, web later](docs/adr/002-godot-desktop-primary-web-deferred.md). New long-term work should assume **Godot** unless the task is explicitly **prototype-only** in this repo.
+
+### Target stack (production; Godot project — not yet in this repo)
+
+| Layer | Choice | Notes |
+|-------|--------|--------|
+| Engine | **Godot 4.x** | 2D, text-first scenes/scripts for AI agents |
+| Primary export | **Desktop** | Windows / Linux / macOS first |
+| Web | **Deferred** | HTML5 export later; smoke-test occasionally |
+| Backend (when needed) | **Railway** | Typed HTTP/WS services; optional for v1 single-player |
+| Visuals | Engine VFX + packs + occasional GenAI plates | See ADR 002 |
+
+### This repository (Phaser prototype until port)
+
 | Layer | Choice | Version / Source |
 |-------|--------|-----------------|
 | Runtime | Browser (HTML5 Canvas) | Modern Chrome/Firefox/Edge |
@@ -16,7 +30,7 @@
 | Story / logs | JSON | `assets/story/*.json` |
 | Tilemap editor | Tiled (optional) | Export to JSON |
 
-**No external services.** No database, no API keys, no backend, no npm dependencies.
+**Prototype:** no npm game dependencies, no required backend. **Future Godot + Railway** layers are documented in ADR 002; do not add secret keys to this repo.
 
 ## Decisions
 
@@ -74,7 +88,8 @@ Summary:
 - Guard waypoint validation throws if fewer than 2 points
 
 ### Environment Variables
-- None. This is a zero-config static web game.
+- **Phaser prototype:** none — zero-config static web game.
+- **Future Railway services:** document vars in the service README or `.env.example` (never commit secrets).
 
 ### Testing
 - No automated test framework in prototype.

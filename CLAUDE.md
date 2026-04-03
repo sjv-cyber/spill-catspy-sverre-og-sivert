@@ -4,11 +4,17 @@
 
 ## Project Goal
 
-Build a 2D stealth/platformer web game set in 2070 where the Cold War never ended. The player is **Agent Koschei**, a Soviet operative captured and mutated by the American **Project CHIMERA** DNA program. Koschei can shapeshift into a cat. The game takes place on **Eagle's Nest**, a US orbital space station. USA are the antagonists. The player must steal CHIMERA data and escape. The game runs natively in a modern browser using HTML5 Canvas. The prototype must demonstrate: movement, transformation between human/cat forms, guard detection (instant fail), laser hazards, room transitions, and at least 3 playable rooms.
+Build a 2D stealth/platformer set in 2070 where the Cold War never ended. The player is **Agent Koschei**, a Soviet operative captured and mutated by the American **Project CHIMERA** DNA program. Koschei can shapeshift into a cat. The game takes place on **Eagle's Nest**, a US orbital space station. USA are the antagonists. The player must steal CHIMERA data and escape.
+
+**Delivery:** **Godot 4 (2D), desktop first**; browser HTML5 export later ([ADR 002](docs/adr/002-godot-desktop-primary-web-deferred.md)). This repository currently holds a **Phaser 3 browser prototype** (HTML5 Canvas) for rapid iteration and design lock-in. Core demo: movement, human/cat transform, detection, lasers, room transitions, multi-room slice.
 
 ## Tech Stack
 
-Authoritative summary also lives in [AGENTS.md](AGENTS.md) (keep these in sync).
+Authoritative summary: [AGENTS.md](AGENTS.md) (target vs prototype). ADR: [002](docs/adr/002-godot-desktop-primary-web-deferred.md).
+
+**Target (Godot — bootstrap pending):** Godot 4.x 2D, desktop exports, optional Railway backend when needed.
+
+**Prototype (this repo):**
 
 - **Runtime:** Browser (HTML5 Canvas), modern Chrome / Firefox / Edge
 - **Framework:** Phaser 3.87 via CDN (`jsdelivr`) — no local npm Phaser install

@@ -2,6 +2,15 @@
 
 This directory contains Architecture Decision Records (ADRs) for CatSpy.
 
+**Canonical stack + agent workflow** (not duplicated as an ADR): **[AGENTS.md](../../AGENTS.md)** at repository root. ADRs record specific decisions; AGENTS is the day-to-day handbook.
+
+## Index of records
+
+| # | Title | File |
+|---|--------|------|
+| 001 | Initial tech stack (Phaser 3 + vanilla JS + static serving) | [001-initial-tech-stack.md](001-initial-tech-stack.md) |
+| 002 | Godot 4 (2D) primary; desktop first; web deferred | [002-godot-desktop-primary-web-deferred.md](002-godot-desktop-primary-web-deferred.md) |
+
 ## Naming Convention
 
 Files follow the pattern `NNN-<slug>.md` where:

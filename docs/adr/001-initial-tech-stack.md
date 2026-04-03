@@ -1,6 +1,6 @@
 # 001 — Initial Tech Stack: Phaser 3 + Vanilla JS + Static Serving
 
-**Status:** Accepted
+**Status:** Accepted (prototype in repo; **target production stack** → [002-godot-desktop-primary-web-deferred.md](002-godot-desktop-primary-web-deferred.md))  
 **Date:** 2026-04-03
 
 ## Context
@@ -15,6 +15,11 @@ CatSpy is a 2D stealth/platformer web game that must run natively in modern brow
 - **No external services**. All data is local JSON files loaded via `fetch()`. No database, no backend, no API keys.
 - **Sprites** are PNG files with magenta (#FF00FF) chroma-key, processed at boot time using Canvas API.
 - **Audio** is procedural Web Audio API synthesis — no audio file assets.
+
+## See also
+
+- **[ADR 002](002-godot-desktop-primary-web-deferred.md)** — Godot 4 2D desktop-first; web later; Phaser here = prototype/reference until migration.
+- **[AGENTS.md](../../AGENTS.md)** — full agent guidelines; distinguishes **target stack** vs **this repository**.
 
 ## Consequences
 

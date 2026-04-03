@@ -1,8 +1,10 @@
 # CatSpy
 
-A 2D stealth/platformer web game set in 2070 where the Cold War never ended. You play as **Agent Koschei**, a Soviet operative captured and mutated by the American **Project CHIMERA** DNA program. Koschei can shapeshift into a cat. Escape the US orbital space station **Eagle's Nest**, steal the CHIMERA data, and get out alive.
+A 2D stealth/platformer set in 2070 where the Cold War never ended.
 
-## Quick Start
+> **Platform strategy (2026-04):** Target **Godot 4 (2D)** with **desktop** as the primary export; **web (HTML5) later**. This repo still contains the **Phaser 3 browser prototype** — playable via static serve — until a Godot project is added and content is ported. See [ADR 002](docs/adr/002-godot-desktop-primary-web-deferred.md). You play as **Agent Koschei**, a Soviet operative captured and mutated by the American **Project CHIMERA** DNA program. Koschei can shapeshift into a cat. Escape the US orbital space station **Eagle's Nest**, steal the CHIMERA data, and get out alive.
+
+## Quick Start (Phaser prototype in this repo)
 
 ```bash
 # Any static file server works — no build step required
@@ -11,7 +13,9 @@ npx serve .
 python -m http.server 8080
 ```
 
-Open `http://localhost:8080` (or whatever port) in a modern browser. That's it.
+Open `http://localhost:8080` (or whatever port) in a modern browser.
+
+**Godot builds** will live in a separate folder or repo when bootstrapped; follow `docs/STATUS.md` and ADR 002.
 
 ## Controls
 
@@ -66,13 +70,16 @@ docs/
 
 ## Services & Infrastructure
 
-This is a fully client-side game with **no external services**. All `fetch()` calls load local JSON files (room data, manifest). No database, no API keys, no backend.
+**Prototype (this folder):** fully client-side — `fetch()` loads local JSON only; no required backend.
+
+**Planned (ADR 002):** **Godot desktop** builds; optional **Railway** API when saves/auth/online features land.
 
 | Component | Technology | Notes |
 |-----------|-----------|-------|
-| Runtime | Browser (HTML5 Canvas) | Chrome, Firefox, Edge |
-| Framework | Phaser 3.87 | Loaded via CDN (`jsdelivr`) |
-| Language | JavaScript (ES modules) | No build step |
+| Target engine | **Godot 4.x (2D)** | Desktop-first; web export later |
+| Prototype runtime | Browser (HTML5 Canvas) | Chrome, Firefox, Edge |
+| Prototype framework | Phaser 3.87 | CDN (`jsdelivr`) |
+| Language (prototype) | JavaScript (ES modules) | No build step |
 | Sprites | PNG with magenta chroma-key | Processed at boot via Canvas API |
 | Audio | Web Audio API (procedural) | No audio files — synthesized at runtime |
 | Room data | JSON tilemaps | Hand-designed, loaded via `fetch()` |

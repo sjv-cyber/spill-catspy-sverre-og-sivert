@@ -379,7 +379,7 @@ File location: `assets/sprites/` (e.g., `spy_human.png`, `spy_cat.png`, `guard.p
 
 ## 13. Technical Targets
 
-- 60 FPS on modern browsers (Chrome, Firefox, Edge).
-- Resolution: 960×540 logical, scaled to fit window.
-- Sprite assets loaded via Phaser preload (PNG sprite sheets).
-- Total prototype JS bundle target: < 500KB uncompressed (excluding sprite PNGs).
+- **Primary (ADR 002):** **Godot 4 (2D)**, **desktop** first; **60 FPS**; web HTML5 export later.
+- **Prototype (this repo):** 60 FPS in modern browsers (Chrome, Firefox, Edge); 960×540 logical, scaled to fit.
+- Sprites: PNG (prototype: Phaser preload / chroma pipeline; Godot: Resource import + same art rules).
+- Prototype JS: static modules, no bundle target until Godot migration supersedes.

@@ -1,5 +1,7 @@
 # CatSpy — multi-agent utvikling (parallelle Cursor-økter)
 
+**English:** Stack, shared-state rules, and code-style targets: read **[AGENTS.md](../../AGENTS.md)** first. **Platform:** [ADR 002](../adr/002-godot-desktop-primary-web-deferred.md) — **Godot** is the long-term target; **Phaser** in this repo is the prototype until migration.
+
 Dette dokumentet støtter **flere parallelle agent-økter** (f.eks. én Cursor-vindu eller én terminal-agent per spor) uten at alle skriver i samme filer.
 
 **Før du starter:** les [AGENTS.md](../../AGENTS.md) (stack, mønstre, delt state). Sjekk **siste oppføringer** i [docs/JOURNAL.md](../JOURNAL.md) for hva andre nettopp gjorde.

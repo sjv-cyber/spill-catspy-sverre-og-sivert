@@ -32,3 +32,15 @@ Append new items at the bottom. Mark completed items with `[x]`.
 - [ ] Sweeping laser variant
 - [ ] Room background art for all rooms
 - [ ] Performance profiling at 60 FPS target
+
+## Repo / agent hygiene
+- [ ] After large merges: overwrite `docs/STATUS.md`, prepend `docs/JOURNAL.md`, append `docs/BACKLOG.md` per [AGENTS.md](../AGENTS.md) Shared State section
+- [ ] Migrate `src/**/*.js` toward AGENTS style (**no semicolons**, ASI-safe) in a dedicated pass; avoid mixing styles in single-file edits until then
+- [x] Add Cursor/IDE rule file (e.g. `.cursor/rules`) that points agents at `AGENTS.md` + `CLAUDE.md` if the team uses Cursor rules
+
+## Platform (ADR 002 — Godot target)
+- [ ] Bootstrap **Godot 4.x** project (e.g. `godot/` in repo or linked repo); pin engine version in README or `export_presets.cfg` notes
+- [ ] Document Godot ↔ `docs/contracts/room-runtime.md` mapping (TileMap layers, spawn, exits, retreat/boss flags)
+- [ ] First **desktop** playable slice in Godot (one room + movement + transform stub acceptable)
+- [ ] Optional: HTML5 export smoke-test checklist (load size, audio unlock) before calling web “supported”
+- [ ] When needed: minimal **Railway** service template (env vars, CORS, health route) — no secrets in git
