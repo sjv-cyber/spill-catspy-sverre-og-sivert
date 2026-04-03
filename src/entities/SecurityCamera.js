@@ -15,6 +15,8 @@ export class SecurityCamera {
     this.range = spec.range
     this.coneAngle = spec.coneAngle
     this.phase = spec.phaseOffset ?? 0
+    /** @type {number} */
+    this.suppressUntilMs = 0
 
     this.x = spec.x * tileWorldSize + tileWorldSize / 2
     this.y = spec.y * tileWorldSize + tileWorldSize / 2
@@ -46,6 +48,21 @@ export class SecurityCamera {
       coneRange: this.range,
       coneAngle: this.coneAngle,
     }
+  }
+
+  /**
+   * @param {number} ms
+   */
+  suppressFor(ms) {
+    const now = this.scene.time.now
+    this.suppressUntilMs = Math.max(this.suppressUntilMs, now + ms)
+  }
+
+  /**
+   * @param {number} now
+   */
+  isSuppressed(now) {
+    return now < this.suppressUntilMs
   }
 
   destroy() {

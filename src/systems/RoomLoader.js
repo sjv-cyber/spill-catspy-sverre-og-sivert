@@ -22,7 +22,7 @@ export async function loadRoomData(path) {
 /**
  * @param {Phaser.Scene} scene
  * @param {object} roomData
- * @returns {{ staticGroup: Phaser.Physics.Arcade.StaticGroup, worldWidth: number, worldHeight: number, tileWorldSize: number, playerSpawnPixels: { x: number, y: number }, exitZone: { x: number, y: number, width: number, height: number }, roomData: object }}
+ * @returns {{ staticGroup: Phaser.Physics.Arcade.StaticGroup, gateSolids: Phaser.GameObjects.GameObject[], worldWidth: number, worldHeight: number, tileWorldSize: number, wallGrid: number[][], playerSpawnPixels: { x: number, y: number }, exitZone: { x: number, y: number, width: number, height: number }, roomData: object }}
  */
 export function buildRoom(scene, roomData) {
   const tileSize = roomData.tileSize ?? 16
@@ -36,6 +36,8 @@ export function buildRoom(scene, roomData) {
 
   const staticGroup = scene.physics.add.staticGroup()
 
+  const gateSolids = []
+
   for (let row = 0; row < h; row++) {
     for (let col = 0; col < w; col++) {
       if (walls[row][col] !== 1) continue
@@ -47,6 +49,21 @@ export function buildRoom(scene, roomData) {
       scene.physics.add.existing(rect, true)
       staticGroup.add(rect)
     }
+  }
+
+  const extras = Array.isArray(roomData.extra_solid_tiles) ? roomData.extra_solid_tiles : []
+  for (const t of extras) {
+    const col = t.x
+    const row = t.y
+    if (row < 0 || col < 0 || row >= h || col >= w) continue
+    const cx = col * tileWorldSize + tileWorldSize / 2
+    const cy = row * tileWorldSize + tileWorldSize / 2
+    const rect = scene.add.rectangle(cx, cy, tileWorldSize, tileWorldSize, 0x2a1810)
+    rect.setAlpha(0.75)
+    rect.setStrokeStyle(1, 0x8a5a40)
+    scene.physics.add.existing(rect, true)
+    staticGroup.add(rect)
+    gateSolids.push(rect)
   }
 
   const spawn = roomData.playerSpawn
@@ -67,6 +84,7 @@ export function buildRoom(scene, roomData) {
 
   return {
     staticGroup,
+    gateSolids,
     worldWidth: w * tileWorldSize,
     worldHeight: h * tileWorldSize,
     tileWorldSize,

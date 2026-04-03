@@ -2,6 +2,12 @@
   "default_room_id": "room_cell_01",
   "rooms": {
     "room_cell_01": { "path": "assets/rooms/room_cell_01.json" },
+    "room_holding_corridor": { "path": "assets/rooms/room_holding_corridor.json" },
+    "room_observation_lab": { "path": "assets/rooms/room_observation_lab.json" },
+    "room_security_junction": { "path": "assets/rooms/room_security_junction.json" },
+    "room_utility_bay": { "path": "assets/rooms/room_utility_bay.json" },
+    "room_specimen_containment": { "path": "assets/rooms/room_specimen_containment.json" },
+    "room_mini_boss_arena": { "path": "assets/rooms/room_mini_boss_arena.json" },
     "room_corridor_01": { "path": "assets/rooms/room_corridor_01.json" },
     "room_tutorial": { "path": "assets/rooms/room_tutorial.json" }
   }

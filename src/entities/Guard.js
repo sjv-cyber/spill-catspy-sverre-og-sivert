@@ -37,7 +37,12 @@ export class Guard {
     this.speed = spec.speed ?? GUARD.speed
     this.waitUntil = 0
     this.facingAngle = 0
+    this.alertMode = false
     this._faceToward(waypoints[1])
+  }
+
+  setAlertMode(on) {
+    this.alertMode = !!on
   }
 
   _faceToward(target) {
@@ -61,7 +66,8 @@ export class Guard {
     }
 
     this._faceToward(target)
-    const step = this.speed * (delta / 1000)
+    const spd = this.alertMode ? this.speed * 1.5 : this.speed
+    const step = spd * (delta / 1000)
     const nx = (dx / dist) * step
     const ny = (dy / dist) * step
     this.sprite.x += nx
