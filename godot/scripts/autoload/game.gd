@@ -1,7 +1,7 @@
 extends Node
 ## Global game state, scene switching, input map setup.
 
-const ROOM_SCENE := "res://scenes/room/RoomRoot.tscn"
+const ROOM_SCENE := "res://scenes/gameplay/room/RoomRoot.tscn"
 const TITLE_SCENE := "res://scenes/ui/Title.tscn"
 const GAME_OVER_SCENE := "res://scenes/ui/GameOver.tscn"
 

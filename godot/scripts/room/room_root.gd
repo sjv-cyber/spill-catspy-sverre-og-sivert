@@ -1,9 +1,9 @@
 extends Node2D
 ## Loads room JSON, builds geometry, runs detection + transitions.
 
-const PLAYER_SCENE := preload("res://scenes/player/Player.tscn")
-const GUARD_SCENE := preload("res://scenes/entities/Guard.tscn")
-const CAMERA_SCENE := preload("res://scenes/entities/ArgusCamera.tscn")
+const PLAYER_SCENE := preload("res://scenes/gameplay/player/Player.tscn")
+const GUARD_SCENE := preload("res://scenes/gameplay/entities/Guard.tscn")
+const CAMERA_SCENE := preload("res://scenes/gameplay/entities/ArgusCamera.tscn")
 
 var _room_data: Dictionary = {}
 var _ctx: Dictionary = {}

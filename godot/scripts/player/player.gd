@@ -1,6 +1,24 @@
 extends CharacterBody2D
 ## Human/cat platformer; feet at global origin of body.
 
+@export_group("Human movement", "human_")
+@export var human_speed: float = 200.0
+@export var human_decel: float = 1500.0
+@export var human_jump_velocity: float = -400.0
+@export var human_max_fall_speed: float = 600.0
+@export var human_gravity: float = 980.0
+@export var human_coyote_ms: float = 80.0
+@export var human_jump_buffer_ms: float = 100.0
+
+@export_group("Cat movement", "cat_")
+@export var cat_speed: float = 320.0
+@export var cat_decel: float = 1000.0
+@export var cat_jump_velocity: float = -550.0
+@export var cat_max_fall_speed: float = 600.0
+@export var cat_gravity: float = 980.0
+@export var cat_coyote_ms: float = 80.0
+@export var cat_jump_buffer_ms: float = 100.0
+
 var is_human: bool = true
 var coyote_ms: float = 0.0
 var jump_buffer_ms: float = 0.0
@@ -17,10 +35,32 @@ func _ready() -> void:
 	_apply_form(false)
 
 
+func _movement_cfg() -> Dictionary:
+	if is_human:
+		return {
+			"speed": human_speed,
+			"decel": human_decel,
+			"jump_velocity": human_jump_velocity,
+			"max_fall_speed": human_max_fall_speed,
+			"gravity": human_gravity,
+			"coyote_ms": human_coyote_ms,
+			"jump_buffer_ms": human_jump_buffer_ms,
+		}
+	return {
+		"speed": cat_speed,
+		"decel": cat_decel,
+		"jump_velocity": cat_jump_velocity,
+		"max_fall_speed": cat_max_fall_speed,
+		"gravity": cat_gravity,
+		"coyote_ms": cat_coyote_ms,
+		"jump_buffer_ms": cat_jump_buffer_ms,
+	}
+
+
 func _physics_process(delta: float) -> void:
 	if Game.ui_paused:
 		return
-	var cfg := CatspyConfig.HUMAN if is_human else CatspyConfig.CAT
+	var cfg := _movement_cfg()
 	var on_floor := is_on_floor()
 	if on_floor:
 		coyote_ms = float(cfg["coyote_ms"])

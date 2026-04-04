@@ -39,7 +39,7 @@ Maps [room-runtime.md](room-runtime.md) JSON fields to **Godot 4.2+** nodes used
 
 - `from_room_id`, `current_room_id`, `pending_room_id`
 - `go_to_room(id)`, `start_game()`, `game_over()`, `return_to_title()`
-- Scene changes: `packed` load `res://scenes/room/RoomRoot.tscn` or swap child under Main.
+- Scene changes: `packed` load `res://scenes/gameplay/room/RoomRoot.tscn` or swap child under Main.
 
 ## Player hitbox (reference)
 
