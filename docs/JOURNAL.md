@@ -4,6 +4,7 @@ Newest entries first. Format: `YYYY-MM-DD HH:MM [tag] author@branch: description
 
 ---
 
+- 2026-04-04 [godot] agent@master: **Spawn Y (ceiling bug)** — `feet_y_on_first_solid_below` no longer treats the top ceiling row as a floor (requires solid with air above). Fixes corridor / F1 cases where feet snapped to `y≈0` (player at top of viewport, gray void). Restart/F5 picks up `.gd` changes; no extra cache step.
 - 2026-04-04 [godot] agent@master: **Room UI layout** — `CanvasLayer` children now sit under a full-viewport `Control` (`_canvas_viewport_root`) so monologue / form hint / pause / terminal anchors resolve to real width; top monologue uses `PRESET_TOP_WIDE`-style margins + autowrap; bottom hint uses full-width bottom bar with centered wrapped text (fixes clipped “Poor…” / cut-off H).
 - 2026-04-04 [godot] agent@master: **Chroma shader** — `chroma_magenta.gdshader` uses feathered alpha (`smoothstep` between `key_start` / `key_end`) plus magenta despill instead of hard `discard`, to remove pink halos on player/guard/cat sprites.
 - 2026-04-04 [godot] agent@master: **Spawn / floor alignment** — `room_builder.gd` snaps player spawn feet to the top of the first solid tile below the spawn column when the spawn cell is air (fixes `room_holding_corridor` player floating above the floor). `guard.gd` patrol Y uses the same rule when given `wall_grid` + room height.

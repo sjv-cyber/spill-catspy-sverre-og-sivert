@@ -109,8 +109,8 @@ static func build(world: Node2D, room_data: Dictionary) -> Dictionary:
 	}
 
 
-## Player feet sit on the top surface of the first solid tile at/under `spawn_tile` in that column.
-## Fixes rooms where JSON `y` marks an air row above the real floor (e.g. holding corridor).
+## Top of first **standable** solid at/under the spawn column: solid tile with air (or top edge) above.
+## Ignores ceiling mass (solid with solid above) so we never snap feet to row 0.
 static func feet_y_on_first_solid_below(wall_grid: Array, col: int, start_row: int, room_h: int, tw: int) -> float:
 	var sr := clampi(start_row, 0, maxi(0, room_h - 1))
 	for ry in range(sr, room_h):
@@ -118,8 +118,16 @@ static func feet_y_on_first_solid_below(wall_grid: Array, col: int, start_row: i
 		if typeof(row_a) != TYPE_ARRAY:
 			continue
 		var c := clampi(col, 0, row_a.size() - 1)
-		if int(row_a[c]) == 1:
-			return float(ry * tw)
+		if int(row_a[c]) != 1:
+			continue
+		if ry == 0:
+			continue
+		var row_up: Variant = wall_grid[ry - 1]
+		if typeof(row_up) != TYPE_ARRAY or c >= row_up.size():
+			continue
+		if int(row_up[c]) == 1:
+			continue
+		return float(ry * tw)
 	return float(sr * tw + tw * 0.5)
 
 
@@ -129,15 +137,7 @@ static func _resolve_spawn_feet_world(
 	var feet_x := float(spawn_tile.x * tw + tw * 0.5)
 	var col := clampi(spawn_tile.x, 0, maxi(0, room_w - 1))
 	var sr := clampi(spawn_tile.y, 0, maxi(0, room_h - 1))
-	var row_a: Variant = wall_grid[sr]
-	var in_solid := false
-	if typeof(row_a) == TYPE_ARRAY and col < row_a.size():
-		in_solid = int(row_a[col]) == 1
-	var feet_y: float
-	if in_solid:
-		feet_y = float(sr * tw + tw * 0.5)
-	else:
-		feet_y = feet_y_on_first_solid_below(wall_grid, col, sr, room_h, tw)
+	var feet_y := feet_y_on_first_solid_below(wall_grid, col, sr, room_h, tw)
 	return Vector2(feet_x, feet_y)
 
 
