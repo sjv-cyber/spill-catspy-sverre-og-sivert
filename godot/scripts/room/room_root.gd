@@ -19,7 +19,6 @@ var _exit_locked: bool = false
 var _pause_layer: CanvasLayer
 
 @onready var _world: Node2D = $World
-@onready var _camera: Camera2D = $Camera2D
 
 
 func _ready() -> void:
@@ -45,12 +44,7 @@ func _ready() -> void:
 	_spawn_entities()
 	_spawn_player()
 	_wire_exits()
-	_camera.enabled = true
-	_camera.make_current()
-	_camera.limit_left = 0
-	_camera.limit_top = 0
-	_camera.limit_right = int(_ctx.get("world_width", 640))
-	_camera.limit_bottom = int(_ctx.get("world_height", 480))
+	_configure_player_camera()
 	var et := str(_room_data.get("entry_text", ""))
 	if et != "":
 		print("[Room] ", et)
@@ -61,6 +55,19 @@ func _spawn_player() -> void:
 	add_child(_player)
 	var sf: Vector2 = _ctx.get("spawn_feet", Vector2.ZERO)
 	_player.global_position = sf
+
+
+func _configure_player_camera() -> void:
+	var cam := _player.get_node_or_null("Camera2D") as Camera2D
+	if cam == null:
+		push_error("Player scene is missing Camera2D child")
+		return
+	cam.limit_left = 0
+	cam.limit_top = 0
+	cam.limit_right = int(_ctx.get("world_width", 640))
+	cam.limit_bottom = int(_ctx.get("world_height", 480))
+	cam.enabled = true
+	cam.make_current()
 
 
 func _spawn_entities() -> void:
@@ -135,7 +142,6 @@ func _on_exit_return(body: Node2D) -> void:
 func _physics_process(_delta: float) -> void:
 	if _player == null or _room_data.is_empty():
 		return
-	_camera.global_position = _player.global_position
 	if Game.ui_paused:
 		return
 
@@ -168,7 +174,10 @@ func _physics_process(_delta: float) -> void:
 		var px := _player.global_position.x
 		var py := _player.global_position.y
 		for g in _guards:
-			var d := g.global_position.distance_to(Vector2(px, py))
+			if not (g is Node2D):
+				continue
+			var g2: Node2D = g
+			var d: float = g2.global_position.distance_to(Vector2(px, py))
 			if d < 52.0:
 				Game.game_over()
 				return
