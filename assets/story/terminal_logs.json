@@ -1,4 +1,112 @@
 {
+  "chimera_research": [
+    {
+      "id": "cross_01",
+      "date": "2068-03-14",
+      "author": "Dr. E. Cross",
+      "title": "CHIMERA — Program Authorization",
+      "room_id": "room_observation_lab",
+      "lines": [
+        "CHIMERA program authorized. DELTA committee signed. Funding secured.",
+        "Objective: viable non-human DNA integration in living subjects.",
+        "Timeline: six months to proof-of-concept. Full asset deployment by 2070.",
+        "The science is sound. The ethics board approved. I have no reservations.",
+        "— Cross"
+      ]
+    },
+    {
+      "id": "cross_02",
+      "date": "2068-11-02",
+      "author": "Dr. E. Cross",
+      "title": "Subject Trials — Month 8",
+      "room_id": "room_observation_lab",
+      "lines": [
+        "Series D trials concluded. Subjects D-4 through D-9: deceased.",
+        "Immune rejection in all cases. D-10 survived 72 hours before onset.",
+        "Committee wants results by Q1. Adjusting protein inhibitor ratios.",
+        "Not all trials succeed. That is the nature of science.",
+        "I don't think about D-10 specifically.",
+        "— Cross"
+      ]
+    },
+    {
+      "id": "cross_03",
+      "date": "2069-04-17",
+      "author": "Dr. E. Cross",
+      "title": "Series E — First Stable Splice",
+      "room_id": "room_specimen_containment",
+      "lines": [
+        "Subject E-2: feline DNA integration confirmed. Stable. Partial transformation",
+        "capability observed at week 3. Behavioral anomalies noted from day 14.",
+        "Subject E-2 began refusing food on day 19. Became non-compliant.",
+        "Terminated on day 24 per containment protocol.",
+        "The science is working. I do not write about day 19 in the official log.",
+        "— Cross"
+      ]
+    },
+    {
+      "id": "cross_04",
+      "date": "2069-11-03",
+      "author": "Dr. E. Cross",
+      "title": "Subject K — Intake",
+      "room_id": "room_observation_lab",
+      "lines": [
+        "New intake: Soviet operative. Codename assigned: SUBJECT K.",
+        "Apprehended during infiltration attempt, Level 4. Healthy. Combat-trained.",
+        "Psychological resilience noted — above standard threshold.",
+        "Cross-CHIMERA compatibility screening begins 04 NOV.",
+        "Security handed over the file. I asked them not to include a photograph.",
+        "They included a photograph.",
+        "— Cross"
+      ]
+    },
+    {
+      "id": "cross_05",
+      "date": "2070-01-28",
+      "author": "Dr. E. Cross",
+      "title": "Subject K — Phase 2 Complete",
+      "room_id": "room_observation_lab",
+      "lines": [
+        "Full bilateral transformation achieved today. Stable. Repeatable.",
+        "CHIMERA Committee notified. Response: 'Outstanding. Timeline ahead of schedule.'",
+        "Subject K looked at me through the observation glass.",
+        "I told Dr. Harlan it was a migraine. He believed me.",
+        "One of us has to keep believing something.",
+        "— Cross"
+      ]
+    },
+    {
+      "id": "cross_06",
+      "date": "2070-05-11",
+      "author": "Dr. E. Cross",
+      "title": "Subject K — Behavioral Assessment",
+      "room_id": "room_specimen_containment",
+      "lines": [
+        "Subject K will not comply with conditioning protocols.",
+        "No response to reward-stimulus. Pain escalation above threshold 4: ignored.",
+        "Committee asks for asset deployment timeline.",
+        "I told them: the asset refuses to be an asset.",
+        "They found this amusing. I requested a transfer. It was denied.",
+        "— Cross"
+      ]
+    },
+    {
+      "id": "cross_07",
+      "date": "2070-07-31",
+      "author": "Dr. E. Cross",
+      "title": "[PRIVATE — NOT FOR PROJECT RECORD]",
+      "room_id": "room_security_junction",
+      "lines": [
+        "Power fluctuation in Block 7 tonight. Security flagged it.",
+        "I should report the cell lock status. I should check the feeds.",
+        "I should do a lot of things.",
+        "I'm going to finish this coffee instead.",
+        "If Subject K makes it out — take everything.",
+        "Every file. Every slide. Every name. Show them what we built here.",
+        "[LOG ENDS — NOT TRANSMITTED]"
+      ]
+    }
+  ],
   "logs": {
     "obs_lab_01": {
       "title": "CHIMERA / OBS — session log",
