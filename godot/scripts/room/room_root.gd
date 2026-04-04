@@ -42,7 +42,8 @@ func _ready() -> void:
 		_room_state = "locked"
 	_ctx = CatspyRoomBuilder.build(_world, _room_data)
 	_wall_grid = _ctx.get("wall_grid", [])
-	_spawn_entities()
+	var room_h: int = int(_room_data.get("height", 0))
+	_spawn_entities(room_h)
 	_spawn_player()
 	_wire_exits()
 	_configure_player_camera()
@@ -95,14 +96,14 @@ func _configure_player_camera() -> void:
 	cam.make_current()
 
 
-func _spawn_entities() -> void:
+func _spawn_entities(room_h: int) -> void:
 	var ent: Dictionary = _room_data.get("entities", {})
 	for spec in ent.get("guards", []):
 		if typeof(spec) != TYPE_DICTIONARY:
 			continue
 		var g := GUARD_SCENE.instantiate()
 		_world.add_child(g)
-		g.setup_from_spec(spec, _tw)
+		g.setup_from_spec(spec, _tw, _wall_grid, room_h)
 		_guards.append(g)
 	for spec in ent.get("mutants", []):
 		if typeof(spec) != TYPE_DICTIONARY:
@@ -112,7 +113,7 @@ func _spawn_entities() -> void:
 		var ms: Dictionary = (spec as Dictionary).duplicate()
 		if not ms.has("variant"):
 			ms["variant"] = "mutant"
-		g2.setup_from_spec(ms, _tw)
+		g2.setup_from_spec(ms, _tw, _wall_grid, room_h)
 		_guards.append(g2)
 	for spec in ent.get("cameras", []):
 		if typeof(spec) != TYPE_DICTIONARY:

@@ -15,7 +15,7 @@ Maps [room-runtime.md](room-runtime.md) JSON fields to **Godot 4.2+** nodes used
 |------|--------|
 | `layers.walls` + `width` / `height` | Multiple **StaticBody2D** children (one per solid tile) each with **CollisionShape2D** (`RectangleShape2D` size `tile_world_size`), centered on tile. Alternative: single **TileMap** — current implementation uses StaticBody2D for parity with Phaser rectangles. |
 | `extra_solid_tiles[]` | Same as walls; tagged for gate removal (`open_gate` interactable). |
-| `playerSpawn` `{x,y}` tile | Player global position: feet at `(x * tw + tw/2, y * tw + tw/2)` with `CharacterBody2D` origin feet-center. |
+| `playerSpawn` `{x,y}` tile | Horizontal: center of column `x`. Vertical: if tile `(x,y)` is air, **feet Y** snaps to the **top** of the first solid tile **at/under** that column (so spawns above a floor platform land on the platform). If that tile is solid, feet use the tile center (legacy). |
 | `entry_spawns[from_room_id]` | When `Game.from_room_id` matches, use this tile instead of `playerSpawn`. |
 | `exit` `{x,y,w?,h?}` | **Area2D** `ExitForward` with **CollisionShape2D** rectangle in tile space → pixel AABB. |
 | `return_exit` | **Area2D** `ExitReturn` same pattern; calls `Game.go_to_room(target_room_id)`. |

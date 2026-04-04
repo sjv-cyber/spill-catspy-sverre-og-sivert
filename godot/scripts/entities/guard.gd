@@ -13,7 +13,9 @@ var alert_mode: bool = false
 @onready var _sprite: Sprite2D = $Sprite2D
 
 
-func setup_from_spec(spec: Dictionary, tile_world_size: int) -> void:
+func setup_from_spec(
+	spec: Dictionary, tile_world_size: int, wall_grid: Array = [], room_height: int = 0
+) -> void:
 	var patrol: Array = spec.get("patrol", [])
 	if patrol.size() < 2:
 		push_error("Guard needs >=2 patrol points")
@@ -22,8 +24,16 @@ func setup_from_spec(spec: Dictionary, tile_world_size: int) -> void:
 	for p in patrol:
 		if typeof(p) != TYPE_DICTIONARY:
 			continue
-		var wx := float(p.get("x", 0)) * tile_world_size + tile_world_size * 0.5
-		var wy := float(p.get("y", 0)) * tile_world_size + tile_world_size * 0.5
+		var tcx := int(p.get("x", 0))
+		var tcy := int(p.get("y", 0))
+		var wx := float(tcx) * tile_world_size + tile_world_size * 0.5
+		var wy: float
+		if wall_grid.size() >= room_height and room_height > 0:
+			wy = CatspyRoomBuilder.feet_y_on_first_solid_below(
+				wall_grid, tcx, tcy, room_height, tile_world_size
+			)
+		else:
+			wy = float(tcy) * tile_world_size + tile_world_size * 0.5
 		waypoints.append(Vector2(wx, wy))
 	wp_index = 1
 	position = waypoints[0]
