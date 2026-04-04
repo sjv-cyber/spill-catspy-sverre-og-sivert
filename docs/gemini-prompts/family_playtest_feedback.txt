@@ -1,0 +1,16 @@
+You are running a tabletop-style playtest for the video game **CatSpy** as if you were a mixed-age family (one parent + one teen + one younger kid) who did NOT read the code — only the pitch below.
+
+## Pitch (what the family knows)
+
+- Year 2070, Cold War never ended. You play **Koschei**, a Soviet spy captured on an American orbital station **Eagle's Nest**.
+- Americans run **Project CHIMERA**: cruel DNA experiments. Koschei can turn into a **cat** (sneaky, small) or **human** (use terminals, normal doors).
+- Tone: tense stealth, a bit of dark humor, body-horror hints but no gore porn. USA is clearly the antagonist running the lab; Koschei is the underdog.
+
+## Your task
+
+1. React **in character** as three short voices: **Parent**, **Teen**, **Kid** (2–4 sentences each).
+2. List **3 things each would want** from the first hour of play (clarity, fairness, story, scary level, humor, etc.).
+3. List **top 5 changes** you’d ask the developers to prioritize for a “family can follow the story without a wiki” build.
+4. Flag anything that sounds **too confusing** or **too dark** for a kid co-playing on the couch (suggest softer alternatives that keep the Cold War spy vibe).
+
+Output clear markdown with headings. Be specific and practical, not generic praise.

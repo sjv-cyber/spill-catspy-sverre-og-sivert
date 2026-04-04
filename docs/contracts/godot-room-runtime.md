@@ -23,6 +23,7 @@ Maps [room-runtime.md](room-runtime.md) JSON fields to **Godot 4.2+** nodes used
 | `background_trim_bottom_ratio` | **Sprite2D** `region_enabled` crop from bottom of texture before `scale` to room size, or shader (implementation: region_rect on loaded `Texture2D`). |
 | `background_tint` | `Sprite2D.modulate` from hex (optional). |
 | `next_room_id` | Forward exit body_entered → `Game.go_to_room(next_room_id)`. |
+| `exit_action` | Optional. If `"victory"`, forward exit calls `Game.victory()` instead of changing rooms (use with empty `next_room_id` for finales). |
 | `entities.guards[]` | Spawn [guard.gd](../../godot/scripts/entities/guard.gd) scene per spec (`patrol` tile waypoints → world). |
 | `entities.cameras[]` | **CameraWatcher** nodes providing `get_watcher_state()` for detection. |
 | `entities.lasers[]` | **Area2D** or **StaticBody2D** toggling collision + visible beam (see `laser_hazard.gd`). |

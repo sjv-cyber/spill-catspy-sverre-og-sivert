@@ -20,3 +20,4 @@ Get-Content docs/gemini-prompts/terminal_logs_batch.txt -Raw | gemini @(... your
 
 - `terminal_logs_batch.txt` — Dr. Cross terminal voice, CHIMERA tone.
 - `room_entry_text_batch.txt` — short `entry_text` lines per room id.
+- `family_playtest_feedback.txt` — Gemini roleplays a mixed-age family reacting to the pitch; output under `docs/gemini-output/` for design iteration.
