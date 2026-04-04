@@ -52,7 +52,8 @@ Godot ships two Windows executables:
 
 ```powershell
 .\godot\run_console.ps1              # runs main scene (Title) — output in this terminal
-.\godot\run_console.ps1 -Editor    # opens the editor — useful for script parse errors on load
+.\godot\run_console.ps1 -Editor      # opens the editor — useful for script parse errors on load
+.\godot\run_console.ps1 -Headless    # no window; exits after 8 frames (override: `-QuitAfter 30`)
 ```
 
 The script also passes **`--log-file`** so everything is mirrored to **`godot/debug_logs/last_run.log`** (gitignored). You can paste that file into chat or leave it for an agent to read.

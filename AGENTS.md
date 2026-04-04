@@ -44,7 +44,7 @@ When working on **`godot/`**, **you** (the agent) should **execute** Godot from 
   --log-file "C:\path\to\repo\godot\debug_logs\agent_run.log"
 ```
 
-Then open `debug_logs/agent_run.log` (or capture stdout) and use errors/warnings to fix scripts. Repo helper: [`godot/run_console.ps1`](godot/run_console.ps1); details: [`godot/README.md`](godot/README.md).
+Then open `debug_logs/agent_run.log` (or capture stdout) and use errors/warnings to fix scripts. Repo helper: [`godot/run_console.ps1`](godot/run_console.ps1) (add **`-Headless`** for the same smoke without a game window); details: [`godot/README.md`](godot/README.md).
 
 ## Decisions
 
