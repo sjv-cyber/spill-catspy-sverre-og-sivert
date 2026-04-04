@@ -36,7 +36,8 @@ static func list_room_ids(manifest: Dictionary) -> PackedStringArray:
 	var rooms: Variant = manifest.get("rooms", {})
 	if typeof(rooms) != TYPE_DICTIONARY:
 		return PackedStringArray()
-	var keys := rooms.keys()
+	var rooms_dict: Dictionary = rooms
+	var keys: Array = rooms_dict.keys()
 	keys.sort()
 	var out := PackedStringArray()
 	for k in keys:
