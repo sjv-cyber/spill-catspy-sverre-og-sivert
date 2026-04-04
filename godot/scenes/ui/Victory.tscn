@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://catspytitle"]
+[gd_scene load_steps=2 format=3 uid="uid://catspyvictory"]
 
-[ext_resource type="Script" path="res://scripts/ui/title_screen.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/victory_screen.gd" id="1"]
 
-[node name="Title" type="Control"]
+[node name="Victory" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.08, 0.09, 0.14, 1)
+color = Color(0.04, 0.12, 0.1, 1)
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -27,16 +27,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -200.0
+offset_left = -220.0
 offset_top = -40.0
-offset_right = 200.0
+offset_right = 220.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "CATSPY — Eagle's Nest, 2070
-You are Koschei: spy, caught, mutated. Steal CHIMERA data; reach the shuttle.
+text = "SHUTTLE BAY — CLEAR
+Data uplink away. You paid in DNA.
 
-SPACE / ENTER — Start
-T — cat / human  |  ESC — pause  |  F1 — debug next room"
+SPACE / ENTER — Title"
 horizontal_alignment = 1
 vertical_alignment = 1

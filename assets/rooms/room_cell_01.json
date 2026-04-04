@@ -21,7 +21,7 @@
   "lock_state": "unlocked",
   "default_state": "idle",
   "layout_tags": ["cat_route", "cover_heavy"],
-  "entry_text": "Cold light. Someone left the restraints unlatched.",
+  "entry_text": "Exfil went loud. Cell door's dead — slip out before they tally bodies.",
   "layers": {
     "walls": [
       [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],

@@ -48,6 +48,7 @@ func _ready() -> void:
 	var et := str(_room_data.get("entry_text", ""))
 	if et != "":
 		print("[Room] ", et)
+	_add_form_hint_overlay()
 
 
 func _spawn_player() -> void:
@@ -55,6 +56,27 @@ func _spawn_player() -> void:
 	add_child(_player)
 	var sf: Vector2 = _ctx.get("spawn_feet", Vector2.ZERO)
 	_player.global_position = sf
+
+
+func _add_form_hint_overlay() -> void:
+	## Couch-play legibility: remind what each form is for (family playtest feedback).
+	var layer := CanvasLayer.new()
+	layer.layer = 5
+	var lbl := Label.new()
+	lbl.text = "Human: use doors & exits  •  Cat: sneak / smaller hitbox  •  T: transform"
+	lbl.add_theme_font_size_override("font_size", 11)
+	lbl.modulate = Color(0.82, 0.88, 0.94, 0.72)
+	lbl.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	lbl.anchor_left = 0.0
+	lbl.anchor_top = 1.0
+	lbl.anchor_right = 0.0
+	lbl.anchor_bottom = 1.0
+	lbl.offset_left = 10.0
+	lbl.offset_top = -26.0
+	lbl.offset_right = 900.0
+	lbl.offset_bottom = -6.0
+	layer.add_child(lbl)
+	add_child(layer)
 
 
 func _configure_player_camera() -> void:
@@ -120,6 +142,9 @@ func _on_exit_forward(body: Node2D) -> void:
 	if body != _player:
 		return
 	if _exit_locked:
+		return
+	if str(_room_data.get("exit_action", "")) == "victory":
+		Game.victory()
 		return
 	var nxt := str(_room_data.get("next_room_id", ""))
 	if nxt == "":

@@ -4,7 +4,7 @@
   "name": "Observation Lab",
   "room_type": "story",
   "dominant_interaction": "environmental_read",
-  "background": "bg_corridor",
+  "background": "bg_lab",
   "background_tint": 9081000,
   "next_room_id": "room_security_junction",
   "zone": "research",

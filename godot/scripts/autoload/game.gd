@@ -4,6 +4,7 @@ extends Node
 const ROOM_SCENE := "res://scenes/gameplay/room/RoomRoot.tscn"
 const TITLE_SCENE := "res://scenes/ui/Title.tscn"
 const GAME_OVER_SCENE := "res://scenes/ui/GameOver.tscn"
+const VICTORY_SCENE := "res://scenes/ui/Victory.tscn"
 
 var current_room_id: String = ""
 var from_room_id: String = ""
@@ -56,6 +57,12 @@ func go_to_room(room_id: String) -> void:
 
 func game_over() -> void:
 	var p := load(GAME_OVER_SCENE) as PackedScene
+	if p:
+		get_tree().change_scene_to_packed(p)
+
+
+func victory() -> void:
+	var p := load(VICTORY_SCENE) as PackedScene
 	if p:
 		get_tree().change_scene_to_packed(p)
 

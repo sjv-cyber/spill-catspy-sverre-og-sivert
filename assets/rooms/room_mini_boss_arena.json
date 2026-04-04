@@ -6,7 +6,8 @@
   "dominant_interaction": "overload_console",
   "background": "bg_cell",
   "background_tint": 5920872,
-  "next_room_id": null,
+  "next_room_id": "",
+  "exit_action": "victory",
   "zone": "research",
   "width": 30,
   "height": 12,
@@ -71,7 +72,7 @@
     "w": 3,
     "h": 2
   },
-  "entry_text": "The door seals. One shape steps into the light.",
+  "entry_text": "Docking bay. One shuttle. ARGUS has already seen you.",
   "layers": {
     "walls": [
       [
