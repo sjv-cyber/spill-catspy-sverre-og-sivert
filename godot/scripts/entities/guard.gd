@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 	var target := waypoints[wp_index]
 	var dx := target.x - position.x
 	var dy := target.y - position.y
-	var dist := hypot(dx, dy)
+	var dist: float = Vector2(dx, dy).length()
 	if dist < 6.0:
 		wp_index = (wp_index + 1) % waypoints.size()
 		wait_until_msec = now + float(CatspyConfig.GUARD["wait_duration"]) * 1000.0
