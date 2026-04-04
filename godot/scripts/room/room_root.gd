@@ -66,20 +66,32 @@ func _add_form_hint_overlay() -> void:
 	## Couch-play legibility: remind what each form is for (family playtest feedback).
 	var layer := CanvasLayer.new()
 	layer.layer = 5
+	var root := _canvas_viewport_root(layer)
+	var bar := PanelContainer.new()
+	bar.anchor_left = 0.0
+	bar.anchor_top = 1.0
+	bar.anchor_right = 1.0
+	bar.anchor_bottom = 1.0
+	bar.offset_left = 16.0
+	bar.offset_top = -44.0
+	bar.offset_right = -16.0
+	bar.offset_bottom = -6.0
+	var inner := MarginContainer.new()
+	inner.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	inner.add_theme_constant_override("margin_left", 8)
+	inner.add_theme_constant_override("margin_right", 8)
+	inner.add_theme_constant_override("margin_top", 4)
+	inner.add_theme_constant_override("margin_bottom", 4)
+	bar.add_child(inner)
 	var lbl := Label.new()
 	lbl.text = "Human: doors, exits, E = terminals  •  Cat: sneak / smaller  •  T: transform"
 	lbl.add_theme_font_size_override("font_size", 11)
-	lbl.modulate = Color(0.82, 0.88, 0.94, 0.72)
-	lbl.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	lbl.anchor_left = 0.0
-	lbl.anchor_top = 1.0
-	lbl.anchor_right = 0.0
-	lbl.anchor_bottom = 1.0
-	lbl.offset_left = 10.0
-	lbl.offset_top = -26.0
-	lbl.offset_right = 900.0
-	lbl.offset_bottom = -6.0
-	layer.add_child(lbl)
+	lbl.modulate = Color(0.82, 0.88, 0.94, 0.92)
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inner.add_child(lbl)
+	root.add_child(bar)
 	add_child(layer)
 
 
@@ -227,15 +239,16 @@ func _toggle_pause() -> void:
 	Game.ui_paused = true
 	_pause_layer = CanvasLayer.new()
 	_pause_layer.layer = 100
+	var proot := _canvas_viewport_root(_pause_layer)
 	var panel := ColorRect.new()
 	panel.color = Color(0, 0, 0, 0.55)
 	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_pause_layer.add_child(panel)
+	proot.add_child(panel)
 	var lbl := Label.new()
 	lbl.text = "PAUSED — ESC resume"
 	lbl.set_anchors_preset(Control.PRESET_CENTER)
-	lbl.position = Vector2(-80, -20)
-	_pause_layer.add_child(lbl)
+	lbl.add_theme_font_size_override("font_size", 14)
+	proot.add_child(lbl)
 	add_child(_pause_layer)
 
 
@@ -348,17 +361,18 @@ func _open_terminal_overlay(title: String, body: String) -> void:
 	Game.ui_paused = true
 	_terminal_layer = CanvasLayer.new()
 	_terminal_layer.layer = 80
+	var ui_root := _canvas_viewport_root(_terminal_layer)
 	var panel := ColorRect.new()
 	panel.color = Color(0.02, 0.04, 0.08, 0.92)
 	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_terminal_layer.add_child(panel)
+	ui_root.add_child(panel)
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 24)
 	margin.add_theme_constant_override("margin_right", 24)
 	margin.add_theme_constant_override("margin_top", 20)
 	margin.add_theme_constant_override("margin_bottom", 20)
-	_terminal_layer.add_child(margin)
+	ui_root.add_child(margin)
 	var v := VBoxContainer.new()
 	v.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.add_child(v)
@@ -399,24 +413,41 @@ func _show_monologue_overlay(line: String) -> void:
 		return
 	var layer := CanvasLayer.new()
 	layer.layer = 55
-	var panel := PanelContainer.new()
-	panel.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	panel.offset_left = -380.0
-	panel.offset_top = 12.0
-	panel.offset_right = 380.0
-	panel.offset_bottom = 56.0
+	var root := _canvas_viewport_root(layer)
+	var bar := PanelContainer.new()
+	bar.anchor_left = 0.0
+	bar.anchor_top = 0.0
+	bar.anchor_right = 1.0
+	bar.anchor_bottom = 0.0
+	bar.offset_left = 20.0
+	bar.offset_top = 8.0
+	bar.offset_right = -20.0
+	bar.offset_bottom = 88.0
 	var inner := MarginContainer.new()
+	inner.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	inner.add_theme_constant_override("margin_left", 12)
 	inner.add_theme_constant_override("margin_right", 12)
-	inner.add_theme_constant_override("margin_top", 8)
-	inner.add_theme_constant_override("margin_bottom", 8)
-	panel.add_child(inner)
+	inner.add_theme_constant_override("margin_top", 10)
+	inner.add_theme_constant_override("margin_bottom", 10)
+	bar.add_child(inner)
 	var lbl := Label.new()
 	lbl.text = line
 	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	lbl.add_theme_font_size_override("font_size", 12)
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lbl.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	inner.add_child(lbl)
-	layer.add_child(panel)
+	root.add_child(bar)
 	add_child(layer)
 	get_tree().create_timer(4.2).timeout.connect(layer.queue_free)
+
+
+func _canvas_viewport_root(layer: CanvasLayer) -> Control:
+	## CanvasLayer has no size; children need a full-viewport Control for anchors / autowrap.
+	var c := Control.new()
+	c.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(c)
+	return c
