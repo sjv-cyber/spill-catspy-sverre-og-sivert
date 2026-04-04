@@ -32,6 +32,20 @@
 
 **Prototype:** no npm game dependencies, no required backend. **Future Godot + Railway** layers are documented in ADR 002; do not add secret keys to this repo.
 
+### Godot debugging — agents run the console build and read output
+
+The point of the **console** executable (`Godot_*_win64_console.exe`) is **automatable logs**: stdout/stderr and `--log-file` mirror the same text.
+
+When working on **`godot/`**, **you** (the agent) should **execute** Godot from the shell, then **read** the output and any log file — not only tell the human to do it. Example (adjust version in the path if needed):
+
+```powershell
+& "C:\Program Files\Godot\Godot_v4.6.2-stable_win64_console.exe" `
+  --path "C:\path\to\repo\godot" --headless --verbose --quit-after 8 `
+  --log-file "C:\path\to\repo\godot\debug_logs\agent_run.log"
+```
+
+Then open `debug_logs/agent_run.log` (or capture stdout) and use errors/warnings to fix scripts. Repo helper: [`godot/run_console.ps1`](godot/run_console.ps1); details: [`godot/README.md`](godot/README.md).
+
 ## Decisions
 
 All architectural decisions are recorded in [docs/adr/](docs/adr/).
