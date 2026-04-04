@@ -1,2 +1,5 @@
 # Local Godot cache (optional — some teams commit .godot for CI)
 .godot/
+
+# Console / --log-file output (share manually if debugging with Cursor)
+debug_logs/*.log

@@ -36,10 +36,36 @@ Copy-Item ..\assets\rooms\*.json -Destination .\data\rooms\ -Force
 
 See [docs/contracts/godot-room-runtime.md](../docs/contracts/godot-room-runtime.md).
 
-## Headless smoke (when Godot is on PATH)
+## Console build (Windows) — logs you can copy to Cursor
 
-```bash
-godot --path godot --headless --quit-after 2
+Godot ships two Windows executables:
+
+| Binary | Use |
+|--------|-----|
+| `Godot_*_win64.exe` | Normal GUI; **no** attached console (prints are easy to miss). |
+| `Godot_*_win64_console.exe` | **Same engine**, but **stdout/stderr** go to the terminal you started it from. |
+
+**Leverage that** when you want errors, `print()`, and engine messages in a window you can scroll, pipe, or save:
+
+1. Open **PowerShell** in the repo (or any terminal).
+2. Run the helper (defaults to `C:\Program Files\Godot\..._console.exe`; override with `-GodotConsole` if needed):
+
+```powershell
+.\godot\run_console.ps1              # runs main scene (Title) — output in this terminal
+.\godot\run_console.ps1 -Editor    # opens the editor — useful for script parse errors on load
 ```
 
-(Adjust flags for your Godot build; not all exports support meaningful headless gameplay checks.)
+The script also passes **`--log-file`** so everything is mirrored to **`godot/debug_logs/last_run.log`** (gitignored). You can paste that file into chat or leave it for an agent to read.
+
+**Manual one-liner** (same idea):
+
+```powershell
+& "C:\Program Files\Godot\Godot_v4.6.2-stable_win64_console.exe" `
+  --path "C:\path\to\repo\godot" --verbose --log-file "C:\path\to\repo\godot\debug_logs\last_run.log"
+```
+
+**Note:** Parser/type errors in scripts still surface in the **Script** panel when using the editor; the console build mainly helps with **runtime** logs, engine warnings, and anything printed to stderr. For a quick non-interactive load check:
+
+```powershell
+& "...\Godot_*_console.exe" --path .\godot --headless --verbose --quit-after 3 --log-file .\godot\debug_logs\headless.log
+```
