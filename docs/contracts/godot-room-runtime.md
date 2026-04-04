@@ -29,17 +29,26 @@ Maps [room-runtime.md](room-runtime.md) JSON fields to **Godot 4.2+** nodes used
 | `entities.lasers[]` | **Area2D** or **StaticBody2D** toggling collision + visible beam (see `laser_hazard.gd`). |
 | `entities.hideZones` | **Area2D** (monitoring) for cat hide detection logic. |
 | `supports_retreat` | Room script flag: detection triggers **combat** + LOS cooldown instead of instant game over (Phase 2 parity). |
-| `lock_behavior` + `boss_trigger` | Exit locked until `clear_boss` interactable (minimal port). |
+| `lock_behavior` + `boss_trigger` | If `lock_behavior` is `"boss"`, forward exit starts **locked** until interactable `action: "clear_boss"`. |
+| `interactables[]` | **Area2D** zones (tile `x,y,w,h`); human + **E** (`interact`). Supported `action` values: `terminal_log` (`log_id` → `StoryDB` / `data/story/terminal_logs.json`), `clear_boss`, `suppress_cameras` (`duration_ms` on ARGUS cameras), `hack_robot` (`open_gate` removes `gate_solid` tiles). |
+
+## Story data (`data/story/`)
+
+- `terminal_logs.json` — Dr. Cross `chimera_research[]` plus flavor `logs{}`; referenced by room `interactables` `log_id`.
+- `monologue.json` — optional HUD lines on `room_entry:<room_id>` (see `StoryDB`).
+- `ending.json` — timed lines on **Victory** screen after `exit_action: victory`.
+
+Copies live under `godot/data/story/` (sync from `assets/story/` when authoring in repo root).
 
 ## Manifest
 
 - File: `res://data/rooms/manifest.json` (copy of repo `assets/rooms/manifest.json`).
 - Loader resolves `rooms[room_id].path` by **filename only** → `res://data/rooms/<basename>`.
 
-## Autoload `Game`
+## Autoloads `Game`, `StoryDB`
 
-- `from_room_id`, `current_room_id`, `pending_room_id`
-- `go_to_room(id)`, `start_game()`, `game_over()`, `return_to_title()`
+- **Game:** `from_room_id`, `current_room_id`; `go_to_room(id)`, `start_game()`, `game_over()`, `victory()`, `return_to_title()`
+- **StoryDB:** loads `res://data/story/*.json` at startup for terminals, monologues, ending sequence.
 - Scene changes: `packed` load `res://scenes/gameplay/room/RoomRoot.tscn` or swap child under Main.
 
 ## Player hitbox (reference)

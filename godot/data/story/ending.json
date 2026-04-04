@@ -1,0 +1,30 @@
+{
+  "note": "Displayed over slow fade-to-black after shuttle launch. One line at a time, long pause between each. Bittersweet tone.",
+  "lines": [
+    {
+      "id": "end_01",
+      "text": "The shuttle clears the bay doors. No alarm follows.",
+      "delay_ms": 3000
+    },
+    {
+      "id": "end_02",
+      "text": "You crack the drive. CHIMERA. All of it. Names. Methods. Subjects.",
+      "delay_ms": 3500
+    },
+    {
+      "id": "end_03",
+      "text": "Moscow will have the files by morning. What they do with them is not your mission.",
+      "delay_ms": 4000
+    },
+    {
+      "id": "end_04",
+      "text": "You look at your hands. They are still human. For now.",
+      "delay_ms": 4000
+    },
+    {
+      "id": "end_05",
+      "text": "AGENT KOSCHEI — MISSION COMPLETE. CLASSIFICATION: SUCCESS. PERSONAL COST: ONGOING.",
+      "delay_ms": 5000
+    }
+  ]
+}

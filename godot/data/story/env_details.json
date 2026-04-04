@@ -1,0 +1,68 @@
+{
+  "note": "Visual-only environmental storytelling cues for pixel art. No on-screen text. Guide art and level design.",
+  "rooms": [
+    {
+      "room_id": "room_cell_01",
+      "story_beat": "Holding Cells — Koschei's escape",
+      "cues": [
+        "Scratch-tally marks gouged into the wall beside the bunk — more counts than fit one person",
+        "Torn restraint straps still bolted to the chair frame, frayed at the break point",
+        "A folded scrap of paper wedged under the bunk — too small to be useful, kept anyway"
+      ]
+    },
+    {
+      "room_id": "room_holding_corridor",
+      "story_beat": "Isolated Corridor — scripted guard takedown",
+      "cues": [
+        "A guard's helmet resting on a crate, visor cracked from the inside",
+        "Parallel scuff marks on the floor — drag marks, not footsteps",
+        "Emergency sprinkler head above the vent shaft, caked with rust and never tested"
+      ]
+    },
+    {
+      "room_id": "room_observation_lab",
+      "story_beat": "Genetics Lab — CHIMERA evidence, Cross's terminal",
+      "cues": [
+        "Cracked specimen tubes in a rack, amber fluid dried on the shelf below",
+        "A lab coat draped over a chair, US flag patch peeled off and left face-down on the counter",
+        "Whiteboard covered in equations — a child's crayon drawing taped to one corner, no explanation"
+      ]
+    },
+    {
+      "room_id": "room_security_junction",
+      "story_beat": "Security Wing — heavy guard presence, first full-capability puzzle",
+      "cues": [
+        "A guard station with two coffee cups — one still has condensation on the side",
+        "ARGUS camera above every door, lenses polished clean; everything else is dusty",
+        "A wall-mounted honor board with PMC names — three are crossed out with black marker"
+      ]
+    },
+    {
+      "room_id": "room_utility_bay",
+      "story_beat": "Ventilation Nexus — cat-form duct maze, route to docking bay",
+      "cues": [
+        "A vent grate on the floor bent inward from below — something came up through it, not down",
+        "Handwritten 'KEEP SHUT' taped to a duct panel in English and, below it, in Russian",
+        "A tool kit open on the floor, one wrench missing from its outline in the foam insert"
+      ]
+    },
+    {
+      "room_id": "room_specimen_containment",
+      "story_beat": "Genetics Lab overflow — failed CHIMERA subjects",
+      "cues": [
+        "Rows of sealed containment niches lining the walls — most empty, a few with claw marks on the inside of the glass",
+        "Medical charts clipped to each niche, subject initials only — no names, no photographs",
+        "'CHIMERA SECURE' stamped in red on every drawer and cabinet, ink still vivid"
+      ]
+    },
+    {
+      "room_id": "room_mini_boss_arena",
+      "story_beat": "Docking Bay — final escape",
+      "cues": [
+        "A shuttle with 'EAGLE'S NEST — CIVILIAN RESEARCH' stencilled on the hull, half-scraped off to reveal military markings beneath",
+        "Red warning lights casting long overlapping shadows across the bay floor",
+        "A US flag bolted to the bulkhead, one corner pulled loose and drifting in the recycled air current"
+      ]
+    }
+  ]
+}

@@ -17,6 +17,7 @@ var _room_state: String = "idle"
 var _los_clear_frames: int = 0
 var _exit_locked: bool = false
 var _pause_layer: CanvasLayer
+var _terminal_layer: CanvasLayer
 
 @onready var _world: Node2D = $World
 
@@ -35,7 +36,7 @@ func _ready() -> void:
 	_tw = CatspyConfig.tile_world_size(_room_data)
 	_exit_locked = false
 	if str(_room_data.get("lock_behavior", "none")) == "boss":
-		_exit_locked = false
+		_exit_locked = true
 	_room_state = str(_room_data.get("default_state", "idle"))
 	if _room_state == "locked_boss":
 		_room_state = "locked"
@@ -49,6 +50,8 @@ func _ready() -> void:
 	if et != "":
 		print("[Room] ", et)
 	_add_form_hint_overlay()
+	_spawn_interactables()
+	_queue_monologue_if_any()
 
 
 func _spawn_player() -> void:
@@ -63,7 +66,7 @@ func _add_form_hint_overlay() -> void:
 	var layer := CanvasLayer.new()
 	layer.layer = 5
 	var lbl := Label.new()
-	lbl.text = "Human: use doors & exits  •  Cat: sneak / smaller hitbox  •  T: transform"
+	lbl.text = "Human: doors, exits, E = terminals  •  Cat: sneak / smaller  •  T: transform"
 	lbl.add_theme_font_size_override("font_size", 11)
 	lbl.modulate = Color(0.82, 0.88, 0.94, 0.72)
 	lbl.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
@@ -236,6 +239,183 @@ func _toggle_pause() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _terminal_layer:
+		if event is InputEventKey and event.pressed and (
+			event.keycode == KEY_ESCAPE or event.keycode == KEY_E
+		):
+			_close_terminal_overlay()
+			get_viewport().set_input_as_handled()
+		return
+
+	if event.is_action_pressed("interact"):
+		if _player and _player.is_human and _try_interact_world():
+			get_viewport().set_input_as_handled()
+		return
+
 	if event.is_action_pressed("pause"):
 		_toggle_pause()
 		get_viewport().set_input_as_handled()
+
+
+func _spawn_interactables() -> void:
+	for spec in _room_data.get("interactables", []):
+		if typeof(spec) != TYPE_DICTIONARY:
+			continue
+		var iw := int(spec.get("w", 1))
+		var ih := int(spec.get("h", 1))
+		var ix := int(spec.get("x", 0))
+		var iy := int(spec.get("y", 0))
+		var area := Area2D.new()
+		area.collision_layer = 0
+		area.collision_mask = 2
+		area.monitoring = true
+		var cs := CollisionShape2D.new()
+		var rect := RectangleShape2D.new()
+		rect.size = Vector2(iw * _tw, ih * _tw)
+		cs.shape = rect
+		cs.position = Vector2(ix * _tw + iw * _tw * 0.5, iy * _tw + ih * _tw * 0.5)
+		area.add_child(cs)
+		area.set_meta("interact_spec", spec)
+		_world.add_child(area)
+
+
+func _try_interact_world() -> bool:
+	if _player == null:
+		return false
+	for child in _world.get_children():
+		if not (child is Area2D):
+			continue
+		var a: Area2D = child
+		if not a.has_meta("interact_spec"):
+			continue
+		if not a.overlaps_body(_player):
+			continue
+		var spec: Variant = a.get_meta("interact_spec")
+		if typeof(spec) != TYPE_DICTIONARY:
+			continue
+		var d: Dictionary = spec
+		if d.get("requires_human", false) == true and not _player.is_human:
+			continue
+		if _execute_interact(d):
+			return true
+	return false
+
+
+func _execute_interact(spec: Dictionary) -> bool:
+	var act := str(spec.get("action", ""))
+	match act:
+		"terminal_log":
+			var lid := str(spec.get("log_id", ""))
+			var disp := StoryDB.get_terminal_display(lid)
+			if disp.is_empty():
+				push_warning("Unknown terminal log_id: %s" % lid)
+				return false
+			_open_terminal_overlay(str(disp.get("title", "LOG")), str(disp.get("body", "")))
+			return true
+		"clear_boss":
+			_exit_locked = false
+			print("[Room] Boss lock cleared — exit open.")
+			return true
+		"suppress_cameras":
+			var dur := float(spec.get("duration_ms", 6000.0))
+			for c in _cams:
+				if c.has_method("suppress_for_ms"):
+					c.suppress_for_ms(dur)
+			print("[Room] ARGUS cameras suppressed %.0f ms" % dur)
+			return true
+		"hack_robot":
+			if spec.get("open_gate", false) == true:
+				_remove_gate_solids()
+			print("[Room] Robot shell accessed.")
+			return true
+		_:
+			push_warning("Unknown interact action: %s" % act)
+			return false
+
+
+func _remove_gate_solids() -> void:
+	var to_free: Array = []
+	for child in _world.get_children():
+		if child is StaticBody2D and child.has_meta("gate_solid"):
+			to_free.append(child)
+	for b in to_free:
+		(b as Node).queue_free()
+
+
+func _open_terminal_overlay(title: String, body: String) -> void:
+	_close_terminal_overlay()
+	Game.ui_paused = true
+	_terminal_layer = CanvasLayer.new()
+	_terminal_layer.layer = 80
+	var panel := ColorRect.new()
+	panel.color = Color(0.02, 0.04, 0.08, 0.92)
+	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_terminal_layer.add_child(panel)
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 24)
+	margin.add_theme_constant_override("margin_right", 24)
+	margin.add_theme_constant_override("margin_top", 20)
+	margin.add_theme_constant_override("margin_bottom", 20)
+	_terminal_layer.add_child(margin)
+	var v := VBoxContainer.new()
+	v.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_child(v)
+	var title_lbl := Label.new()
+	title_lbl.text = title
+	title_lbl.add_theme_font_size_override("font_size", 16)
+	v.add_child(title_lbl)
+	var body_lbl := Label.new()
+	body_lbl.text = body
+	body_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body_lbl.add_theme_font_size_override("font_size", 13)
+	v.add_child(body_lbl)
+	var hint := Label.new()
+	hint.text = "E or ESC — close"
+	hint.add_theme_font_size_override("font_size", 11)
+	hint.modulate = Color(0.7, 0.75, 0.8)
+	v.add_child(hint)
+	add_child(_terminal_layer)
+
+
+func _close_terminal_overlay() -> void:
+	if _terminal_layer:
+		_terminal_layer.queue_free()
+		_terminal_layer = null
+		Game.ui_paused = false
+
+
+func _queue_monologue_if_any() -> void:
+	var rid := str(_room_data.get("room_id", _room_data.get("id", "")))
+	var line := StoryDB.get_monologue_for_room(rid)
+	if line == "":
+		return
+	get_tree().create_timer(0.45).timeout.connect(_show_monologue_overlay.bind(line))
+
+
+func _show_monologue_overlay(line: String) -> void:
+	if line == "":
+		return
+	var layer := CanvasLayer.new()
+	layer.layer = 55
+	var panel := PanelContainer.new()
+	panel.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	panel.offset_left = -380.0
+	panel.offset_top = 12.0
+	panel.offset_right = 380.0
+	panel.offset_bottom = 56.0
+	var inner := MarginContainer.new()
+	inner.add_theme_constant_override("margin_left", 12)
+	inner.add_theme_constant_override("margin_right", 12)
+	inner.add_theme_constant_override("margin_top", 8)
+	inner.add_theme_constant_override("margin_bottom", 8)
+	panel.add_child(inner)
+	var lbl := Label.new()
+	lbl.text = line
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 12)
+	inner.add_child(lbl)
+	layer.add_child(panel)
+	add_child(layer)
+	get_tree().create_timer(4.2).timeout.connect(layer.queue_free)

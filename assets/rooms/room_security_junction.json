@@ -819,6 +819,16 @@
       "requires_human": true,
       "action": "suppress_cameras",
       "duration_ms": 6000
+    },
+    {
+      "id": "sec_cross_private",
+      "x": 22,
+      "y": 5,
+      "w": 2,
+      "h": 2,
+      "requires_human": true,
+      "action": "terminal_log",
+      "log_id": "cross_07"
     }
   ],
   "hazards": [],

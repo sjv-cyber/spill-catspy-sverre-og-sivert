@@ -4,7 +4,7 @@
 
 - **You invent rooms and story** in **JSON** under `godot/data/rooms/` (and the shared copies under repo `assets/rooms/`). Same idea as always: tile maps, spawns, exits, and text fields in those files — no need to learn the Godot editor for level content.
 - **Agents and programmers** change **GDScript**, **scenes** (`.tscn`), shaders, and wiring under `godot/` when behavior or structure needs to match the docs.
-- **How to play:** open this folder in Godot and press **F5**, or use the **CatSpy (Play)** desktop shortcut from `godot/create_desktop_shortcut.ps1` (see below). In-game: move with **A/D** or arrows, jump with **Space** / **W** / **Up**, **T** to transform, **Esc** to pause in a room.
+- **How to play:** open this folder in Godot and press **F5**, or use the **CatSpy (Play)** desktop shortcut from `godot/create_desktop_shortcut.ps1` (see below). In-game: move with **A/D** or arrows, jump with **Space** / **W** / **Up**, **T** to transform, **E** to use terminals (human form), **Esc** to pause in a room.
 
 ## Engine pin
 
@@ -33,6 +33,7 @@ Uses `Godot_*_win64.exe` (not the console build). Pass **`-GodotExe "...\Godot_.
 | Move | A/D or arrows |
 | Jump | Space / W / Up |
 | Transform | T |
+| Interact (human) | E |
 | Pause | Esc (in room) |
 | Debug next room | F1 |
 
@@ -46,6 +47,12 @@ Uses `Godot_*_win64.exe` (not the console build). Pass **`-GodotExe "...\Godot_.
 
 ```powershell
 Copy-Item ..\assets\rooms\*.json -Destination .\data\rooms\ -Force
+```
+
+**Story JSON** (terminals, monologues, ending): source of truth in repo `assets/story/`; runtime copies in `data/story/`. After editing narrative files:
+
+```powershell
+Copy-Item ..\assets\story\*.json -Destination .\data\story\ -Force
 ```
 
 ## Room contract

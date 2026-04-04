@@ -744,6 +744,16 @@
       "requires_human": true,
       "action": "terminal_log",
       "log_id": "obs_lab_01"
+    },
+    {
+      "id": "cross_research_term",
+      "x": 28,
+      "y": 10,
+      "w": 2,
+      "h": 2,
+      "requires_human": true,
+      "action": "terminal_log",
+      "log_id": "cross_05"
     }
   ],
   "hazards": [],

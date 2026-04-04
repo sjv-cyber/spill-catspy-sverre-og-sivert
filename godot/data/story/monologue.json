@@ -1,0 +1,33 @@
+{
+  "note": "First-person HUD thoughts displayed at key story beats. Short, optional flavor. Can be cut per pacing needs.",
+  "entries": [
+    {
+      "id": "mono_cell_wake",
+      "beat": "Waking in the cell — game start",
+      "trigger": "room_entry:room_cell_01",
+      "text": "Cold floor. Standard restraints. Still breathing. They underestimated the Cold War — or just me.",
+      "word_count": 15
+    },
+    {
+      "id": "mono_lab_specimens",
+      "beat": "Seeing failed experiment subjects",
+      "trigger": "room_entry:room_specimen_containment",
+      "text": "These were people. Or supposed to be. Whatever they did to them, they did to me too.",
+      "word_count": 17
+    },
+    {
+      "id": "mono_after_takedown",
+      "beat": "After the guard takedown — gear acquired",
+      "trigger": "event:guard_takedown_complete",
+      "text": "He's alive. Out cold. The keycard feels heavier than it should.",
+      "word_count": 12
+    },
+    {
+      "id": "mono_shuttle",
+      "beat": "Reaching the shuttle in the docking bay",
+      "trigger": "room_entry:room_mini_boss_arena",
+      "text": "Four hundred kilometers to Earth. The data is in my hands. Koschei doesn't die easy — that's always been the problem.",
+      "word_count": 20
+    }
+  ]
+}

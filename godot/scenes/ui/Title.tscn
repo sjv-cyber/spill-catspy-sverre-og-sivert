@@ -37,6 +37,6 @@ text = "CATSPY — Eagle's Nest, 2070
 You are Koschei: spy, caught, mutated. Steal CHIMERA data; reach the shuttle.
 
 SPACE / ENTER — Start
-T — cat / human  |  ESC — pause  |  F1 — debug next room"
+T — cat / human  |  E — terminals (human)  |  ESC — pause  |  F1 — debug next room"
 horizontal_alignment = 1
 vertical_alignment = 1

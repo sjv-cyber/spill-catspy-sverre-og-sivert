@@ -22,6 +22,7 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 [autoload]
 
 Game="*res://scripts/autoload/game.gd"
+StoryDB="*res://scripts/autoload/story_db.gd"
 
 [display]
 

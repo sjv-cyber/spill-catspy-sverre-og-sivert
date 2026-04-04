@@ -638,7 +638,18 @@
     "vents": [],
     "terminals": []
   },
-  "interactables": [],
+  "interactables": [
+    {
+      "id": "specimen_cross_term",
+      "x": 18,
+      "y": 8,
+      "w": 2,
+      "h": 2,
+      "requires_human": true,
+      "action": "terminal_log",
+      "log_id": "cross_06"
+    }
+  ],
   "hazards": [],
   "world_labels": [
     {
