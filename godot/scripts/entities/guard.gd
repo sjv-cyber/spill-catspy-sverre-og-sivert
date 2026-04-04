@@ -27,6 +27,7 @@ func setup_from_spec(spec: Dictionary, tile_world_size: int) -> void:
 		waypoints.append(Vector2(wx, wy))
 	wp_index = 1
 	position = waypoints[0]
+	CatspyConfig.apply_magenta_chroma(_sprite)
 	cone_range = float(spec.get("coneRange", CatspyConfig.GUARD["detection_range"]))
 	cone_angle = float(spec.get("coneAngle", CatspyConfig.GUARD["cone_angle"]))
 	move_speed = float(spec.get("speed", CatspyConfig.GUARD["speed"]))
@@ -38,8 +39,10 @@ func _scale_sprite(spec: Dictionary) -> void:
 	var tex: Texture2D = _sprite.texture
 	if tex == null:
 		return
-	var fw := maxf(1.0, float(tex.get_width()))
-	var fh := maxf(1.0, float(tex.get_height()))
+	_sprite.region_enabled = true
+	_sprite.region_rect = CatspyConfig.guard_sheet_region(tex)
+	var fw := maxf(1.0, _sprite.region_rect.size.x)
+	var fh := maxf(1.0, _sprite.region_rect.size.y)
 	var target_w := 52.0
 	var target_h := 78.0
 	var variant := str(spec.get("variant", "standard"))

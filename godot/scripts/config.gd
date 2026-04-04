@@ -2,6 +2,29 @@ class_name CatspyConfig
 extends Object
 ## Mirrors src/config.js tunables for CatSpy Godot runtime.
 
+const _CHROMA_SHADER := preload("res://assets/shaders/chroma_magenta.gdshader")
+
+## Wide 1376×768 character sheets: crop rects match `src/scenes/BootScene.js` (CROP_PLAYER / CROP_CAT / CROP_GUARD).
+static func player_sheet_region(tex: Texture2D, cat_form: bool) -> Rect2:
+	var tw := float(tex.get_width())
+	var th := float(tex.get_height())
+	if cat_form:
+		return Rect2(0.10 * tw, 0.17 * th, 0.88 * tw, 0.80 * th)
+	return Rect2(0.34 * tw, 0.06 * th, 0.32 * tw, 0.88 * th)
+
+
+static func guard_sheet_region(tex: Texture2D) -> Rect2:
+	var tw := float(tex.get_width())
+	var th := float(tex.get_height())
+	return Rect2(0.28 * tw, 0.06 * th, 0.38 * tw, 0.88 * th)
+
+
+static func apply_magenta_chroma(sprite: CanvasItem) -> void:
+	var m := ShaderMaterial.new()
+	m.shader = _CHROMA_SHADER
+	sprite.material = m
+
+
 const GAME_WIDTH := 960
 const GAME_HEIGHT := 540
 const TILE_SIZE := 16

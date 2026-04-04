@@ -13,6 +13,7 @@ var last_transform_msec: float = -1e9
 func _ready() -> void:
 	collision_layer = 2
 	collision_mask = 1
+	CatspyConfig.apply_magenta_chroma(_sprite)
 	_apply_form(false)
 
 
@@ -80,8 +81,12 @@ func _apply_form(anchor_feet: bool) -> void:
 	if ResourceLoader.exists(path):
 		_sprite.texture = load(path)
 	var tex: Texture2D = _sprite.texture
-	var fw := maxi(1, tex.get_width()) if tex else 1
-	var fh := maxi(1, tex.get_height()) if tex else 1
+	if tex == null:
+		return
+	_sprite.region_enabled = true
+	_sprite.region_rect = CatspyConfig.player_sheet_region(tex, not is_human)
+	var fw := maxf(1.0, _sprite.region_rect.size.x)
+	var fh := maxf(1.0, _sprite.region_rect.size.y)
 	var bw := float(cfg["width"])
 	var bh := float(cfg["height"])
 	var s := minf(bw / float(fw), bh / float(fh))
