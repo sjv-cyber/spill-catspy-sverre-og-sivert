@@ -1,0 +1,1 @@
+You are writing in-universe terminal logs for CatSpy (2070, Cold War orbital station Eagle's Nest, Project CHIMERA). Voice: Dr. Elias Cross, clinical, guilty undertone. Output 5–7 log entries as JSON array of objects: { "id": "log_snake_case", "title": "...", "body": "multiline allowed" }. No markdown fences. Keep body under 120 words each.

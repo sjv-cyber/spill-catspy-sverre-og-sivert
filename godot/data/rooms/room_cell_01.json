@@ -1,0 +1,50 @@
+{
+  "id": "room_cell_01",
+  "room_id": "room_cell_01",
+  "name": "Holding Cell 7B",
+  "room_name": "Holding Cell 7B",
+  "room_type": "normal",
+  "background": "bg_cell",
+  "background_trim_bottom_ratio": 0.14,
+  "next_room_id": "room_holding_corridor",
+  "zone": "cell_block",
+  "width": 22,
+  "height": 12,
+  "tileSize": 16,
+  "playerSpawn": { "x": 4, "y": 7 },
+  "exit": { "x": 19, "y": 8, "type": "door", "w": 2, "h": 2 },
+  "exits": ["corridor_east"],
+  "entry_points": ["door_west"],
+  "entry_spawns": {
+    "room_holding_corridor": { "x": 16, "y": 8 }
+  },
+  "lock_state": "unlocked",
+  "default_state": "idle",
+  "layout_tags": ["cat_route", "cover_heavy"],
+  "entry_text": "Cold light. Someone left the restraints unlatched.",
+  "layers": {
+    "walls": [
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ]
+  },
+  "entities": {
+    "guards": [],
+    "lasers": [],
+    "vents": [{ "x": 7, "y": 2, "targetRoom": null, "targetX": null, "targetY": null }],
+    "terminals": [],
+    "hideZones": []
+  },
+  "interactables": [],
+  "hazards": []
+}

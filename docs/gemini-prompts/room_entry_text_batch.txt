@@ -1,0 +1,1 @@
+CatSpy room entry lines: one atmospheric sentence each (max 18 words), Soviet agent Koschei escaping CHIMERA. Output JSON object mapping room_id -> entry_text for: room_cell_01, room_holding_corridor, room_observation_lab, room_security_junction, room_utility_bay. No markdown.

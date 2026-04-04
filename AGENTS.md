@@ -6,7 +6,7 @@
 
 **Canonical direction:** [ADR 002 — Godot 4 (2D), desktop first, web later](docs/adr/002-godot-desktop-primary-web-deferred.md). New long-term work should assume **Godot** unless the task is explicitly **prototype-only** in this repo.
 
-### Target stack (production; Godot project — not yet in this repo)
+### Target stack (production; Godot project in **`godot/`**)
 
 | Layer | Choice | Notes |
 |-------|--------|--------|

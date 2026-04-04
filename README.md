@@ -2,7 +2,7 @@
 
 A 2D stealth/platformer set in 2070 where the Cold War never ended.
 
-> **Platform strategy (2026-04):** Target **Godot 4 (2D)** with **desktop** as the primary export; **web (HTML5) later**. This repo still contains the **Phaser 3 browser prototype** — playable via static serve — until a Godot project is added and content is ported. See [ADR 002](docs/adr/002-godot-desktop-primary-web-deferred.md). You play as **Agent Koschei**, a Soviet operative captured and mutated by the American **Project CHIMERA** DNA program. Koschei can shapeshift into a cat. Escape the US orbital space station **Eagle's Nest**, steal the CHIMERA data, and get out alive.
+> **Platform strategy (2026-04):** Target **Godot 4 (2D)** with **desktop** as the primary export; **web (HTML5) later**. **Godot project:** [`godot/`](godot/) — open `godot/project.godot` in Godot 4.2+. The **Phaser 3** prototype remains under `index.html` + `src/`. See [ADR 002](docs/adr/002-godot-desktop-primary-web-deferred.md). You play as **Agent Koschei**, a Soviet operative captured and mutated by the American **Project CHIMERA** DNA program. Koschei can shapeshift into a cat. Escape the US orbital space station **Eagle's Nest**, steal the CHIMERA data, and get out alive.
 
 ## Quick Start (Phaser prototype in this repo)
 

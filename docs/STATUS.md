@@ -1,6 +1,6 @@
 # Project Status
 
-**Last updated:** 2026-04-06
+**Last updated:** 2026-04-06 (Godot `godot/` playable path)
 
 ## For agents (read first)
 
@@ -66,9 +66,15 @@ Boot → title → `RoomScene` loads rooms from manifest → detection / lasers 
 
 Includes: `room_cell_01`, graybox chain (`room_holding_corridor` … `room_mini_boss_arena`), `room_janus_closet`, `room_corridor_01`, `room_tutorial`.
 
+### Godot rebuild (`godot/`)
+
+- Open **`godot/project.godot`** in **Godot 4.2+**; see [`godot/README.md`](../godot/README.md).
+- Runtime: Title → rooms from **`godot/data/rooms/`** (sync from `assets/rooms/` when JSON changes), guards/cameras/lasers, detection + retreat, F1 room cycle.
+- Contract: [`docs/contracts/godot-room-runtime.md`](contracts/godot-room-runtime.md).
+
 ### Gaps / next focus
 
-- **Engine:** bootstrap **Godot 4** project (folder or sibling repo), document room/scene mapping from `docs/contracts/room-runtime.md`; plan web export smoke-tests after desktop slice is fun.
+- **Godot:** terminal overlay, interactables, scientists/robots, audio, export presets; web HTML5 smoke (ADR 002).
 - Narrative: more terminal logs, room copy, ending (see `docs/STORY_THREAD.md`, `docs/BACKLOG.md`).
 - Gameplay: vents / wall climb, scripted takedown, keycard phase-2 (backlog).
 - Audio: ambient, footsteps, richer laser/alarm layers.
