@@ -10,6 +10,16 @@ Use **Godot 4.2 or newer** (4.x stable). Open this folder as the project root (`
 2. Let the editor generate `.import` files for PNGs under `assets/`.
 3. Run (**F5**) or play the main scene.
 
+## Desktop shortcut (Windows)
+
+Double-click **`CatSpy (Play)`** on the Desktop after running once:
+
+```powershell
+.\godot\create_desktop_shortcut.ps1
+```
+
+Uses `Godot_*_win64.exe` (not the console build). Pass **`-GodotExe "...\Godot_....exe"`** if your install path differs.
+
 ## Controls
 
 | Action | Keys |
