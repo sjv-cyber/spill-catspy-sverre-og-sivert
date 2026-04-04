@@ -1,5 +1,11 @@
 # CatSpy — Godot 4.2+ rebuild
 
+## For the family (who edits what)
+
+- **You invent rooms and story** in **JSON** under `godot/data/rooms/` (and the shared copies under repo `assets/rooms/`). Same idea as always: tile maps, spawns, exits, and text fields in those files — no need to learn the Godot editor for level content.
+- **Agents and programmers** change **GDScript**, **scenes** (`.tscn`), shaders, and wiring under `godot/` when behavior or structure needs to match the docs.
+- **How to play:** open this folder in Godot and press **F5**, or use the **CatSpy (Play)** desktop shortcut from `godot/create_desktop_shortcut.ps1` (see below). In-game: move with **A/D** or arrows, jump with **Space** / **W** / **Up**, **T** to transform, **Esc** to pause in a room.
+
 ## Engine pin
 
 Use **Godot 4.2 or newer** (4.x stable). Open this folder as the project root (`project.godot` lives here).
