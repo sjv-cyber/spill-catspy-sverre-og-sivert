@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0pnobs7pfoxc"
-valid=false
+uid="uid://dim4lo1oqymg1"
+path="res://.godot/imported/bg_corridor.jpg-426ae2995e2055583ef7314715787c4b.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
-source_file="res://assets/sprites/prop_camera.png"
+source_file="res://assets/backgrounds/bg_corridor.jpg"
+dest_files=["res://.godot/imported/bg_corridor.jpg-426ae2995e2055583ef7314715787c4b.ctex"]
 
 [params]
 

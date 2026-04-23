@@ -35,7 +35,7 @@
   ],
   "entry_spawns": {
     "room_holding_corridor": {
-      "x": 3,
+      "x": 10,
       "y": 10
     }
   },

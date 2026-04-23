@@ -29,6 +29,7 @@ var last_transform_msec: float = -1e9
 
 
 func _ready() -> void:
+	CatspyDebug.log_line("Player._ready start")
 	collision_layer = 2
 	collision_mask = 1
 	CatspyConfig.apply_magenta_chroma(_sprite)

@@ -40,37 +40,49 @@ func _add_key_action(action: String, keycode: Key) -> void:
 
 
 func start_game() -> void:
+	CatspyDebug.log_line("Game.start_game()")
 	current_room_id = ""
 	from_room_id = ""
 	go_to_room(default_room_id)
 
 
 func go_to_room(room_id: String) -> void:
+	CatspyDebug.log_line(
+		"Game.go_to_room request=%s prev_current_room_id=%s | %s"
+		% [room_id, current_room_id, CatspyDebug.describe_camera()]
+	)
 	from_room_id = current_room_id
 	current_room_id = room_id
-	var p := load(ROOM_SCENE) as PackedScene
+	var p: PackedScene = load(ROOM_SCENE) as PackedScene
 	if p == null:
-		push_error("Missing RoomRoot scene")
+		CatspyDebug.log_error("RoomRoot PackedScene load() returned null: %s" % ROOM_SCENE)
 		return
-	get_tree().change_scene_to_packed(p)
+	# Deferred so we never replace the scene during a physics callback (exit Area2D, etc.).
+	get_tree().call_deferred("change_scene_to_packed", p)
+	CatspyDebug.log_line("Game.go_to_room queued change_scene_to_packed (deferred)")
+	call_deferred("_catspy_debug_post_scene_change")
+
+
+func _catspy_debug_post_scene_change() -> void:
+	CatspyDebug.on_scene_changed_note("deferred_after_change_scene")
 
 
 func game_over() -> void:
-	var p := load(GAME_OVER_SCENE) as PackedScene
-	if p:
-		get_tree().change_scene_to_packed(p)
+	var p: PackedScene = load(GAME_OVER_SCENE) as PackedScene
+	if p != null:
+		get_tree().call_deferred("change_scene_to_packed", p)
 
 
 func victory() -> void:
-	var p := load(VICTORY_SCENE) as PackedScene
-	if p:
-		get_tree().change_scene_to_packed(p)
+	var p: PackedScene = load(VICTORY_SCENE) as PackedScene
+	if p != null:
+		get_tree().call_deferred("change_scene_to_packed", p)
 
 
 func return_to_title() -> void:
-	var p := load(TITLE_SCENE) as PackedScene
-	if p:
-		get_tree().change_scene_to_packed(p)
+	var p: PackedScene = load(TITLE_SCENE) as PackedScene
+	if p != null:
+		get_tree().call_deferred("change_scene_to_packed", p)
 
 
 func load_manifest() -> Dictionary:

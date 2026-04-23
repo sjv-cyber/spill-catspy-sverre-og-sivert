@@ -9,6 +9,7 @@ var move_speed: float = 80.0
 var wait_until_msec: float = 0.0
 var facing_angle: float = 0.0
 var alert_mode: bool = false
+var _wait_duration_s: float = 1.5
 
 @onready var _sprite: Sprite2D = $Sprite2D
 
@@ -41,6 +42,7 @@ func setup_from_spec(
 	cone_range = float(spec.get("coneRange", CatspyConfig.GUARD["detection_range"]))
 	cone_angle = float(spec.get("coneAngle", CatspyConfig.GUARD["cone_angle"]))
 	move_speed = float(spec.get("speed", CatspyConfig.GUARD["speed"]))
+	_wait_duration_s = float(spec.get("waitDuration", CatspyConfig.GUARD["wait_duration"]))
 	_face_toward(waypoints[1])
 	_scale_sprite(spec)
 
@@ -91,7 +93,7 @@ func _physics_process(delta: float) -> void:
 	var dist: float = Vector2(dx, dy).length()
 	if dist < 6.0:
 		wp_index = (wp_index + 1) % waypoints.size()
-		wait_until_msec = now + float(CatspyConfig.GUARD["wait_duration"]) * 1000.0
+		wait_until_msec = now + _wait_duration_s * 1000.0
 		var nxt := waypoints[wp_index]
 		_face_toward(nxt)
 		return

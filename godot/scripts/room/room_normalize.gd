@@ -15,4 +15,14 @@ static func normalize(room_data: Dictionary) -> Dictionary:
 	d["extra_solid_tiles"] = est if typeof(est) == TYPE_ARRAY else []
 	d["exit_locked"] = false
 	d["boss_engaged"] = false
+	## JSON may use null or wrong types; never chain .get off a non-Dictionary layers value.
+	var ly: Variant = d.get("layers", null)
+	if ly == null or typeof(ly) != TYPE_DICTIONARY:
+		ly = {}
+	var layers_dict: Dictionary = ly
+	var wv: Variant = layers_dict.get("walls", [])
+	if typeof(wv) != TYPE_ARRAY:
+		wv = []
+	layers_dict["walls"] = wv
+	d["layers"] = layers_dict
 	return d

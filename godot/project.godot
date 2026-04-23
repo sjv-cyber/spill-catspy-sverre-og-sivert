@@ -21,6 +21,7 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 [autoload]
 
+CatspyDebug="*res://scripts/autoload/catspy_debug.gd"
 Game="*res://scripts/autoload/game.gd"
 StoryDB="*res://scripts/autoload/story_db.gd"
 

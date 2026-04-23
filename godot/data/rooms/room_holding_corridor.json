@@ -42,6 +42,10 @@
     "room_cell_01": {
       "x": 3,
       "y": 8
+    },
+    "room_observation_lab": {
+      "x": 5,
+      "y": 8
     }
   },
   "lock_state": "unlocked",
@@ -605,8 +609,10 @@
             "y": 8
           }
         ],
-        "coneRange": 200,
-        "coneAngle": 1.25
+        "coneRange": 128,
+        "coneAngle": 0.95,
+        "speed": 52,
+        "waitDuration": 2.6
       }
     ],
     "cameras": [],
@@ -615,10 +621,16 @@
     "robots": [],
     "hideZones": [
       {
-        "x": 5,
-        "y": 7,
-        "w": 4,
-        "h": 2
+        "x": 2,
+        "y": 6,
+        "w": 11,
+        "h": 4
+      },
+      {
+        "x": 3,
+        "y": 2,
+        "w": 28,
+        "h": 4
       }
     ],
     "lasers": [],

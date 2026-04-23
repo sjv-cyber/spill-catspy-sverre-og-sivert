@@ -2,7 +2,10 @@ class_name CatspyDetection
 extends RefCounted
 
 
-static func player_in_hide_zone_px(px: float, py: float, hide_zones: Array, tile_world_size: int, is_cat: bool) -> bool:
+static func player_hit_overlaps_hide_zone(
+	hit: Rect2, hide_zones: Array, tile_world_size: int, is_cat: bool
+) -> bool:
+	## Any overlap counts — center-point checks missed valid crouch / feet straddling the tile band.
 	if not is_cat or hide_zones.is_empty():
 		return false
 	for z in hide_zones:
@@ -12,7 +15,8 @@ static func player_in_hide_zone_px(px: float, py: float, hide_zones: Array, tile
 		var zy := float(z.get("y", 0)) * tile_world_size
 		var zw := float(z.get("w", z.get("width", 1))) * tile_world_size
 		var zh := float(z.get("h", z.get("height", 1))) * tile_world_size
-		if px >= zx and px <= zx + zw and py >= zy and py <= zy + zh:
+		var zone := Rect2(zx, zy, zw, zh)
+		if hit.intersects(zone):
 			return true
 	return false
 
@@ -48,7 +52,7 @@ static func check_detection(
 	var py := b.get_center().y
 	var mul: float = (float(CatspyConfig.HUMAN["detection_range_multiplier"]) if is_human
 		else float(CatspyConfig.CAT["detection_range_multiplier"]))
-	if player_in_hide_zone_px(px, py, hide_zones, tile_world_size, not is_human):
+	if player_hit_overlaps_hide_zone(b, hide_zones, tile_world_size, not is_human):
 		return false
 	var all: Array = []
 	all.append_array(guards)

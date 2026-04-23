@@ -14,15 +14,15 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('title_screen', 'assets/ui/title_screen.png')
+    this.load.image('title_screen', 'assets/ui/title_screen.jpg')
     this.load.image('eagles_nest_map', 'assets/ui/eagles_nest_map.png')
     this.load.image('bg_cell', 'assets/backgrounds/bg_cell.png')
-    this.load.image('bg_corridor', 'assets/backgrounds/bg_corridor.png')
+    this.load.image('bg_corridor', 'assets/backgrounds/bg_corridor.jpg')
 
     this.load.image('_raw_human', 'assets/sprites/player_human.png')
     this.load.image('_raw_cat', 'assets/sprites/player_cat.png')
     this.load.image('_raw_guard', 'assets/sprites/guard_pmc.png')
-    this.load.image('prop_camera', 'assets/sprites/prop_camera.png')
+    this.load.image('prop_camera', 'assets/sprites/prop_camera.jpg')
 
     this.load.json('terminal_logs', 'assets/story/terminal_logs.json')
   }

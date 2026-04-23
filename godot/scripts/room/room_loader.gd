@@ -22,6 +22,7 @@ static func load_room_json(res_path: String) -> Dictionary:
 static func load_room_by_id(room_id: String, manifest: Dictionary) -> Dictionary:
 	var rooms: Variant = manifest.get("rooms", {})
 	if typeof(rooms) != TYPE_DICTIONARY:
+		push_error("RoomLoader: manifest has no rooms dictionary")
 		return {}
 	var entry: Variant = rooms.get(room_id, {})
 	var path: String
@@ -29,7 +30,10 @@ static func load_room_by_id(room_id: String, manifest: Dictionary) -> Dictionary
 		path = resolve_room_json_path(str(entry["path"]))
 	else:
 		path = "res://data/rooms/%s.json" % room_id
-	return load_room_json(path)
+	var data := load_room_json(path)
+	if data.is_empty():
+		push_error("RoomLoader: empty or invalid JSON for %s" % path)
+	return data
 
 
 static func list_room_ids(manifest: Dictionary) -> PackedStringArray:

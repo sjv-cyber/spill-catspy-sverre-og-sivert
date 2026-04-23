@@ -6,9 +6,16 @@ static func build(world: Node2D, room_data: Dictionary) -> Dictionary:
 	var tw := CatspyConfig.tile_world_size(room_data)
 	var w: int = int(room_data.get("width", 0))
 	var h: int = int(room_data.get("height", 0))
-	var walls: Variant = room_data.get("layers", {}).get("walls", [])
+	var ly: Variant = room_data.get("layers", {})
+	if typeof(ly) != TYPE_DICTIONARY:
+		ly = {}
+	var walls: Variant = (ly as Dictionary).get("walls", [])
+	if typeof(walls) != TYPE_ARRAY:
+		walls = []
 	if typeof(walls) != TYPE_ARRAY or walls.size() != h:
-		push_error("Invalid walls grid")
+		var rid := str(room_data.get("room_id", room_data.get("id", "?")))
+		var wr: int = (walls as Array).size() if typeof(walls) == TYPE_ARRAY else -1
+		push_error("Invalid walls grid: room=%s walls_rows=%d height=%d" % [rid, wr, h])
 		return {}
 	var wall_grid: Array = walls
 
@@ -33,10 +40,12 @@ static func build(world: Node2D, room_data: Dictionary) -> Dictionary:
 		world.add_child(b)
 
 	var bg_key := str(room_data.get("background", "bg_cell"))
-	var bg_path := "res://assets/backgrounds/%s.png" % bg_key
+	var bg_path := _resolve_background_path(bg_key)
+	var tex: Texture2D = null
 	if ResourceLoader.exists(bg_path):
+		tex = load(bg_path) as Texture2D
+	if tex != null:
 		var spr := Sprite2D.new()
-		var tex: Texture2D = load(bg_path)
 		spr.texture = tex
 		spr.centered = false
 		spr.z_index = -100
@@ -51,11 +60,16 @@ static func build(world: Node2D, room_data: Dictionary) -> Dictionary:
 		spr.scale = Vector2(float(w * tw) / float(src_w), float(h * tw) / float(src_h))
 		world.add_child(spr)
 	else:
-		var pl := ColorRect.new()
-		pl.size = Vector2(w * tw, h * tw)
-		pl.color = Color(0.12, 0.14, 0.22)
-		pl.z_index = -50
-		world.add_child(pl)
+		if ResourceLoader.exists(bg_path):
+			push_warning("CatspyRoomBuilder: background exists but load() failed: %s" % bg_path)
+		## ColorRect is Control — under Node2D (World) it often does not draw; use Polygon2D in world space.
+		var poly := Polygon2D.new()
+		poly.z_index = -50
+		poly.color = Color(0.12, 0.14, 0.22)
+		var rw := float(w * tw)
+		var rh := float(h * tw)
+		poly.polygon = PackedVector2Array([Vector2.ZERO, Vector2(rw, 0), Vector2(rw, rh), Vector2(0, rh)])
+		world.add_child(poly)
 
 	var exit_area := Area2D.new()
 	exit_area.name = "ExitForward"
@@ -101,7 +115,10 @@ static func build(world: Node2D, room_data: Dictionary) -> Dictionary:
 		"tile_world_size": tw,
 		"world_width": w * tw,
 		"world_height": h * tw,
+		"spawn_tile": spawn_tile,
 		"spawn_feet": spawn_feet,
+		"background_res": bg_path,
+		"background_exists": ResourceLoader.exists(bg_path),
 		"exit_forward": exit_area,
 		"exit_return": return_area,
 		"return_rect": return_rect,
@@ -148,6 +165,15 @@ static func _resolve_spawn_tile(room_data: Dictionary, from_id: String) -> Vecto
 		return Vector2i(int(s.get("x", 0)), int(s.get("y", 0)))
 	var ps: Variant = room_data.get("playerSpawn", {})
 	return Vector2i(int(ps.get("x", 0)), int(ps.get("y", 0)))
+
+
+static func _resolve_background_path(bg_key: String) -> String:
+	var stem: String = "res://assets/backgrounds/%s" % bg_key
+	for ext in [".png", ".jpg", ".jpeg", ".webp"]:
+		var p: String = stem + str(ext)
+		if ResourceLoader.exists(p):
+			return p
+	return stem + ".png"
 
 
 static func _make_wall_tile(col: int, row: int, tw: int) -> StaticBody2D:

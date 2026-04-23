@@ -48,10 +48,12 @@ func _on_line_timer() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") or (event is InputEventKey and event.pressed and event.keycode == KEY_ENTER):
+		var vp := get_viewport()
+		if vp != null:
+			vp.set_input_as_handled()
 		if _finished:
 			Game.return_to_title()
 		else:
 			_timer.stop()
 			_idx += 1
 			_show_current_line()
-		get_viewport().set_input_as_handled()
